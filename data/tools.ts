@@ -1,12 +1,957 @@
-const toolsData = {
+export type Tool = {
+  title: string;
+  description: string;
+  category: string;
+  seoTitle: string;
+  seoDesc: string;
+};
+
+const tools: Record<string, Tool> = {
   "keyword-density-checker": {
-    title: "Keyword Density Checker",
-    description: "Check keyword density for SEO optimization"
+    "title": "Keyword Density Checker",
+    "description": "Use this free keyword density checker to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Keyword Density Checker - Free Online Tool",
+    "seoDesc": "Use this free keyword density checker to improve your website SEO and content workflow."
   },
-  "case-converter": {
-    title: "Case Converter",
-    description: "Convert text to upper/lower case"
+  "keyword-frequency-checker": {
+    "title": "Keyword Frequency Checker",
+    "description": "Use this free keyword frequency checker to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Keyword Frequency Checker - Free Online Tool",
+    "seoDesc": "Use this free keyword frequency checker to improve your website SEO and content workflow."
+  },
+  "meta-tag-generator": {
+    "title": "Meta Tag Generator",
+    "description": "Use this free meta tag generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Meta Tag Generator - Free Online Tool",
+    "seoDesc": "Use this free meta tag generator to improve your website SEO and content workflow."
+  },
+  "meta-description-generator": {
+    "title": "Meta Description Generator",
+    "description": "Use this free meta description generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Meta Description Generator - Free Online Tool",
+    "seoDesc": "Use this free meta description generator to improve your website SEO and content workflow."
+  },
+  "title-tag-generator": {
+    "title": "Title Tag Generator",
+    "description": "Use this free title tag generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Title Tag Generator - Free Online Tool",
+    "seoDesc": "Use this free title tag generator to improve your website SEO and content workflow."
+  },
+  "serp-snippet-preview": {
+    "title": "SERP Snippet Preview",
+    "description": "Use this free serp snippet preview to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "SERP Snippet Preview - Free Online Tool",
+    "seoDesc": "Use this free serp snippet preview to improve your website SEO and content workflow."
+  },
+  "robots-txt-generator": {
+    "title": "Robots.txt Generator",
+    "description": "Use this free robots.txt generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Robots.txt Generator - Free Online Tool",
+    "seoDesc": "Use this free robots.txt generator to improve your website SEO and content workflow."
+  },
+  "sitemap-generator": {
+    "title": "Sitemap Generator",
+    "description": "Use this free sitemap generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Sitemap Generator - Free Online Tool",
+    "seoDesc": "Use this free sitemap generator to improve your website SEO and content workflow."
+  },
+  "canonical-url-generator": {
+    "title": "Canonical URL Generator",
+    "description": "Use this free canonical url generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Canonical URL Generator - Free Online Tool",
+    "seoDesc": "Use this free canonical url generator to improve your website SEO and content workflow."
+  },
+  "open-graph-generator": {
+    "title": "Open Graph Generator",
+    "description": "Use this free open graph generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Open Graph Generator - Free Online Tool",
+    "seoDesc": "Use this free open graph generator to improve your website SEO and content workflow."
+  },
+  "twitter-card-generator": {
+    "title": "Twitter Card Generator",
+    "description": "Use this free twitter card generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Twitter Card Generator - Free Online Tool",
+    "seoDesc": "Use this free twitter card generator to improve your website SEO and content workflow."
+  },
+  "schema-markup-generator": {
+    "title": "Schema Markup Generator",
+    "description": "Use this free schema markup generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Schema Markup Generator - Free Online Tool",
+    "seoDesc": "Use this free schema markup generator to improve your website SEO and content workflow."
+  },
+  "faq-schema-generator": {
+    "title": "FAQ Schema Generator",
+    "description": "Use this free faq schema generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "FAQ Schema Generator - Free Online Tool",
+    "seoDesc": "Use this free faq schema generator to improve your website SEO and content workflow."
+  },
+  "article-schema-generator": {
+    "title": "Article Schema Generator",
+    "description": "Use this free article schema generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Article Schema Generator - Free Online Tool",
+    "seoDesc": "Use this free article schema generator to improve your website SEO and content workflow."
+  },
+  "breadcrumb-schema-generator": {
+    "title": "Breadcrumb Schema Generator",
+    "description": "Use this free breadcrumb schema generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Breadcrumb Schema Generator - Free Online Tool",
+    "seoDesc": "Use this free breadcrumb schema generator to improve your website SEO and content workflow."
+  },
+  "local-business-schema-generator": {
+    "title": "Local Business Schema Generator",
+    "description": "Use this free local business schema generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Local Business Schema Generator - Free Online Tool",
+    "seoDesc": "Use this free local business schema generator to improve your website SEO and content workflow."
+  },
+  "organization-schema-generator": {
+    "title": "Organization Schema Generator",
+    "description": "Use this free organization schema generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Organization Schema Generator - Free Online Tool",
+    "seoDesc": "Use this free organization schema generator to improve your website SEO and content workflow."
+  },
+  "website-schema-generator": {
+    "title": "Website Schema Generator",
+    "description": "Use this free website schema generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Website Schema Generator - Free Online Tool",
+    "seoDesc": "Use this free website schema generator to improve your website SEO and content workflow."
+  },
+  "seo-slug-generator": {
+    "title": "SEO Slug Generator",
+    "description": "Use this free seo slug generator to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "SEO Slug Generator - Free Online Tool",
+    "seoDesc": "Use this free seo slug generator to improve your website SEO and content workflow."
+  },
+  "seo-title-checker": {
+    "title": "SEO Title Checker",
+    "description": "Use this free seo title checker to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "SEO Title Checker - Free Online Tool",
+    "seoDesc": "Use this free seo title checker to improve your website SEO and content workflow."
+  },
+  "meta-description-length-checker": {
+    "title": "Meta Description Length Checker",
+    "description": "Use this free meta description length checker to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Meta Description Length Checker - Free Online Tool",
+    "seoDesc": "Use this free meta description length checker to improve your website SEO and content workflow."
+  },
+  "heading-structure-checker": {
+    "title": "Heading Structure Checker",
+    "description": "Use this free heading structure checker to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Heading Structure Checker - Free Online Tool",
+    "seoDesc": "Use this free heading structure checker to improve your website SEO and content workflow."
+  },
+  "internal-link-checker": {
+    "title": "Internal Link Checker",
+    "description": "Use this free internal link checker to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Internal Link Checker - Free Online Tool",
+    "seoDesc": "Use this free internal link checker to improve your website SEO and content workflow."
+  },
+  "keyword-placement-checker": {
+    "title": "Keyword Placement Checker",
+    "description": "Use this free keyword placement checker to improve your website SEO and content workflow.",
+    "category": "SEO",
+    "seoTitle": "Keyword Placement Checker - Free Online Tool",
+    "seoDesc": "Use this free keyword placement checker to improve your website SEO and content workflow."
+  },
+  "word-counter": {
+    "title": "Word Counter",
+    "description": "Use this free word counter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Word Counter - Free Online Tool",
+    "seoDesc": "Use this free word counter to clean, analyze, transform, or improve your text."
+  },
+  "character-counter": {
+    "title": "Character Counter",
+    "description": "Use this free character counter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Character Counter - Free Online Tool",
+    "seoDesc": "Use this free character counter to clean, analyze, transform, or improve your text."
+  },
+  "sentence-counter": {
+    "title": "Sentence Counter",
+    "description": "Use this free sentence counter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Sentence Counter - Free Online Tool",
+    "seoDesc": "Use this free sentence counter to clean, analyze, transform, or improve your text."
+  },
+  "paragraph-counter": {
+    "title": "Paragraph Counter",
+    "description": "Use this free paragraph counter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Paragraph Counter - Free Online Tool",
+    "seoDesc": "Use this free paragraph counter to clean, analyze, transform, or improve your text."
+  },
+  "reading-time-calculator": {
+    "title": "Reading Time Calculator",
+    "description": "Use this free reading time calculator to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Reading Time Calculator - Free Online Tool",
+    "seoDesc": "Use this free reading time calculator to clean, analyze, transform, or improve your text."
+  },
+  "text-case-converter": {
+    "title": "Text Case Converter",
+    "description": "Use this free text case converter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Text Case Converter - Free Online Tool",
+    "seoDesc": "Use this free text case converter to clean, analyze, transform, or improve your text."
+  },
+  "text-reverser": {
+    "title": "Text Reverser",
+    "description": "Use this free text reverser to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Text Reverser - Free Online Tool",
+    "seoDesc": "Use this free text reverser to clean, analyze, transform, or improve your text."
+  },
+  "remove-extra-spaces": {
+    "title": "Remove Extra Spaces",
+    "description": "Use this free remove extra spaces to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Remove Extra Spaces - Free Online Tool",
+    "seoDesc": "Use this free remove extra spaces to clean, analyze, transform, or improve your text."
+  },
+  "remove-duplicate-lines": {
+    "title": "Remove Duplicate Lines",
+    "description": "Use this free remove duplicate lines to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Remove Duplicate Lines - Free Online Tool",
+    "seoDesc": "Use this free remove duplicate lines to clean, analyze, transform, or improve your text."
+  },
+  "remove-empty-lines": {
+    "title": "Remove Empty Lines",
+    "description": "Use this free remove empty lines to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Remove Empty Lines - Free Online Tool",
+    "seoDesc": "Use this free remove empty lines to clean, analyze, transform, or improve your text."
+  },
+  "line-counter": {
+    "title": "Line Counter",
+    "description": "Use this free line counter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Line Counter - Free Online Tool",
+    "seoDesc": "Use this free line counter to clean, analyze, transform, or improve your text."
+  },
+  "word-frequency-counter": {
+    "title": "Word Frequency Counter",
+    "description": "Use this free word frequency counter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Word Frequency Counter - Free Online Tool",
+    "seoDesc": "Use this free word frequency counter to clean, analyze, transform, or improve your text."
+  },
+  "text-sorter": {
+    "title": "Text Sorter",
+    "description": "Use this free text sorter to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Text Sorter - Free Online Tool",
+    "seoDesc": "Use this free text sorter to clean, analyze, transform, or improve your text."
+  },
+  "find-and-replace-text": {
+    "title": "Find and Replace Text",
+    "description": "Use this free find and replace text to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Find and Replace Text - Free Online Tool",
+    "seoDesc": "Use this free find and replace text to clean, analyze, transform, or improve your text."
+  },
+  "lorem-ipsum-generator": {
+    "title": "Lorem Ipsum Generator",
+    "description": "Use this free lorem ipsum generator to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Lorem Ipsum Generator - Free Online Tool",
+    "seoDesc": "Use this free lorem ipsum generator to clean, analyze, transform, or improve your text."
+  },
+  "text-cleaner": {
+    "title": "Text Cleaner",
+    "description": "Use this free text cleaner to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Text Cleaner - Free Online Tool",
+    "seoDesc": "Use this free text cleaner to clean, analyze, transform, or improve your text."
+  },
+  "duplicate-word-finder": {
+    "title": "Duplicate Word Finder",
+    "description": "Use this free duplicate word finder to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Duplicate Word Finder - Free Online Tool",
+    "seoDesc": "Use this free duplicate word finder to clean, analyze, transform, or improve your text."
+  },
+  "palindrome-checker": {
+    "title": "Palindrome Checker",
+    "description": "Use this free palindrome checker to clean, analyze, transform, or improve your text.",
+    "category": "Content",
+    "seoTitle": "Palindrome Checker - Free Online Tool",
+    "seoDesc": "Use this free palindrome checker to clean, analyze, transform, or improve your text."
+  },
+  "json-formatter": {
+    "title": "JSON Formatter",
+    "description": "Use this free json formatter for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "JSON Formatter - Free Online Tool",
+    "seoDesc": "Use this free json formatter for fast browser-based development and data processing."
+  },
+  "json-validator": {
+    "title": "JSON Validator",
+    "description": "Use this free json validator for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "JSON Validator - Free Online Tool",
+    "seoDesc": "Use this free json validator for fast browser-based development and data processing."
+  },
+  "json-minifier": {
+    "title": "JSON Minifier",
+    "description": "Use this free json minifier for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "JSON Minifier - Free Online Tool",
+    "seoDesc": "Use this free json minifier for fast browser-based development and data processing."
+  },
+  "base64-encoder": {
+    "title": "Base64 Encoder",
+    "description": "Use this free base64 encoder for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "Base64 Encoder - Free Online Tool",
+    "seoDesc": "Use this free base64 encoder for fast browser-based development and data processing."
+  },
+  "base64-decoder": {
+    "title": "Base64 Decoder",
+    "description": "Use this free base64 decoder for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "Base64 Decoder - Free Online Tool",
+    "seoDesc": "Use this free base64 decoder for fast browser-based development and data processing."
+  },
+  "url-encoder": {
+    "title": "URL Encoder",
+    "description": "Use this free url encoder for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "URL Encoder - Free Online Tool",
+    "seoDesc": "Use this free url encoder for fast browser-based development and data processing."
+  },
+  "url-decoder": {
+    "title": "URL Decoder",
+    "description": "Use this free url decoder for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "URL Decoder - Free Online Tool",
+    "seoDesc": "Use this free url decoder for fast browser-based development and data processing."
+  },
+  "xml-formatter": {
+    "title": "XML Formatter",
+    "description": "Use this free xml formatter for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "XML Formatter - Free Online Tool",
+    "seoDesc": "Use this free xml formatter for fast browser-based development and data processing."
+  },
+  "xml-validator": {
+    "title": "XML Validator",
+    "description": "Use this free xml validator for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "XML Validator - Free Online Tool",
+    "seoDesc": "Use this free xml validator for fast browser-based development and data processing."
+  },
+  "css-formatter": {
+    "title": "CSS Formatter",
+    "description": "Use this free css formatter for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "CSS Formatter - Free Online Tool",
+    "seoDesc": "Use this free css formatter for fast browser-based development and data processing."
+  },
+  "javascript-formatter": {
+    "title": "JavaScript Formatter",
+    "description": "Use this free javascript formatter for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "JavaScript Formatter - Free Online Tool",
+    "seoDesc": "Use this free javascript formatter for fast browser-based development and data processing."
+  },
+  "sql-formatter": {
+    "title": "SQL Formatter",
+    "description": "Use this free sql formatter for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "SQL Formatter - Free Online Tool",
+    "seoDesc": "Use this free sql formatter for fast browser-based development and data processing."
+  },
+  "sql-minifier": {
+    "title": "SQL Minifier",
+    "description": "Use this free sql minifier for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "SQL Minifier - Free Online Tool",
+    "seoDesc": "Use this free sql minifier for fast browser-based development and data processing."
+  },
+  "uuid-generator": {
+    "title": "UUID Generator",
+    "description": "Use this free uuid generator for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "UUID Generator - Free Online Tool",
+    "seoDesc": "Use this free uuid generator for fast browser-based development and data processing."
+  },
+  "uuid-validator": {
+    "title": "UUID Validator",
+    "description": "Use this free uuid validator for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "UUID Validator - Free Online Tool",
+    "seoDesc": "Use this free uuid validator for fast browser-based development and data processing."
+  },
+  "unix-timestamp-converter": {
+    "title": "Unix Timestamp Converter",
+    "description": "Use this free unix timestamp converter for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "Unix Timestamp Converter - Free Online Tool",
+    "seoDesc": "Use this free unix timestamp converter for fast browser-based development and data processing."
+  },
+  "timestamp-generator": {
+    "title": "Timestamp Generator",
+    "description": "Use this free timestamp generator for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "Timestamp Generator - Free Online Tool",
+    "seoDesc": "Use this free timestamp generator for fast browser-based development and data processing."
+  },
+  "regex-tester": {
+    "title": "Regex Tester",
+    "description": "Use this free regex tester for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "Regex Tester - Free Online Tool",
+    "seoDesc": "Use this free regex tester for fast browser-based development and data processing."
+  },
+  "regex-escape-tool": {
+    "title": "Regex Escape Tool",
+    "description": "Use this free regex escape tool for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "Regex Escape Tool - Free Online Tool",
+    "seoDesc": "Use this free regex escape tool for fast browser-based development and data processing."
+  },
+  "html-entity-encoder": {
+    "title": "HTML Entity Encoder",
+    "description": "Use this free html entity encoder for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "HTML Entity Encoder - Free Online Tool",
+    "seoDesc": "Use this free html entity encoder for fast browser-based development and data processing."
+  },
+  "html-entity-decoder": {
+    "title": "HTML Entity Decoder",
+    "description": "Use this free html entity decoder for fast browser-based development and data processing.",
+    "category": "Developer",
+    "seoTitle": "HTML Entity Decoder - Free Online Tool",
+    "seoDesc": "Use this free html entity decoder for fast browser-based development and data processing."
+  },
+  "url-parser": {
+    "title": "URL Parser",
+    "description": "Use this free url parser to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "URL Parser - Free Online Tool",
+    "seoDesc": "Use this free url parser to work with URLs, web data, and common web formats."
+  },
+  "url-cleaner": {
+    "title": "URL Cleaner",
+    "description": "Use this free url cleaner to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "URL Cleaner - Free Online Tool",
+    "seoDesc": "Use this free url cleaner to work with URLs, web data, and common web formats."
+  },
+  "query-string-parser": {
+    "title": "Query String Parser",
+    "description": "Use this free query string parser to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "Query String Parser - Free Online Tool",
+    "seoDesc": "Use this free query string parser to work with URLs, web data, and common web formats."
+  },
+  "query-string-builder": {
+    "title": "Query String Builder",
+    "description": "Use this free query string builder to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "Query String Builder - Free Online Tool",
+    "seoDesc": "Use this free query string builder to work with URLs, web data, and common web formats."
+  },
+  "utm-url-builder": {
+    "title": "UTM URL Builder",
+    "description": "Use this free utm url builder to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "UTM URL Builder - Free Online Tool",
+    "seoDesc": "Use this free utm url builder to work with URLs, web data, and common web formats."
+  },
+  "http-status-code-lookup": {
+    "title": "HTTP Status Code Lookup",
+    "description": "Use this free http status code lookup to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "HTTP Status Code Lookup - Free Online Tool",
+    "seoDesc": "Use this free http status code lookup to work with URLs, web data, and common web formats."
+  },
+  "mime-type-lookup": {
+    "title": "MIME Type Lookup",
+    "description": "Use this free mime type lookup to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "MIME Type Lookup - Free Online Tool",
+    "seoDesc": "Use this free mime type lookup to work with URLs, web data, and common web formats."
+  },
+  "user-agent-parser": {
+    "title": "User Agent Parser",
+    "description": "Use this free user agent parser to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "User Agent Parser - Free Online Tool",
+    "seoDesc": "Use this free user agent parser to work with URLs, web data, and common web formats."
+  },
+  "domain-name-parser": {
+    "title": "Domain Name Parser",
+    "description": "Use this free domain name parser to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "Domain Name Parser - Free Online Tool",
+    "seoDesc": "Use this free domain name parser to work with URLs, web data, and common web formats."
+  },
+  "email-link-generator": {
+    "title": "Email Link Generator",
+    "description": "Use this free email link generator to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "Email Link Generator - Free Online Tool",
+    "seoDesc": "Use this free email link generator to work with URLs, web data, and common web formats."
+  },
+  "tel-link-generator": {
+    "title": "Tel Link Generator",
+    "description": "Use this free tel link generator to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "Tel Link Generator - Free Online Tool",
+    "seoDesc": "Use this free tel link generator to work with URLs, web data, and common web formats."
+  },
+  "anchor-link-generator": {
+    "title": "Anchor Link Generator",
+    "description": "Use this free anchor link generator to work with URLs, web data, and common web formats.",
+    "category": "Web",
+    "seoTitle": "Anchor Link Generator - Free Online Tool",
+    "seoDesc": "Use this free anchor link generator to work with URLs, web data, and common web formats."
+  },
+  "password-generator": {
+    "title": "Password Generator",
+    "description": "Use this free password generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "Password Generator - Free Online Tool",
+    "seoDesc": "Use this free password generator for convenient browser-based security and utility tasks."
+  },
+  "password-strength-checker": {
+    "title": "Password Strength Checker",
+    "description": "Use this free password strength checker for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "Password Strength Checker - Free Online Tool",
+    "seoDesc": "Use this free password strength checker for convenient browser-based security and utility tasks."
+  },
+  "random-string-generator": {
+    "title": "Random String Generator",
+    "description": "Use this free random string generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "Random String Generator - Free Online Tool",
+    "seoDesc": "Use this free random string generator for convenient browser-based security and utility tasks."
+  },
+  "random-number-generator": {
+    "title": "Random Number Generator",
+    "description": "Use this free random number generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "Random Number Generator - Free Online Tool",
+    "seoDesc": "Use this free random number generator for convenient browser-based security and utility tasks."
+  },
+  "hash-generator": {
+    "title": "Hash Generator",
+    "description": "Use this free hash generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "Hash Generator - Free Online Tool",
+    "seoDesc": "Use this free hash generator for convenient browser-based security and utility tasks."
+  },
+  "md5-hash-generator": {
+    "title": "MD5 Hash Generator",
+    "description": "Use this free md5 hash generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "MD5 Hash Generator - Free Online Tool",
+    "seoDesc": "Use this free md5 hash generator for convenient browser-based security and utility tasks."
+  },
+  "sha256-hash-generator": {
+    "title": "SHA256 Hash Generator",
+    "description": "Use this free sha256 hash generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "SHA256 Hash Generator - Free Online Tool",
+    "seoDesc": "Use this free sha256 hash generator for convenient browser-based security and utility tasks."
+  },
+  "sha512-hash-generator": {
+    "title": "SHA512 Hash Generator",
+    "description": "Use this free sha512 hash generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "SHA512 Hash Generator - Free Online Tool",
+    "seoDesc": "Use this free sha512 hash generator for convenient browser-based security and utility tasks."
+  },
+  "hmac-generator": {
+    "title": "HMAC Generator",
+    "description": "Use this free hmac generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "HMAC Generator - Free Online Tool",
+    "seoDesc": "Use this free hmac generator for convenient browser-based security and utility tasks."
+  },
+  "secret-key-generator": {
+    "title": "Secret Key Generator",
+    "description": "Use this free secret key generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "Secret Key Generator - Free Online Tool",
+    "seoDesc": "Use this free secret key generator for convenient browser-based security and utility tasks."
+  },
+  "pin-generator": {
+    "title": "PIN Generator",
+    "description": "Use this free pin generator for convenient browser-based security and utility tasks.",
+    "category": "Security",
+    "seoTitle": "PIN Generator - Free Online Tool",
+    "seoDesc": "Use this free pin generator for convenient browser-based security and utility tasks."
+  },
+  "image-alt-text-generator": {
+    "title": "Image Alt Text Generator",
+    "description": "Use this free image alt text generator for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Image Alt Text Generator - Free Online Tool",
+    "seoDesc": "Use this free image alt text generator for image, color, and visual content workflows."
+  },
+  "image-filename-generator": {
+    "title": "Image Filename Generator",
+    "description": "Use this free image filename generator for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Image Filename Generator - Free Online Tool",
+    "seoDesc": "Use this free image filename generator for image, color, and visual content workflows."
+  },
+  "image-dimensions-checker": {
+    "title": "Image Dimensions Checker",
+    "description": "Use this free image dimensions checker for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Image Dimensions Checker - Free Online Tool",
+    "seoDesc": "Use this free image dimensions checker for image, color, and visual content workflows."
+  },
+  "color-picker": {
+    "title": "Color Picker",
+    "description": "Use this free color picker for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Color Picker - Free Online Tool",
+    "seoDesc": "Use this free color picker for image, color, and visual content workflows."
+  },
+  "hex-to-rgb-converter": {
+    "title": "HEX to RGB Converter",
+    "description": "Use this free hex to rgb converter for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "HEX to RGB Converter - Free Online Tool",
+    "seoDesc": "Use this free hex to rgb converter for image, color, and visual content workflows."
+  },
+  "rgb-to-hex-converter": {
+    "title": "RGB to HEX Converter",
+    "description": "Use this free rgb to hex converter for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "RGB to HEX Converter - Free Online Tool",
+    "seoDesc": "Use this free rgb to hex converter for image, color, and visual content workflows."
+  },
+  "hsl-color-converter": {
+    "title": "HSL Color Converter",
+    "description": "Use this free hsl color converter for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "HSL Color Converter - Free Online Tool",
+    "seoDesc": "Use this free hsl color converter for image, color, and visual content workflows."
+  },
+  "color-contrast-checker": {
+    "title": "Color Contrast Checker",
+    "description": "Use this free color contrast checker for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Color Contrast Checker - Free Online Tool",
+    "seoDesc": "Use this free color contrast checker for image, color, and visual content workflows."
+  },
+  "image-to-base64-converter": {
+    "title": "Image to Base64 Converter",
+    "description": "Use this free image to base64 converter for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Image to Base64 Converter - Free Online Tool",
+    "seoDesc": "Use this free image to base64 converter for image, color, and visual content workflows."
+  },
+  "base64-to-image-converter": {
+    "title": "Base64 to Image Converter",
+    "description": "Use this free base64 to image converter for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Base64 to Image Converter - Free Online Tool",
+    "seoDesc": "Use this free base64 to image converter for image, color, and visual content workflows."
+  },
+  "aspect-ratio-calculator": {
+    "title": "Aspect Ratio Calculator",
+    "description": "Use this free aspect ratio calculator for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Aspect Ratio Calculator - Free Online Tool",
+    "seoDesc": "Use this free aspect ratio calculator for image, color, and visual content workflows."
+  },
+  "image-url-generator": {
+    "title": "Image URL Generator",
+    "description": "Use this free image url generator for image, color, and visual content workflows.",
+    "category": "Image",
+    "seoTitle": "Image URL Generator - Free Online Tool",
+    "seoDesc": "Use this free image url generator for image, color, and visual content workflows."
+  },
+  "hashtag-generator": {
+    "title": "Hashtag Generator",
+    "description": "Use this free hashtag generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "Hashtag Generator - Free Online Tool",
+    "seoDesc": "Use this free hashtag generator to speed up your marketing and content workflow."
+  },
+  "youtube-title-generator": {
+    "title": "YouTube Title Generator",
+    "description": "Use this free youtube title generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "YouTube Title Generator - Free Online Tool",
+    "seoDesc": "Use this free youtube title generator to speed up your marketing and content workflow."
+  },
+  "youtube-description-generator": {
+    "title": "YouTube Description Generator",
+    "description": "Use this free youtube description generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "YouTube Description Generator - Free Online Tool",
+    "seoDesc": "Use this free youtube description generator to speed up your marketing and content workflow."
+  },
+  "youtube-tag-generator": {
+    "title": "YouTube Tag Generator",
+    "description": "Use this free youtube tag generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "YouTube Tag Generator - Free Online Tool",
+    "seoDesc": "Use this free youtube tag generator to speed up your marketing and content workflow."
+  },
+  "instagram-caption-generator": {
+    "title": "Instagram Caption Generator",
+    "description": "Use this free instagram caption generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "Instagram Caption Generator - Free Online Tool",
+    "seoDesc": "Use this free instagram caption generator to speed up your marketing and content workflow."
+  },
+  "social-media-caption-generator": {
+    "title": "Social Media Caption Generator",
+    "description": "Use this free social media caption generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "Social Media Caption Generator - Free Online Tool",
+    "seoDesc": "Use this free social media caption generator to speed up your marketing and content workflow."
+  },
+  "call-to-action-generator": {
+    "title": "Call to Action Generator",
+    "description": "Use this free call to action generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "Call to Action Generator - Free Online Tool",
+    "seoDesc": "Use this free call to action generator to speed up your marketing and content workflow."
+  },
+  "headline-generator": {
+    "title": "Headline Generator",
+    "description": "Use this free headline generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "Headline Generator - Free Online Tool",
+    "seoDesc": "Use this free headline generator to speed up your marketing and content workflow."
+  },
+  "blog-title-generator": {
+    "title": "Blog Title Generator",
+    "description": "Use this free blog title generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "Blog Title Generator - Free Online Tool",
+    "seoDesc": "Use this free blog title generator to speed up your marketing and content workflow."
+  },
+  "content-brief-generator": {
+    "title": "Content Brief Generator",
+    "description": "Use this free content brief generator to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "Content Brief Generator - Free Online Tool",
+    "seoDesc": "Use this free content brief generator to speed up your marketing and content workflow."
+  },
+  "utm-campaign-builder": {
+    "title": "UTM Campaign Builder",
+    "description": "Use this free utm campaign builder to speed up your marketing and content workflow.",
+    "category": "Marketing",
+    "seoTitle": "UTM Campaign Builder - Free Online Tool",
+    "seoDesc": "Use this free utm campaign builder to speed up your marketing and content workflow."
+  },
+  "csv-to-json-converter": {
+    "title": "CSV to JSON Converter",
+    "description": "Use this free csv to json converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "CSV to JSON Converter - Free Online Tool",
+    "seoDesc": "Use this free csv to json converter to quickly convert and transform your data."
+  },
+  "json-to-csv-converter": {
+    "title": "JSON to CSV Converter",
+    "description": "Use this free json to csv converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "JSON to CSV Converter - Free Online Tool",
+    "seoDesc": "Use this free json to csv converter to quickly convert and transform your data."
+  },
+  "json-to-xml-converter": {
+    "title": "JSON to XML Converter",
+    "description": "Use this free json to xml converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "JSON to XML Converter - Free Online Tool",
+    "seoDesc": "Use this free json to xml converter to quickly convert and transform your data."
+  },
+  "xml-to-json-converter": {
+    "title": "XML to JSON Converter",
+    "description": "Use this free xml to json converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "XML to JSON Converter - Free Online Tool",
+    "seoDesc": "Use this free xml to json converter to quickly convert and transform your data."
+  },
+  "text-to-csv-converter": {
+    "title": "Text to CSV Converter",
+    "description": "Use this free text to csv converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Text to CSV Converter - Free Online Tool",
+    "seoDesc": "Use this free text to csv converter to quickly convert and transform your data."
+  },
+  "csv-column-extractor": {
+    "title": "CSV Column Extractor",
+    "description": "Use this free csv column extractor to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "CSV Column Extractor - Free Online Tool",
+    "seoDesc": "Use this free csv column extractor to quickly convert and transform your data."
+  },
+  "number-to-words-converter": {
+    "title": "Number to Words Converter",
+    "description": "Use this free number to words converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Number to Words Converter - Free Online Tool",
+    "seoDesc": "Use this free number to words converter to quickly convert and transform your data."
+  },
+  "words-to-number-converter": {
+    "title": "Words to Number Converter",
+    "description": "Use this free words to number converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Words to Number Converter - Free Online Tool",
+    "seoDesc": "Use this free words to number converter to quickly convert and transform your data."
+  },
+  "binary-to-decimal-converter": {
+    "title": "Binary to Decimal Converter",
+    "description": "Use this free binary to decimal converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Binary to Decimal Converter - Free Online Tool",
+    "seoDesc": "Use this free binary to decimal converter to quickly convert and transform your data."
+  },
+  "decimal-to-binary-converter": {
+    "title": "Decimal to Binary Converter",
+    "description": "Use this free decimal to binary converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Decimal to Binary Converter - Free Online Tool",
+    "seoDesc": "Use this free decimal to binary converter to quickly convert and transform your data."
+  },
+  "hex-to-decimal-converter": {
+    "title": "Hex to Decimal Converter",
+    "description": "Use this free hex to decimal converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Hex to Decimal Converter - Free Online Tool",
+    "seoDesc": "Use this free hex to decimal converter to quickly convert and transform your data."
+  },
+  "decimal-to-hex-converter": {
+    "title": "Decimal to Hex Converter",
+    "description": "Use this free decimal to hex converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Decimal to Hex Converter - Free Online Tool",
+    "seoDesc": "Use this free decimal to hex converter to quickly convert and transform your data."
+  },
+  "roman-numeral-converter": {
+    "title": "Roman Numeral Converter",
+    "description": "Use this free roman numeral converter to quickly convert and transform your data.",
+    "category": "Conversion",
+    "seoTitle": "Roman Numeral Converter - Free Online Tool",
+    "seoDesc": "Use this free roman numeral converter to quickly convert and transform your data."
+  },
+  "percentage-calculator": {
+    "title": "Percentage Calculator",
+    "description": "Use this free percentage calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Percentage Calculator - Free Online Tool",
+    "seoDesc": "Use this free percentage calculator to calculate common values quickly and accurately."
+  },
+  "percentage-increase-calculator": {
+    "title": "Percentage Increase Calculator",
+    "description": "Use this free percentage increase calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Percentage Increase Calculator - Free Online Tool",
+    "seoDesc": "Use this free percentage increase calculator to calculate common values quickly and accurately."
+  },
+  "percentage-decrease-calculator": {
+    "title": "Percentage Decrease Calculator",
+    "description": "Use this free percentage decrease calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Percentage Decrease Calculator - Free Online Tool",
+    "seoDesc": "Use this free percentage decrease calculator to calculate common values quickly and accurately."
+  },
+  "average-calculator": {
+    "title": "Average Calculator",
+    "description": "Use this free average calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Average Calculator - Free Online Tool",
+    "seoDesc": "Use this free average calculator to calculate common values quickly and accurately."
+  },
+  "ratio-calculator": {
+    "title": "Ratio Calculator",
+    "description": "Use this free ratio calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Ratio Calculator - Free Online Tool",
+    "seoDesc": "Use this free ratio calculator to calculate common values quickly and accurately."
+  },
+  "proportion-calculator": {
+    "title": "Proportion Calculator",
+    "description": "Use this free proportion calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Proportion Calculator - Free Online Tool",
+    "seoDesc": "Use this free proportion calculator to calculate common values quickly and accurately."
+  },
+  "age-calculator": {
+    "title": "Age Calculator",
+    "description": "Use this free age calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Age Calculator - Free Online Tool",
+    "seoDesc": "Use this free age calculator to calculate common values quickly and accurately."
+  },
+  "date-difference-calculator": {
+    "title": "Date Difference Calculator",
+    "description": "Use this free date difference calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Date Difference Calculator - Free Online Tool",
+    "seoDesc": "Use this free date difference calculator to calculate common values quickly and accurately."
+  },
+  "time-difference-calculator": {
+    "title": "Time Difference Calculator",
+    "description": "Use this free time difference calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Time Difference Calculator - Free Online Tool",
+    "seoDesc": "Use this free time difference calculator to calculate common values quickly and accurately."
+  },
+  "character-limit-calculator": {
+    "title": "Character Limit Calculator",
+    "description": "Use this free character limit calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Character Limit Calculator - Free Online Tool",
+    "seoDesc": "Use this free character limit calculator to calculate common values quickly and accurately."
+  },
+  "compound-interest-calculator": {
+    "title": "Compound Interest Calculator",
+    "description": "Use this free compound interest calculator to calculate common values quickly and accurately.",
+    "category": "Calculators",
+    "seoTitle": "Compound Interest Calculator - Free Online Tool",
+    "seoDesc": "Use this free compound interest calculator to calculate common values quickly and accurately."
+  },
+  "list-randomizer": {
+    "title": "List Randomizer",
+    "description": "Use this free list randomizer to make everyday work faster and easier.",
+    "category": "Productivity",
+    "seoTitle": "List Randomizer - Free Online Tool",
+    "seoDesc": "Use this free list randomizer to make everyday work faster and easier."
+  },
+  "checklist-generator": {
+    "title": "Checklist Generator",
+    "description": "Use this free checklist generator to make everyday work faster and easier.",
+    "category": "Productivity",
+    "seoTitle": "Checklist Generator - Free Online Tool",
+    "seoDesc": "Use this free checklist generator to make everyday work faster and easier."
   }
 };
 
-export default toolsData;
+export default tools;

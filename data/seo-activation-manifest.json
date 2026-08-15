@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "maxTools": 15,
+  "maxVariantsPerTool": 2,
+  "tools": [
+    {
+      "slug": "word-counter",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "character-counter",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "keyword-density-checker",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "keyword-frequency-checker",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "meta-tag-generator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "meta-description-generator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "title-tag-generator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "seo-slug-generator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "json-formatter",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "base64-encoder",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "percentage-calculator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "age-calculator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "compound-interest-calculator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "list-randomizer",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    },
+    {
+      "slug": "checklist-generator",
+      "variants": [
+        "online",
+        "free-online"
+      ]
+    }
+  ],
+  "variants": [
+    "free-tool",
+    "online-tool"
+  ]
+}

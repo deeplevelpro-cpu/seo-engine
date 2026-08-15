@@ -1,0 +1,177 @@
+import Link from "next/link";
+import tools from "@/data/tools";
+
+export default function ToolsPage() {
+  const toolEntries = Object.entries(tools);
+
+  return (
+    <main className="tools-page">
+
+      {/* Premium background effects */}
+      <div className="tools-bg-glow tools-bg-glow-one" />
+      <div className="tools-bg-glow tools-bg-glow-two" />
+      <div className="tools-grid-pattern" />
+
+      <div className="tools-container">
+
+        {/* HERO */}
+        <section className="tools-hero">
+
+          <div className="tools-hero-eyebrow">
+            <span className="eyebrow-dot" />
+            FREE ONLINE SEO TOOLS
+          </div>
+
+          <h1>
+            Powerful SEO tools
+            <br />
+            <span>made simple.</span>
+          </h1>
+
+          <p className="tools-hero-description">
+            Browse our growing collection of free online tools for SEO,
+            content creation, keywords, metadata, text optimization,
+            and everyday digital work.
+          </p>
+
+          {/* Stats */}
+          <div className="tools-stats">
+
+            <div className="tools-stat">
+              <div className="stat-icon">✦</div>
+              <div>
+                <strong>{toolEntries.length}+</strong>
+                <span>Free tools</span>
+              </div>
+            </div>
+
+            <div className="tools-stat">
+              <div className="stat-icon">⚡</div>
+              <div>
+                <strong>100%</strong>
+                <span>Online</span>
+              </div>
+            </div>
+
+            <div className="tools-stat">
+              <div className="stat-icon">✓</div>
+              <div>
+                <strong>Free</strong>
+                <span>No signup required</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        {/* TOOL COLLECTION */}
+        <section className="all-tools-section">
+
+          <div className="tools-section-header">
+
+            <div>
+              <div className="tools-small-label">
+                TOOL COLLECTION
+              </div>
+
+              <h2>
+                All SEO Tools
+              </h2>
+
+              <p>
+                Explore our complete collection of useful tools.
+              </p>
+            </div>
+
+            <div className="tool-count">
+              <span>{toolEntries.length}</span>
+              <small>TOOLS</small>
+            </div>
+
+          </div>
+
+
+          {/* TOOL GRID */}
+          <div className="all-tools-grid">
+
+            {toolEntries.map(([slug, tool], index) => (
+
+              <Link
+                href={`/tools/${slug}`}
+                key={slug}
+                className="all-tool-card"
+              >
+
+                <div className="tool-card-top">
+
+                  <div className="tool-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+
+                  <div className="tool-card-arrow">
+                    ↗
+                  </div>
+
+                </div>
+
+                <div className="all-tool-content">
+
+                  <h3>
+                    {tool.title}
+                  </h3>
+
+                  <p>
+                    {tool.description}
+                  </p>
+
+                </div>
+
+                <div className="tool-card-line" />
+
+              </Link>
+
+            ))}
+
+          </div>
+
+        </section>
+
+
+        {/* BOTTOM CTA */}
+        <section className="tools-bottom-cta">
+
+          <div className="cta-glow" />
+
+          <div className="cta-content">
+
+            <div className="tools-small-label">
+              MORE TOOLS. LESS WORK.
+            </div>
+
+            <h2>
+              Everything you need
+              <span> to work smarter.</span>
+            </h2>
+
+            <p>
+              Simple browser-based tools designed to make your SEO,
+              content, and everyday workflow faster.
+            </p>
+
+          </div>
+
+          <Link
+            href="/"
+            className="tools-cta-button"
+          >
+            <span>Back to home</span>
+            <strong>→</strong>
+          </Link>
+
+        </section>
+
+      </div>
+    </main>
+  );
+}

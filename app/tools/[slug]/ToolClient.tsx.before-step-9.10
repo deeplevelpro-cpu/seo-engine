@@ -1,0 +1,1002 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import toolsData from "@/data/tools";
+import { getToolHandler } from "@/lib/tools";
+
+
+function localTool(slug: string, text: string, keyword: string) {
+  const clean = text.trim();
+
+  if (!clean) {
+    return "Please enter some content first.";
+  }
+
+  const words = clean.split(/\s+/).filter(Boolean);
+  const chars = clean.length;
+  const sentences = clean.split(/[.!?]+/).filter(Boolean).length;
+
+  if (slug.includes("word-counter")) {
+    const readingTime = Math.max(1, Math.ceil(words.length / 200));
+
+    return `WORD COUNT REPORT
+
+Words: ${words.length}
+Characters: ${chars}
+Sentences: ${sentences}
+Estimated reading time: ${readingTime} min
+
+Your content has been successfully analyzed.`;
+  }
+
+  if (slug.includes("keyword-density")) {
+    const target = keyword.trim().toLowerCase();
+
+    if (!target) {
+      return `KEYWORD DENSITY REPORT
+
+Total words: ${words.length}
+Characters: ${chars}
+Sentences: ${sentences}
+
+Enter a target keyword above to calculate its exact density.`;
+    }
+
+    const lower = clean.toLowerCase();
+    const matches = lower.split(target).length - 1;
+    const density = words.length
+      ? ((matches / words.length) * 100).toFixed(2)
+      : "0.00";
+
+    return `KEYWORD DENSITY REPORT
+
+Target keyword: ${keyword}
+Keyword occurrences: ${matches}
+Total words: ${words.length}
+Keyword density: ${density}%
+
+${Number(density) > 3
+  ? "⚠️ Density looks high. Consider using the keyword more naturally."
+  : "✅ Density looks natural."}`;
+  }
+
+  if (slug.includes("slug-generator")) {
+    const slugText = clean
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    return `SEO-FRIENDLY SLUG
+
+${slugText}`;
+  }
+
+  if (slug.includes("meta-tag-generator")) {
+    const title = clean.split("\n")[0].slice(0, 60);
+    const description = clean.replace(/\n/g, " ").slice(0, 155);
+
+    return `META TAGS
+
+Title:
+${title}
+
+Description:
+${description}
+
+Suggested HTML:
+
+<title>${title}</title>
+<meta name="description" content="${description}">`;
+  }
+
+  if (slug.includes("title-generator")) {
+    return `SEO TITLE IDEAS
+
+1. ${clean} — Complete Guide
+2. ${clean}: Everything You Need to Know
+3. ${clean} — Best Tips & Strategies
+4. ${clean}: The Ultimate Guide
+5. ${clean} — Easy Step-by-Step Guide`;
+  }
+
+  if (slug.includes("image-alt")) {
+    return `IMAGE ALT TEXT
+
+Suggested alt text:
+
+"${clean.slice(0, 125)}"
+
+Tip: Keep alt text descriptive, natural and useful for accessibility.`;
+  }
+
+  if (slug.includes("random-text")) {
+    return `GENERATED TEXT
+
+${Array.from(
+  { length: 3 },
+  () => "This is sample content generated for testing your SEO workflow."
+).join("\n\n")}`;
+  }
+
+  if (slug.includes("password-generator")) {
+    const chars =
+      "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*";
+
+    let password = "";
+
+    for (let i = 0; i < 18; i++) {
+      password += chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    return `SECURE PASSWORD
+
+${password}
+
+Length: ${password.length}
+Strength: Strong`;
+  }
+
+  return `LOCAL SEO ANALYSIS
+
+Words: ${words.length}
+Characters: ${chars}
+Sentences: ${sentences}
+
+Your tool is running in local mode.
+
+For advanced AI-powered results, the OpenAI API can be enabled later.`;
+}
+
+type ToolClientProps = {
+  slug: string;
+};
+
+export default function ToolClient({ slug }: ToolClientProps) {
+
+  const [text, setText] = useState("");
+  const [keyword, setKeyword] = useState("");
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const tool = toolsData[slug as keyof typeof toolsData];
+
+  const wordCount = useMemo(
+    () => text.trim() ? text.trim().split(/\s+/).length : 0,
+    [text]
+  );
+
+  if (!tool) {
+    return (
+      <main className="notFound">
+        <h1>Tool Not Found</h1>
+        <p>The tool you're looking for doesn't exist.</p>
+        <a href="/">← Back to Home</a>
+      </main>
+    );
+  }
+
+  const runTool = async () => {
+    if (!text.trim()) {
+      setResult("Please enter some content first.");
+      return;
+    }
+
+    setLoading(true);
+    setResult("");
+
+    await new Promise((resolve) => setTimeout(resolve, 450));
+
+    // Execute through the centralized tool registry.
+    const handler = getToolHandler(slug);
+
+    const toolResult = await handler({
+      text,
+      keyword,
+    });
+
+    setResult(
+      toolResult.title
+        ? `${toolResult.title}\n\n${toolResult.content}`
+        : toolResult.content
+    );
+
+    setLoading(false);
+  };
+
+  return (
+    <main className="page">
+      <div className="ambient ambientOne" />
+      <div className="ambient ambientTwo" />
+
+      <header className="nav">
+        <a href="/" className="logo">
+          <span className="logoIcon">⚡</span>
+          AI TOOL <span>ENGINE</span>
+        </a>
+
+        <nav>
+          <a href="/">Home</a>
+          <a href="/tools">Tools</a>
+          <a href="/categories">Categories</a>
+          <a href="/blog">Blog</a>
+          <a href="/contact">Contact</a>
+        </nav>
+
+        <a href="/tools" className="allTools">
+          ✦ All 100+ Tools
+        </a>
+      </header>
+
+      <section className="hero">
+        <div className="badge">✦ FREE ONLINE SEO TOOL</div>
+
+        <h1>
+          {tool.title}
+        </h1>
+
+        <p className="heroText">
+          {tool.description}
+        </p>
+
+        <div className="trustRow">
+          <span>✓ 100% FREE</span>
+          <span>⚡ INSTANT RESULTS</span>
+          <span>🔒 SIMPLE & SECURE</span>
+        </div>
+      </section>
+
+      <section className="toolCard">
+        <div className="cardHeader">
+          <div className="headerIcon">✎</div>
+
+          <div>
+            <h2>YOUR INPUT</h2>
+            <p>Paste your content below and let the tool do the magic.</p>
+          </div>
+
+          <div className="counter">
+            {text.length} Characters
+          </div>
+        </div>
+
+        {slug.includes("keyword-density") && (
+          <div className="keywordBox">
+            <label>Target keyword</label>
+            <input
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="e.g. seo tools"
+            />
+          </div>
+        )}
+
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Paste your content here..."
+          className="mainInput"
+        />
+
+        <div className="inputFooter">
+          <span>{wordCount} words</span>
+
+          <button
+            onClick={() => {
+              setText("");
+              setResult("");
+            }}
+            className="clearBtn"
+          >
+            Clear All
+          </button>
+
+          <button onClick={runTool} className="generateBtn">
+            {loading ? "⏳ ANALYZING..." : "✦ GENERATE RESULT"}
+          </button>
+
+          <span className="localBadge">● LOCAL MODE</span>
+        </div>
+      </section>
+
+      <section className="resultCard">
+        <div className="cardHeader">
+          <div className="headerIcon blue">▣</div>
+
+          <div>
+            <h2>YOUR RESULT</h2>
+            <p>Your generated result will appear here.</p>
+          </div>
+
+          <button
+            className="copyBtn"
+            onClick={() => navigator.clipboard?.writeText(result)}
+            disabled={!result}
+          >
+            ⧉ Copy Result
+          </button>
+        </div>
+
+        <div className="resultBox">
+          {result ? (
+            <pre>{result}</pre>
+          ) : (
+            <div className="emptyResult">
+              <div className="emptyIcon">✦</div>
+              <strong>Your result will appear here</strong>
+              <span>Enter your content above and click “Generate Result”.</span>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="features">
+        <div>
+          <b>🎯 ACCURATE</b>
+          <span>Clean and useful SEO analysis.</span>
+        </div>
+
+        <div>
+          <b>⚡ FAST</b>
+          <span>Get results in seconds.</span>
+        </div>
+
+        <div>
+          <b>🛡 SECURE</b>
+          <span>Your content stays in your browser.</span>
+        </div>
+
+        <div>
+          <b>😊 EASY TO USE</b>
+          <span>Simple interface for everyone.</span>
+        </div>
+      </section>
+
+      <section className="about">
+        <div className="sectionLabel">ABOUT THIS TOOL</div>
+
+        <h2>
+          What is <span>{tool.title}</span>?
+        </h2>
+
+        <p className="aboutIntro">
+          {tool.description} This free online tool is designed to make
+          everyday SEO and content tasks faster, easier and more accessible.
+        </p>
+
+        <div className="aboutGrid">
+          <article>
+            <div className="aboutIcon purple">?</div>
+            <h3>WHAT IS THIS TOOL?</h3>
+            <p>
+              A simple browser-based SEO utility designed for creators,
+              bloggers, marketers and website owners.
+            </p>
+          </article>
+
+          <article>
+            <div className="aboutIcon blue">☷</div>
+            <h3>HOW TO USE</h3>
+            <p>
+              Enter your content, choose the relevant option and click
+              Generate Result to instantly analyze your data.
+            </p>
+          </article>
+
+          <article>
+            <div className="aboutIcon green">✓</div>
+            <h3>BENEFITS</h3>
+            <p>
+              Save time, improve your workflow and get practical SEO
+              information without complicated software.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="cta">
+        <div>
+          <small>EXPLORE MORE</small>
+          <h2>More powerful SEO tools for you.</h2>
+          <p>Access hundreds of useful tools from one simple dashboard.</p>
+        </div>
+
+        <a href="/tools">Browse All Tools →</a>
+      </section>
+
+      <footer>
+        <strong>⚡ AI TOOL ENGINE</strong>
+        <span>Free online SEO tools for everyone.</span>
+      </footer>
+
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          background:
+            radial-gradient(circle at 15% 10%, rgba(0, 174, 255, .13), transparent 30%),
+            radial-gradient(circle at 85% 25%, rgba(124, 58, 237, .16), transparent 32%),
+            #030712;
+          color: #f8fafc;
+          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          overflow: hidden;
+        }
+
+        .ambient {
+          position: fixed;
+          width: 320px;
+          height: 320px;
+          border-radius: 50%;
+          filter: blur(100px);
+          pointer-events: none;
+          opacity: .18;
+        }
+
+        .ambientOne {
+          background: #00d9ff;
+          top: 15%;
+          left: -180px;
+        }
+
+        .ambientTwo {
+          background: #8b5cf6;
+          right: -180px;
+          top: 45%;
+        }
+
+        .nav {
+          max-width: 1180px;
+          margin: auto;
+          height: 76px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 24px;
+          border-bottom: 1px solid rgba(148,163,184,.12);
+          position: relative;
+          z-index: 2;
+        }
+
+        .logo {
+          color: white;
+          text-decoration: none;
+          font-weight: 900;
+          letter-spacing: -.5px;
+          font-size: 18px;
+        }
+
+        .logoIcon {
+          color: #22d3ee;
+        }
+
+        .logo span:last-child {
+          color: #22d3ee;
+        }
+
+        nav {
+          display: flex;
+          gap: 26px;
+        }
+
+        nav a {
+          color: #94a3b8;
+          text-decoration: none;
+          font-size: 13px;
+          font-weight: 700;
+          transition: .2s;
+        }
+
+        nav a:hover {
+          color: #22d3ee;
+        }
+
+        .allTools {
+          text-decoration: none;
+          color: white;
+          font-size: 12px;
+          font-weight: 800;
+          padding: 10px 16px;
+          border-radius: 10px;
+          background: linear-gradient(90deg,#2563eb,#9333ea);
+          box-shadow: 0 0 24px rgba(99,102,241,.3);
+        }
+
+        .hero {
+          max-width: 1000px;
+          margin: auto;
+          text-align: center;
+          padding: 72px 24px 45px;
+          position: relative;
+        }
+
+        .badge {
+          display: inline-block;
+          color: #22d3ee;
+          border: 1px solid rgba(34,211,238,.35);
+          background: rgba(8,47,73,.35);
+          padding: 8px 14px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 1.5px;
+          margin-bottom: 22px;
+        }
+
+        h1 {
+          margin: 0;
+          font-size: clamp(42px, 7vw, 78px);
+          line-height: .95;
+          font-weight: 1000;
+          letter-spacing: -4px;
+          background: linear-gradient(90deg,#fff 5%,#b8dfff 45%,#a855f7 78%,#22d3ee);
+          -webkit-background-clip: text;
+          color: transparent;
+          text-transform: uppercase;
+        }
+
+        .heroText {
+          max-width: 700px;
+          margin: 24px auto;
+          color: #94a3b8;
+          font-size: 16px;
+          line-height: 1.7;
+        }
+
+        .trustRow {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .trustRow span {
+          border: 1px solid rgba(148,163,184,.15);
+          background: rgba(15,23,42,.65);
+          padding: 8px 13px;
+          border-radius: 999px;
+          color: #cbd5e1;
+          font-size: 11px;
+          font-weight: 800;
+        }
+
+        .toolCard,
+        .resultCard,
+        .features,
+        .about,
+        .cta {
+          max-width: 980px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .toolCard,
+        .resultCard {
+          border: 1px solid rgba(99,102,241,.28);
+          background: linear-gradient(145deg,rgba(15,23,42,.95),rgba(7,12,30,.95));
+          border-radius: 20px;
+          padding: 22px;
+          box-shadow: 0 20px 70px rgba(0,0,0,.35);
+          margin-bottom: 18px;
+        }
+
+        .cardHeader {
+          display: flex;
+          align-items: center;
+          gap: 13px;
+          margin-bottom: 18px;
+        }
+
+        .headerIcon {
+          width: 40px;
+          height: 40px;
+          display: grid;
+          place-items: center;
+          border-radius: 11px;
+          background: linear-gradient(135deg,#7c3aed,#2563eb);
+          font-size: 18px;
+          box-shadow: 0 0 25px rgba(124,58,237,.25);
+        }
+
+        .headerIcon.blue {
+          background: linear-gradient(135deg,#0891b2,#2563eb);
+        }
+
+        .cardHeader h2 {
+          margin: 0;
+          font-size: 15px;
+          font-weight: 950;
+          letter-spacing: .3px;
+        }
+
+        .cardHeader p {
+          margin: 4px 0 0;
+          color: #64748b;
+          font-size: 11px;
+        }
+
+        .counter {
+          margin-left: auto;
+          color: #94a3b8;
+          font-size: 10px;
+          font-weight: 800;
+          border: 1px solid rgba(148,163,184,.16);
+          padding: 6px 9px;
+          border-radius: 999px;
+        }
+
+        .keywordBox {
+          margin-bottom: 12px;
+        }
+
+        .keywordBox label {
+          display: block;
+          color: #cbd5e1;
+          font-size: 12px;
+          font-weight: 800;
+          margin-bottom: 7px;
+        }
+
+        .keywordBox input {
+          width: 100%;
+          box-sizing: border-box;
+          background: #050b19;
+          color: white;
+          border: 1px solid #24324d;
+          border-radius: 10px;
+          padding: 12px;
+          outline: none;
+        }
+
+        .keywordBox input:focus,
+        .mainInput:focus {
+          border-color: #6366f1;
+          box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+        }
+
+        .mainInput {
+          width: 100%;
+          min-height: 220px;
+          box-sizing: border-box;
+          resize: vertical;
+          background: #050b19;
+          color: #e2e8f0;
+          border: 1px solid #24324d;
+          border-radius: 13px;
+          padding: 17px;
+          outline: none;
+          font: inherit;
+          line-height: 1.7;
+        }
+
+        .inputFooter {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding-top: 13px;
+          flex-wrap: wrap;
+        }
+
+        .inputFooter > span:first-child {
+          color: #64748b;
+          font-size: 11px;
+        }
+
+        button {
+          font-family: inherit;
+          cursor: pointer;
+        }
+
+        .clearBtn,
+        .copyBtn {
+          border: 1px solid #263452;
+          background: #0b1325;
+          color: #94a3b8;
+          padding: 10px 13px;
+          border-radius: 9px;
+          font-size: 11px;
+          font-weight: 800;
+        }
+
+        .generateBtn {
+          flex: 1;
+          min-width: 220px;
+          border: 0;
+          color: white;
+          padding: 13px 20px;
+          border-radius: 10px;
+          font-weight: 950;
+          background: linear-gradient(90deg,#2563eb,#9333ea);
+          box-shadow: 0 0 28px rgba(99,102,241,.28);
+          transition: transform .2s, box-shadow .2s;
+        }
+
+        .generateBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0 38px rgba(99,102,241,.42);
+        }
+
+        .localBadge {
+          color: #4ade80 !important;
+          font-size: 10px !important;
+          font-weight: 800;
+        }
+
+        .copyBtn {
+          margin-left: auto;
+        }
+
+        .resultBox {
+          min-height: 220px;
+          border: 1px solid #202d48;
+          border-radius: 13px;
+          background: #050b19;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+
+        .resultBox pre {
+          white-space: pre-wrap;
+          color: #cbd5e1;
+          font: inherit;
+          line-height: 1.7;
+          margin: 0;
+        }
+
+        .emptyResult {
+          min-height: 180px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          gap: 7px;
+          color: #64748b;
+        }
+
+        .emptyResult strong {
+          color: #a855f7;
+          font-size: 13px;
+        }
+
+        .emptyResult span {
+          font-size: 11px;
+        }
+
+        .emptyIcon {
+          width: 45px;
+          height: 45px;
+          display: grid;
+          place-items: center;
+          border-radius: 50%;
+          border: 1px solid #6335a8;
+          color: #c084fc;
+          margin-bottom: 8px;
+        }
+
+        .features {
+          display: grid;
+          grid-template-columns: repeat(4,1fr);
+          gap: 10px;
+          margin-top: 20px;
+          margin-bottom: 60px;
+        }
+
+        .features div {
+          padding: 17px;
+          border: 1px solid rgba(99,102,241,.2);
+          background: rgba(8,15,32,.8);
+          border-radius: 13px;
+        }
+
+        .features b {
+          display: block;
+          font-size: 11px;
+          margin-bottom: 6px;
+        }
+
+        .features span {
+          color: #64748b;
+          font-size: 10px;
+          line-height: 1.5;
+        }
+
+        .about {
+          padding: 10px 24px 70px;
+        }
+
+        .sectionLabel {
+          color: #22d3ee;
+          font-size: 10px;
+          font-weight: 950;
+          letter-spacing: 2px;
+          margin-bottom: 10px;
+        }
+
+        .about h2 {
+          margin: 0 0 14px;
+          font-size: clamp(28px,4vw,44px);
+          font-weight: 1000;
+          letter-spacing: -1.5px;
+        }
+
+        .about h2 span {
+          color: #a855f7;
+        }
+
+        .aboutIntro {
+          color: #94a3b8;
+          line-height: 1.7;
+          max-width: 780px;
+        }
+
+        .aboutGrid {
+          display: grid;
+          grid-template-columns: repeat(3,1fr);
+          gap: 14px;
+          margin-top: 28px;
+        }
+
+        .aboutGrid article {
+          padding: 22px;
+          border: 1px solid rgba(99,102,241,.2);
+          border-radius: 15px;
+          background: rgba(8,15,32,.75);
+        }
+
+        .aboutIcon {
+          width: 35px;
+          height: 35px;
+          display: grid;
+          place-items: center;
+          border-radius: 9px;
+          margin-bottom: 15px;
+        }
+
+        .purple { background: rgba(168,85,247,.18); color:#c084fc; }
+        .blue { background: rgba(34,211,238,.15); color:#22d3ee; }
+        .green { background: rgba(34,197,94,.15); color:#4ade80; }
+
+        .aboutGrid h3 {
+          font-size: 12px;
+          font-weight: 950;
+          margin: 0 0 9px;
+        }
+
+        .aboutGrid p {
+          color: #64748b;
+          font-size: 11px;
+          line-height: 1.7;
+          margin: 0;
+        }
+
+        .cta {
+          margin-bottom: 40px;
+          padding: 25px;
+          border: 1px solid rgba(99,102,241,.3);
+          border-radius: 17px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 20px;
+          background:
+            radial-gradient(circle at 90% 50%,rgba(124,58,237,.2),transparent 35%),
+            rgba(10,18,38,.8);
+        }
+
+        .cta small {
+          color: #22d3ee;
+          font-weight: 900;
+          letter-spacing: 1.5px;
+        }
+
+        .cta h2 {
+          margin: 6px 0;
+          font-size: 23px;
+          font-weight: 950;
+        }
+
+        .cta p {
+          color: #64748b;
+          margin: 0;
+          font-size: 12px;
+        }
+
+        .cta a {
+          flex-shrink: 0;
+          color: white;
+          background: linear-gradient(90deg,#2563eb,#9333ea);
+          padding: 12px 18px;
+          border-radius: 10px;
+          text-decoration: none;
+          font-size: 11px;
+          font-weight: 900;
+        }
+
+        footer {
+          max-width: 980px;
+          margin: auto;
+          padding: 25px 24px 45px;
+          border-top: 1px solid rgba(148,163,184,.1);
+          display: flex;
+          justify-content: space-between;
+          color: #64748b;
+          font-size: 11px;
+        }
+
+        footer strong {
+          color: #cbd5e1;
+        }
+
+        .notFound {
+          min-height: 100vh;
+          background: #030712;
+          color: white;
+          display: grid;
+          place-items: center;
+          align-content: center;
+          gap: 10px;
+          font-family: system-ui;
+        }
+
+        .notFound h1 {
+          font-size: 50px;
+        }
+
+        .notFound a {
+          color: #22d3ee;
+        }
+
+        @media (max-width: 800px) {
+          nav {
+            display: none;
+          }
+
+          .features {
+            grid-template-columns: repeat(2,1fr);
+          }
+
+          .aboutGrid {
+            grid-template-columns: 1fr;
+          }
+
+          .cta {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .hero {
+            padding-top: 45px;
+          }
+
+          h1 {
+            letter-spacing: -2px;
+          }
+
+          .features {
+            grid-template-columns: 1fr;
+          }
+
+          .counter {
+            display: none;
+          }
+
+          .inputFooter {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .generateBtn {
+            width: 100%;
+          }
+
+          footer {
+            flex-direction: column;
+            gap: 8px;
+          }
+        }
+      `}</style>
+    </main>
+  );
+}

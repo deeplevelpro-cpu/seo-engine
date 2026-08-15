@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "mode": "controlled",
+  "indexable": true,
+  "maxTools": 15,
+  "variants": [
+    "online",
+    "free-online"
+  ],
+  "generatedAt": "2026-08-15T06:39:33.107Z",
+  "safety": {
+    "numberedRoutes": false,
+    "massGeneration": false,
+    "homepageChange": false,
+    "randomExpansion": false
+  }
+}

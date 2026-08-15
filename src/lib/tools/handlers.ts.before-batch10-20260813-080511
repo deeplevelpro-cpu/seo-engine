@@ -1,0 +1,1291 @@
+import type { ToolHandler } from "./types";
+
+function cleanText(text: string): string {
+  return text.trim();
+}
+
+function wordsOf(text: string): string[] {
+  return cleanText(text).split(/\s+/).filter(Boolean);
+}
+
+export const wordCounter: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+  const words = wordsOf(clean);
+  const sentences = clean
+    ? clean.split(/[.!?]+/).filter((item) => item.trim()).length
+    : 0;
+  const paragraphs = clean
+    ? clean.split(/\n\s*\n/).filter((item) => item.trim()).length
+    : 0;
+  const readingTime = Math.max(1, Math.ceil(words.length / 200));
+
+  return {
+    title: "Word Counter Result",
+    content: [
+      `Words: ${words.length}`,
+      `Characters: ${clean.length}`,
+      `Characters without spaces: ${clean.replace(/\s/g, "").length}`,
+      `Sentences: ${sentences}`,
+      `Paragraphs: ${paragraphs}`,
+      `Estimated reading time: ${readingTime} minute${readingTime === 1 ? "" : "s"}`,
+    ].join("\n"),
+  };
+};
+
+export const characterCounter: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+
+  return {
+    title: "Character Counter Result",
+    content: [
+      `Characters: ${clean.length}`,
+      `Characters without spaces: ${clean.replace(/\s/g, "").length}`,
+      `Spaces: ${(clean.match(/ /g) || []).length}`,
+      `Newlines: ${(clean.match(/\n/g) || []).length}`,
+    ].join("\n"),
+  };
+};
+
+export const sentenceCounter: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+
+  const sentences = clean
+    ? clean
+        .split(/[.!?]+/)
+        .map((sentence) => sentence.trim())
+        .filter(Boolean)
+    : [];
+
+  return {
+    title: "Sentence Counter Result",
+    content: `Sentences: ${sentences.length}`,
+  };
+};
+
+export const textReverser: ToolHandler = ({ text }) => {
+  const clean = text;
+
+  return {
+    title: "Reversed Text",
+    content: Array.from(clean).reverse().join(""),
+  };
+};
+
+export const textCaseConverter: ToolHandler = ({ text }) => {
+  const clean = text;
+
+  const titleCase = clean.replace(
+    /\w\S*/g,
+    (word) =>
+      word.charAt(0).toUpperCase() +
+      word.slice(1).toLowerCase()
+  );
+
+  const sentenceCase = clean
+    .toLowerCase()
+    .replace(/(^\s*\w|[.!?]\s+\w)/g, (match) =>
+      match.toUpperCase()
+    );
+
+  return {
+    title: "Text Case Conversion",
+    content: [
+      "UPPERCASE:",
+      clean.toUpperCase(),
+      "",
+      "lowercase:",
+      clean.toLowerCase(),
+      "",
+      "Title Case:",
+      titleCase,
+      "",
+      "Sentence Case:",
+      sentenceCase,
+    ].join("\n"),
+  };
+};
+
+export const textToSlug: ToolHandler = ({ text }) => {
+  const slug = cleanText(text)
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+  return {
+    title: "Generated Slug",
+    content: slug,
+  };
+};
+
+export const removeExtraSpaces: ToolHandler = ({ text }) => {
+  const result = text
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return {
+    title: "Cleaned Text",
+    content: result,
+  };
+};
+
+function randomCharacters(
+  length: number,
+  alphabet: string
+): string {
+  const values = new Uint32Array(length);
+
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+    crypto.getRandomValues(values);
+  } else {
+    for (let i = 0; i < length; i++) {
+      values[i] = Math.floor(Math.random() * 0xffffffff);
+    }
+  }
+
+  return Array.from(values, (value) =>
+    alphabet[value % alphabet.length]
+  ).join("");
+}
+
+export const randomStringGenerator: ToolHandler = () => {
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  const result = randomCharacters(20, alphabet);
+
+  return {
+    title: "Random String",
+    content: result,
+  };
+};
+
+export const passwordGenerator: ToolHandler = () => {
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()-_=+[]{}";
+
+  const required = [
+    randomCharacters(1, lowercase),
+    randomCharacters(1, uppercase),
+    randomCharacters(1, numbers),
+    randomCharacters(1, symbols),
+  ].join("");
+
+  const remaining = randomCharacters(
+    12,
+    lowercase + uppercase + numbers + symbols
+  );
+
+  const password = Array.from(required + remaining)
+    .sort(() => Math.random() - 0.5)
+    .join("");
+
+  return {
+    title: "Generated Password",
+    content: password,
+  };
+};
+
+export const keywordDensityChecker: ToolHandler = ({
+  text,
+  keyword,
+}) => {
+  const clean = cleanText(text);
+  const target = cleanText(keyword || "").toLowerCase();
+  const words = wordsOf(clean);
+
+  if (!target) {
+    return {
+      title: "Keyword Density",
+      content: "Please enter a keyword to check.",
+    };
+  }
+
+  const lower = clean.toLowerCase();
+  const matches =
+    target.length > 0
+      ? lower.split(target).length - 1
+      : 0;
+
+  const density =
+    words.length > 0
+      ? ((matches / words.length) * 100).toFixed(2)
+      : "0.00";
+
+  return {
+    title: "Keyword Density Result",
+    content: [
+      `Keyword: ${keyword}`,
+      `Keyword occurrences: ${matches}`,
+      `Total words: ${words.length}`,
+      `Keyword density: ${density}%`,
+    ].join("\n"),
+  };
+};
+
+export const keywordFrequencyChecker: ToolHandler = ({
+  text,
+  keyword,
+}) => {
+  const clean = cleanText(text);
+  const target = cleanText(keyword || "").toLowerCase();
+
+  if (!target) {
+    return {
+      title: "Keyword Frequency Checker",
+      content: "Please enter a keyword to check.",
+    };
+  }
+
+  const words = wordsOf(clean);
+  const lower = clean.toLowerCase();
+
+  const occurrences =
+    target.length > 0
+      ? lower.split(target).length - 1
+      : 0;
+
+  return {
+    title: "Keyword Frequency Result",
+    content: [
+      `Keyword: ${keyword}`,
+      `Occurrences: ${occurrences}`,
+      `Total words: ${words.length}`,
+      `Keyword frequency: ${
+        words.length
+          ? ((occurrences / words.length) * 100).toFixed(2)
+          : "0.00"
+      }%`,
+    ].join("\n"),
+  };
+};
+
+export const metaTagGenerator: ToolHandler = ({ text }) => {
+  const lines = cleanText(text)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const title = lines[0] || "Your Page Title";
+  const description =
+    lines.slice(1).join(" ") ||
+    "Your page description";
+
+  return {
+    title: "Meta Tags",
+    content: [
+      `<title>${title}</title>`,
+      `<meta name="description" content="${description}">`,
+    ].join("\n"),
+  };
+};
+
+export const metaDescriptionGenerator: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+
+  if (!clean) {
+    return {
+      title: "Meta Description",
+      content: "Please enter your topic or page content.",
+    };
+  }
+
+  const description = clean
+    .replace(/\s+/g, " ")
+    .slice(0, 155);
+
+  return {
+    title: "Generated Meta Description",
+    content: description,
+  };
+};
+
+export const titleTagGenerator: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+
+  if (!clean) {
+    return {
+      title: "Title Tag",
+      content: "Please enter a topic or keyword.",
+    };
+  }
+
+  const title =
+    clean
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 60);
+
+  return {
+    title: "Generated Title Tag",
+    content: title,
+  };
+};
+
+export const serpSnippetPreview: ToolHandler = ({ text }) => {
+  const lines = cleanText(text)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const title = (lines[0] || "Your Page Title").slice(0, 60);
+  const description = (
+    lines.slice(1).join(" ") ||
+    "Your meta description"
+  ).slice(0, 160);
+
+  return {
+    title: "SERP Snippet Preview",
+    content: [
+      `Title: ${title}`,
+      `Title length: ${title.length}`,
+      "",
+      `Description: ${description}`,
+      `Description length: ${description.length}`,
+      "",
+      "URL: https://example.com/your-page",
+    ].join("\n"),
+  };
+};
+
+export const robotsTxtGenerator: ToolHandler = ({ text }) => {
+  const site = cleanText(text).replace(/\/+$/, "");
+  const baseUrl = site || "https://example.com";
+
+  return {
+    title: "Robots.txt Generator",
+    content: [
+      "User-agent: *",
+      "Allow: /",
+      "",
+      `Sitemap: ${baseUrl}/sitemap.xml`,
+    ].join("\n"),
+  };
+};
+
+export const sitemapGenerator: ToolHandler = ({ text }) => {
+  const lines = cleanText(text)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const baseUrl = (lines.shift() || "https://example.com")
+    .replace(/\/+$/, "");
+
+  const urls = lines.length ? lines : ["/"];
+
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls.map((url) => {
+      const fullUrl = url.startsWith("http")
+        ? url
+        : `${baseUrl}${url.startsWith("/") ? "" : "/"}${url}`;
+
+      return `  <url><loc>${fullUrl}</loc></url>`;
+    }),
+    "</urlset>",
+  ].join("\n");
+
+  return {
+    title: "XML Sitemap",
+    content: xml,
+  };
+};
+
+export const canonicalUrlGenerator: ToolHandler = ({ text }) => {
+  const url = cleanText(text);
+
+  if (!url) {
+    return {
+      title: "Canonical URL",
+      content: "Please enter a page URL.",
+    };
+  }
+
+  return {
+    title: "Canonical URL",
+    content: `<link rel="canonical" href="${url}" />`,
+  };
+};
+
+export const openGraphGenerator: ToolHandler = ({ text }) => {
+  const lines = cleanText(text)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const title = lines[0] || "Your Page Title";
+  const description = lines[1] || "Your page description";
+  const url = lines[2] || "https://example.com/page";
+
+  return {
+    title: "Open Graph Tags",
+    content: [
+      `<meta property="og:title" content="${title}" />`,
+      `<meta property="og:description" content="${description}" />`,
+      `<meta property="og:url" content="${url}" />`,
+      `<meta property="og:type" content="website" />`,
+    ].join("\n"),
+  };
+};
+
+export const twitterCardGenerator: ToolHandler = ({ text }) => {
+  const lines = cleanText(text)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const title = lines[0] || "Your Page Title";
+  const description = lines[1] || "Your page description";
+
+  return {
+    title: "Twitter Card Tags",
+    content: [
+      `<meta name="twitter:card" content="summary_large_image" />`,
+      `<meta name="twitter:title" content="${title}" />`,
+      `<meta name="twitter:description" content="${description}" />`,
+    ].join("\n"),
+  };
+};
+
+export const schemaMarkupGenerator: ToolHandler = ({ text }) => {
+  const value = text.trim() || "Example Page";
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: value,
+  };
+
+  return {
+    title: "Schema Markup",
+    content: JSON.stringify(schema, null, 2),
+  };
+};
+
+export const faqSchemaGenerator: ToolHandler = ({ text }) => {
+  const lines = text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const questions = [];
+
+  for (let i = 0; i < lines.length; i += 2) {
+    const question = lines[i];
+    const answer = lines[i + 1];
+
+    if (!question || !answer) continue;
+
+    questions.push({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: answer,
+      },
+    });
+  }
+
+  if (questions.length === 0) {
+    questions.push({
+      "@type": "Question",
+      name: "What is this tool?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "This is an example FAQ answer.",
+      },
+    });
+  }
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: questions,
+  };
+
+  return {
+    title: "FAQ Schema",
+    content: JSON.stringify(schema, null, 2),
+  };
+};
+
+export const articleSchemaGenerator: ToolHandler = ({ text }) => {
+  const title = text.trim() || "Example Article";
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    author: {
+      "@type": "Person",
+      name: "Author",
+    },
+  };
+
+  return {
+    title: "Article Schema",
+    content: JSON.stringify(schema, null, 2),
+  };
+};
+
+export const breadcrumbSchemaGenerator: ToolHandler = ({ text }) => {
+  const items = text
+    .split(">")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const names =
+    items.length > 0
+      ? items
+      : ["Home", "Category", "Page"];
+
+  const itemListElement = names.map((name, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name,
+  }));
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement,
+  };
+
+  return {
+    title: "Breadcrumb Schema",
+    content: JSON.stringify(schema, null, 2),
+  };
+};
+
+export const localBusinessSchemaGenerator: ToolHandler = ({ text }) => {
+  const name = text.trim() || "Example Business";
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Example City",
+      addressCountry: "US",
+    },
+  };
+
+  return {
+    title: "Local Business Schema",
+    content: JSON.stringify(schema, null, 2),
+  };
+};
+
+export const organizationSchemaGenerator: ToolHandler = ({ text }) => {
+  const name = text.trim() || "Example Organization";
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name,
+    url: "https://example.com",
+  };
+
+  return {
+    title: "Organization Schema",
+    content: JSON.stringify(schema, null, 2),
+  };
+};
+
+export const websiteSchemaGenerator: ToolHandler = ({ text }) => {
+  const name = text.trim() || "Example Website";
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name,
+    url: "https://example.com",
+  };
+
+  return {
+    title: "Website Schema",
+    content: JSON.stringify(schema, null, 2),
+  };
+};
+
+export const seoSlugGenerator: ToolHandler = ({ text }) => {
+  const slug = text
+    .trim()
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return {
+    title: "SEO Slug",
+    content: slug || "example-page",
+  };
+};
+
+export const seoTitleChecker: ToolHandler = ({ text }) => {
+  const title = text.trim();
+  const length = title.length;
+
+  let status = "Good";
+
+  if (!title) {
+    status = "Missing";
+  } else if (length < 30) {
+    status = "Too Short";
+  } else if (length > 60) {
+    status = "Too Long";
+  }
+
+  return {
+    title: "SEO Title Check",
+    content: [
+      `Title: ${title || "(empty)"}`,
+      `Length: ${length}`,
+      `Status: ${status}`,
+      "Recommended length: 30-60 characters",
+    ].join("\n"),
+  };
+};
+
+export const metaDescriptionLengthChecker: ToolHandler = ({ text }) => {
+  const description = text.trim();
+  const length = description.length;
+
+  let status = "Good";
+
+  if (!description) {
+    status = "Missing";
+  } else if (length < 120) {
+    status = "Too Short";
+  } else if (length > 160) {
+    status = "Too Long";
+  }
+
+  return {
+    title: "Meta Description Length",
+    content: [
+      `Description: ${description || "(empty)"}`,
+      `Length: ${length}`,
+      `Status: ${status}`,
+      "Recommended length: 120-160 characters",
+    ].join("\n"),
+  };
+};
+
+export const headingStructureChecker: ToolHandler = ({ text }) => {
+  const clean = text.trim();
+
+  if (!clean) {
+    return {
+      title: "Heading Structure Check",
+      content: "Please enter text containing headings.",
+    };
+  }
+
+  const lines = clean.split(/\r?\n/);
+
+  const headings = lines
+    .map((line) => {
+      const match = line.match(/^(#{1,6})\s+(.+)$/);
+      if (!match) return null;
+
+      return {
+        level: match[1].length,
+        text: match[2].trim(),
+      };
+    })
+    .filter(Boolean) as { level: number; text: string }[];
+
+  if (!headings.length) {
+    return {
+      title: "Heading Structure Check",
+      content:
+        "No Markdown headings found. Use # for H1, ## for H2, ### for H3, and so on.",
+    };
+  }
+
+  const counts = headings.reduce<Record<number, number>>((acc, heading) => {
+    acc[heading.level] = (acc[heading.level] || 0) + 1;
+    return acc;
+  }, {});
+
+  const issues: string[] = [];
+
+  if (headings[0].level !== 1) {
+    issues.push("The first detected heading is not H1.");
+  }
+
+  for (let i = 1; i < headings.length; i++) {
+    const previous = headings[i - 1].level;
+    const current = headings[i].level;
+
+    if (current > previous + 1) {
+      issues.push(
+        `Heading hierarchy jumps from H${previous} to H${current}.`
+      );
+    }
+  }
+
+  return {
+    title: "Heading Structure Check",
+    content: [
+      `Total headings: ${headings.length}`,
+      `H1: ${counts[1] || 0}`,
+      `H2: ${counts[2] || 0}`,
+      `H3: ${counts[3] || 0}`,
+      `H4: ${counts[4] || 0}`,
+      `H5: ${counts[5] || 0}`,
+      `H6: ${counts[6] || 0}`,
+      "",
+      issues.length
+        ? `Issues:\n- ${issues.join("\n- ")}`
+        : "Status: Heading hierarchy looks good.",
+    ].join("\n"),
+  };
+};
+
+export const internalLinkChecker: ToolHandler = ({ text }) => {
+  const clean = text.trim();
+
+  if (!clean) {
+    return {
+      title: "Internal Link Checker",
+      content: "Please enter HTML or text containing links.",
+    };
+  }
+
+  const links = [...clean.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)]
+    .map((match) => match[1]);
+
+  const internal = links.filter((url) => {
+    return (
+      url.startsWith("/") ||
+      url.startsWith("#") ||
+      url.startsWith("./") ||
+      url.startsWith("../")
+    );
+  });
+
+  const external = links.filter((url) => !internal.includes(url));
+
+  return {
+    title: "Internal Link Checker",
+    content: [
+      `Total links found: ${links.length}`,
+      `Internal links: ${internal.length}`,
+      `External links: ${external.length}`,
+      "",
+      internal.length
+        ? `Internal URLs:\n${internal.map((url) => `- ${url}`).join("\n")}`
+        : "No internal links found.",
+    ].join("\n"),
+  };
+};
+
+export const keywordPlacementChecker: ToolHandler = ({ text, keyword }) => {
+  const clean = text.trim();
+  const target = (keyword || "").trim().toLowerCase();
+
+  if (!clean || !target) {
+    return {
+      title: "Keyword Placement Check",
+      content: "Please provide both content and a target keyword.",
+    };
+  }
+
+  const lines = clean.split(/\r?\n/);
+  const firstParagraph = lines.find((line) => line.trim()) || "";
+
+  const lower = clean.toLowerCase();
+
+  const placements = {
+    title:
+      lines[0]?.toLowerCase().includes(target) || false,
+    firstParagraph: firstParagraph.toLowerCase().includes(target),
+    headings: lines.some(
+      (line) =>
+        /^#{1,6}\s+/.test(line) &&
+        line.toLowerCase().includes(target)
+    ),
+    body: lower.includes(target),
+  };
+
+  const occurrences = lower.split(target).length - 1;
+
+  return {
+    title: "Keyword Placement Check",
+    content: [
+      `Keyword: ${keyword}`,
+      `Occurrences: ${occurrences}`,
+      `Title: ${placements.title ? "Found" : "Not found"}`,
+      `First paragraph: ${
+        placements.firstParagraph ? "Found" : "Not found"
+      }`,
+      `Headings: ${placements.headings ? "Found" : "Not found"}`,
+      `Body content: ${placements.body ? "Found" : "Not found"}`,
+    ].join("\n"),
+  };
+};
+
+export const paragraphCounter: ToolHandler = ({ text }) => {
+  const clean = text.trim();
+
+  if (!clean) {
+    return {
+      title: "Paragraph Counter",
+      content: "Paragraphs: 0",
+    };
+  }
+
+  const paragraphs = clean
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
+  return {
+    title: "Paragraph Counter",
+    content: [
+      `Paragraphs: ${paragraphs.length}`,
+      `Words: ${clean.split(/\s+/).filter(Boolean).length}`,
+      `Characters: ${clean.length}`,
+    ].join("\n"),
+  };
+};
+
+export const readingTimeCalculator: ToolHandler = ({ text }) => {
+  const clean = text.trim();
+
+  if (!clean) {
+    return {
+      title: "Reading Time Calculator",
+      content: "Reading time: 0 minutes",
+    };
+  }
+
+  const words = clean.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(words / 200));
+
+  return {
+    title: "Reading Time Calculator",
+    content: [
+      `Words: ${words}`,
+      `Estimated reading time: ${minutes} minute${
+        minutes === 1 ? "" : "s"
+      }`,
+      "Calculation: approximately 200 words per minute.",
+    ].join("\n"),
+  };
+};
+
+export const removeDuplicateLines: ToolHandler = ({ text }) => {
+  const lines = text.split(/\r?\n/);
+
+  const seen = new Set<string>();
+  const unique: string[] = [];
+
+  for (const line of lines) {
+    if (!seen.has(line)) {
+      seen.add(line);
+      unique.push(line);
+    }
+  }
+
+  return {
+    title: "Duplicate Lines Removed",
+    content: [
+      `Original lines: ${lines.length}`,
+      `Unique lines: ${unique.length}`,
+      `Duplicates removed: ${lines.length - unique.length}`,
+      "",
+      unique.join("\n"),
+    ].join("\n"),
+  };
+};
+
+export const removeEmptyLines: ToolHandler = ({ text }) => {
+  const lines = text.split(/\r?\n/);
+  const cleaned = lines.filter((line) => line.trim() !== "");
+
+  return {
+    title: "Empty Lines Removed",
+    content: [
+      `Original lines: ${lines.length}`,
+      `Remaining lines: ${cleaned.length}`,
+      `Empty lines removed: ${lines.length - cleaned.length}`,
+      "",
+      cleaned.join("\n"),
+    ].join("\n"),
+  };
+};
+
+export const lineCounter: ToolHandler = ({ text }) => {
+  if (!text) {
+    return {
+      title: "Line Counter",
+      content: "Lines: 0",
+    };
+  }
+
+  const lines = text.split(/\r?\n/);
+
+  return {
+    title: "Line Counter",
+    content: [
+      `Lines: ${lines.length}`,
+      `Non-empty lines: ${lines.filter((line) => line.trim()).length}`,
+      `Empty lines: ${lines.filter((line) => !line.trim()).length}`,
+    ].join("\n"),
+  };
+};
+
+export const wordFrequencyCounter: ToolHandler = ({ text }) => {
+  const words = text
+    .toLowerCase()
+    .match(/[a-z0-9]+(?:['’-][a-z0-9]+)*/gi) || [];
+
+  const frequencies = new Map<string, number>();
+
+  for (const word of words) {
+    frequencies.set(word, (frequencies.get(word) || 0) + 1);
+  }
+
+  const sorted = [...frequencies.entries()]
+    .sort((a, b) => {
+      if (b[1] !== a[1]) return b[1] - a[1];
+      return a[0].localeCompare(b[0]);
+    });
+
+  return {
+    title: "Word Frequency",
+    content: [
+      `Total words: ${words.length}`,
+      `Unique words: ${sorted.length}`,
+      "",
+      sorted
+        .slice(0, 20)
+        .map(([word, count], index) => `${index + 1}. ${word}: ${count}`)
+        .join("\n"),
+    ].join("\n"),
+  };
+};
+
+export const textSorter: ToolHandler = ({ text }) => {
+  const lines = text.split(/\r?\n/);
+
+  const sorted = [...lines].sort((a, b) =>
+    a.localeCompare(b, undefined, {
+      sensitivity: "base",
+      numeric: true,
+    })
+  );
+
+  return {
+    title: "Sorted Text",
+    content: [
+      `Lines sorted: ${lines.length}`,
+      "",
+      sorted.join("\n"),
+    ].join("\n"),
+  };
+};
+
+
+export const findAndReplaceText: ToolHandler = ({ text, keyword }) => {
+  const input = text || "";
+  const parts = (keyword || "").split("=>");
+  const find = parts[0]?.trim() || "";
+  const replace = parts.slice(1).join("=>").trim();
+
+  if (!find) {
+    return {
+      title: "Find and Replace",
+      content: "Provide the text to find using: find => replace",
+    };
+  }
+
+  const occurrences = input.split(find).length - 1;
+  const output = input.split(find).join(replace);
+
+  return {
+    title: "Find and Replace Result",
+    content: [
+      `Find: ${find}`,
+      `Replace: ${replace}`,
+      `Occurrences replaced: ${occurrences}`,
+      "",
+      output,
+    ].join("\n"),
+  };
+};
+
+export const loremIpsumGenerator: ToolHandler = ({ text }) => {
+  const requested = Number.parseInt(text.trim(), 10);
+  const paragraphs = Math.min(
+    10,
+    Math.max(1, Number.isFinite(requested) ? requested : 1)
+  );
+
+  const base =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
+  return {
+    title: "Lorem Ipsum Generator",
+    content: Array.from({ length: paragraphs }, () => base).join("\n\n"),
+  };
+};
+
+export const textCleaner: ToolHandler = ({ text }) => {
+  const cleaned = text
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return {
+    title: "Text Cleaner",
+    content: cleaned,
+  };
+};
+
+export const duplicateWordFinder: ToolHandler = ({ text }) => {
+  const words = text
+    .toLowerCase()
+    .match(/[a-z0-9']+/g) || [];
+
+  const counts = new Map<string, number>();
+
+  for (const word of words) {
+    counts.set(word, (counts.get(word) || 0) + 1);
+  }
+
+  const duplicates = [...counts.entries()]
+    .filter(([, count]) => count > 1)
+    .sort((a, b) => b[1] - a[1]);
+
+  return {
+    title: "Duplicate Word Finder",
+    content: duplicates.length
+      ? duplicates
+          .map(([word, count], index) => `${index + 1}. ${word}: ${count}`)
+          .join("\n")
+      : "No duplicate words found.",
+  };
+};
+
+export const palindromeChecker: ToolHandler = ({ text }) => {
+  const clean = text.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const reversed = clean.split("").reverse().join("");
+  const isPalindrome = clean.length > 0 && clean === reversed;
+
+  return {
+    title: "Palindrome Checker",
+    content: [
+      `Input: ${text}`,
+      `Normalized: ${clean}`,
+      `Palindrome: ${isPalindrome ? "Yes" : "No"}`,
+    ].join("\n"),
+  };
+};
+
+
+export const jsonFormatter: ToolHandler = ({ text }) => {
+  try {
+    const parsed = JSON.parse(text);
+    return {
+      title: "JSON Formatter",
+      content: JSON.stringify(parsed, null, 2),
+    };
+  } catch {
+    return {
+      title: "JSON Formatter",
+      content: "Invalid JSON. Please provide valid JSON.",
+    };
+  }
+};
+
+export const jsonValidator: ToolHandler = ({ text }) => {
+  try {
+    JSON.parse(text);
+    return {
+      title: "JSON Validator",
+      content: "Valid JSON: Yes",
+    };
+  } catch (error) {
+    return {
+      title: "JSON Validator",
+      content: [
+        "Valid JSON: No",
+        `Error: ${error instanceof Error ? error.message : "Invalid JSON"}`,
+      ].join("\n"),
+    };
+  }
+};
+
+export const jsonMinifier: ToolHandler = ({ text }) => {
+  try {
+    const parsed = JSON.parse(text);
+    return {
+      title: "JSON Minifier",
+      content: JSON.stringify(parsed),
+    };
+  } catch {
+    return {
+      title: "JSON Minifier",
+      content: "Invalid JSON. Please provide valid JSON.",
+    };
+  }
+};
+
+export const base64Encoder: ToolHandler = ({ text }) => {
+  return {
+    title: "Base64 Encoder",
+    content: Buffer.from(text, "utf8").toString("base64"),
+  };
+};
+
+export const base64Decoder: ToolHandler = ({ text }) => {
+  try {
+    return {
+      title: "Base64 Decoder",
+      content: Buffer.from(text.trim(), "base64").toString("utf8"),
+    };
+  } catch {
+    return {
+      title: "Base64 Decoder",
+      content: "Unable to decode the supplied Base64 text.",
+    };
+  }
+};
+
+
+export const urlEncoder: ToolHandler = ({ text }) => {
+  return {
+    title: "URL Encoder",
+    content: encodeURIComponent(text),
+  };
+};
+
+export const urlDecoder: ToolHandler = ({ text }) => {
+  try {
+    return {
+      title: "URL Decoder",
+      content: decodeURIComponent(text),
+    };
+  } catch {
+    return {
+      title: "URL Decoder",
+      content: "Invalid URL-encoded text.",
+    };
+  }
+};
+
+export const xmlFormatter: ToolHandler = ({ text }) => {
+  const input = text.trim();
+
+  if (!input) {
+    return {
+      title: "XML Formatter",
+      content: "Please provide XML.",
+    };
+  }
+
+  const formatted = input
+    .replace(/>\s*</g, "><")
+    .replace(/></g, ">\n<")
+    .split("\n")
+    .map((line, index, lines) => {
+      let depth = 0;
+
+      for (let i = 0; i < index; i++) {
+        const value = lines[i].trim();
+
+        if (
+          /^<[^/!?][^>]*>$/.test(value) &&
+          !/<\/[^>]+>$/.test(value)
+        ) {
+          depth++;
+        }
+
+        if (/^<\/[^>]+>$/.test(value)) {
+          depth = Math.max(0, depth - 1);
+        }
+      }
+
+      const current = line.trim();
+
+      if (/^<\/[^>]+>/.test(current)) {
+        depth = Math.max(0, depth - 1);
+      }
+
+      const result = "  ".repeat(depth) + current;
+
+      return result;
+    })
+    .join("\n");
+
+  return {
+    title: "XML Formatter",
+    content: formatted,
+  };
+};
+
+export const xmlValidator: ToolHandler = ({ text }) => {
+  const input = text.trim();
+
+  if (!input) {
+    return {
+      title: "XML Validator",
+      content: "Valid XML: No\nError: Empty XML input.",
+    };
+  }
+
+  const hasRoot = /^<([A-Za-z_][\w:.-]*)(?:\s[^>]*)?>[\s\S]*<\/\1>\s*$/.test(
+    input
+  );
+
+  const hasSelfClosingRoot =
+    /^<([A-Za-z_][\w:.-]*)(?:\s[^>]*)?\/>\s*$/.test(input);
+
+  return {
+    title: "XML Validator",
+    content: hasRoot || hasSelfClosingRoot
+      ? "Valid XML: Yes"
+      : "Valid XML: No\nError: XML root structure appears invalid.",
+  };
+};
+
+export const cssFormatter: ToolHandler = ({ text }) => {
+  const input = text.trim();
+
+  if (!input) {
+    return {
+      title: "CSS Formatter",
+      content: "Please provide CSS.",
+    };
+  }
+
+  const formatted = input
+    .replace(/\s+/g, " ")
+    .replace(/\s*{\s*/g, " {\n  ")
+    .replace(/;\s*/g, ";\n  ")
+    .replace(/\s*}\s*/g, "\n}\n")
+    .replace(/\n\s*\n/g, "\n")
+    .trim();
+
+  return {
+    title: "CSS Formatter",
+    content: formatted,
+  };
+};

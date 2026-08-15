@@ -1,0 +1,1082 @@
+"use client";
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import toolsData from "@/data/tools";
+
+export default function ToolPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+
+  const [text, setText] = useState("");
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const tool = toolsData[slug as keyof typeof toolsData];
+
+  if (!tool) {
+    return (
+      <main className="not-found-page">
+        <div className="not-found-card">
+          <div className="not-found-icon">⚡</div>
+          <h1>Tool Not Found</h1>
+          <p>The requested tool could not be found.</p>
+          <a href="/tools">← Browse All Tools</a>
+        </div>
+      </main>
+    );
+  }
+
+  const runAI = async () => {
+    if (!text.trim()) {
+      setError("Please enter some content first.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    setResult("");
+
+    try {
+      const res = await fetch("/api/ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: `You are a professional ${tool.title}.
+${tool.description}
+
+Analyze the user's input and provide a useful, accurate and professional result.
+
+User input:
+${text}`,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(
+          data?.error?.message ||
+            "AI service is temporarily unavailable. Please try again later."
+        );
+        return;
+      }
+
+      setResult(data.result || "No result was generated.");
+    } catch {
+      setError("Unable to connect to the AI service.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clearAll = () => {
+    setText("");
+    setResult("");
+    setError("");
+  };
+
+  const copyResult = async () => {
+    if (!result) return;
+
+    try {
+      await navigator.clipboard.writeText(result);
+    } catch {}
+  };
+
+  return (
+    <>
+      <main className="tool-page">
+
+        {/* Background effects */}
+        <div className="bg-glow bg-glow-one" />
+        <div className="bg-glow bg-glow-two" />
+        <div className="grid-bg" />
+
+        {/* NAVBAR */}
+        <nav className="tool-nav">
+          <a href="/" className="brand">
+            <span className="brand-icon">⚡</span>
+            <span>AI TOOL <b>ENGINE</b></span>
+          </a>
+
+          <div className="nav-links">
+            <a href="/">Home</a>
+            <a href="/tools" className="active">Tools</a>
+            <a href="/blog">Blog</a>
+            <a href="/contact">Contact</a>
+          </div>
+
+          <a href="/tools" className="all-tools-btn">
+            ▦ &nbsp; All 1000+ Tools
+          </a>
+        </nav>
+
+        <div className="tool-container">
+
+          {/* BREADCRUMB */}
+          <div className="breadcrumb">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/tools">Tools</a>
+            <span>›</span>
+            <strong>{tool.title}</strong>
+          </div>
+
+          {/* HERO */}
+          <section className="hero">
+
+            <div className="tool-badge">
+              <span className="green-dot" />
+              FREE ONLINE AI TOOL
+            </div>
+
+            <h1>{tool.title}</h1>
+
+            <p className="hero-description">
+              {tool.description}. Get fast, professional results with our
+              powerful online AI tool.
+            </p>
+
+            <div className="hero-badges">
+              <span>⚡ 100% FREE</span>
+              <span>🚀 INSTANT RESULTS</span>
+              <span>🛡️ SIMPLE & EASY</span>
+            </div>
+
+          </section>
+
+          {/* INPUT CARD */}
+          <section className="tool-card input-card">
+
+            <div className="card-heading">
+              <div className="heading-icon purple">✎</div>
+
+              <div>
+                <h2>YOUR INPUT</h2>
+                <p>Enter your content below and let AI do the magic ✨</p>
+              </div>
+
+              <div className="character-count">
+                {text.length.toLocaleString()} Characters
+              </div>
+            </div>
+
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Paste your content here..."
+              className="tool-textarea"
+            />
+
+            <div className="input-actions">
+
+              <button
+                className="clear-btn"
+                onClick={clearAll}
+              >
+                🗑 Clear All
+              </button>
+
+              <button
+                className="generate-btn"
+                onClick={runAI}
+                disabled={loading}
+              >
+                {loading ? "⏳ PROCESSING..." : "🚀 GENERATE RESULT"}
+              </button>
+
+              <span className="ai-powered">
+                ✨ AI Powered
+              </span>
+
+            </div>
+
+            {error && (
+              <div className="error-box">
+                ⚠️ {error}
+              </div>
+            )}
+
+          </section>
+
+          {/* RESULT */}
+          <section className="tool-card result-card">
+
+            <div className="card-heading">
+
+              <div className="heading-icon blue">▣</div>
+
+              <div>
+                <h2>YOUR RESULT</h2>
+                <p>Your AI generated result will appear here</p>
+              </div>
+
+              <button
+                className="copy-btn"
+                onClick={copyResult}
+                disabled={!result}
+              >
+                📋 Copy Result
+              </button>
+
+            </div>
+
+            <div className={`result-box ${result ? "has-result" : ""}`}>
+
+              {result ? (
+                <pre>{result}</pre>
+              ) : (
+                <div className="empty-result">
+                  <div className="result-icon">📄</div>
+                  <h3>Your result will appear here</h3>
+                  <p>
+                    Enter your content above and click
+                    <strong> "Generate Result"</strong> to get started.
+                  </p>
+                </div>
+              )}
+
+            </div>
+
+          </section>
+
+          {/* FEATURES */}
+          <section className="features">
+
+            <div className="feature">
+              <div className="feature-icon green">◎</div>
+              <div>
+                <h3>ACCURATE</h3>
+                <p>Get precise and useful results.</p>
+              </div>
+            </div>
+
+            <div className="feature">
+              <div className="feature-icon blue">ϟ</div>
+              <div>
+                <h3>FAST</h3>
+                <p>Get results in just one click.</p>
+              </div>
+            </div>
+
+            <div className="feature">
+              <div className="feature-icon purple">♢</div>
+              <div>
+                <h3>SECURE</h3>
+                <p>Your content stays private.</p>
+              </div>
+            </div>
+
+            <div className="feature">
+              <div className="feature-icon yellow">☺</div>
+              <div>
+                <h3>EASY TO USE</h3>
+                <p>Simple interface for everyone.</p>
+              </div>
+            </div>
+
+          </section>
+
+          {/* ABOUT */}
+          <section className="about-card">
+
+            <div className="section-title">
+              <span />
+              <h2>ABOUT <b>{tool.title}</b></h2>
+              <span />
+            </div>
+
+            <div className="about-grid">
+
+              <div className="about-column">
+                <div className="about-icon purple">?</div>
+                <h3>WHAT IS THIS TOOL?</h3>
+                <p>
+                  {tool.title} is a free online tool designed to make
+                  your everyday work faster and easier. Enter your
+                  content above and get a useful result instantly.
+                </p>
+              </div>
+
+              <div className="about-column">
+                <div className="about-icon blue">▤</div>
+                <h3>HOW TO USE</h3>
+
+                <ul>
+                  <li>✓ Enter your content in the input box.</li>
+                  <li>✓ Click the Generate Result button.</li>
+                  <li>✓ Let our AI analyze your content.</li>
+                  <li>✓ View and copy your result.</li>
+                </ul>
+              </div>
+
+              <div className="about-column">
+                <div className="about-icon green">✓</div>
+                <h3>BENEFITS</h3>
+
+                <ul>
+                  <li>✓ Fast online results</li>
+                  <li>✓ Easy for beginners</li>
+                  <li>✓ No complicated setup</li>
+                  <li>✓ Available anywhere online</li>
+                </ul>
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* CTA */}
+          <section className="bottom-cta">
+
+            <div className="cta-icon">▦</div>
+
+            <div>
+              <h2>EXPLORE MORE POWERFUL AI TOOLS</h2>
+              <p>Access 1000+ free AI tools for all your needs.</p>
+            </div>
+
+            <a href="/tools">
+              BROWSE ALL TOOLS →
+            </a>
+
+          </section>
+
+        </div>
+      </main>
+
+      <style jsx global>{`
+
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          background: #030611;
+          color: #fff;
+          font-family: Inter, Arial, Helvetica, sans-serif;
+        }
+
+        .tool-page {
+          min-height: 100vh;
+          position: relative;
+          overflow: hidden;
+          background:
+            radial-gradient(circle at 15% 20%, rgba(0,120,255,.12), transparent 30%),
+            radial-gradient(circle at 85% 20%, rgba(150,0,255,.15), transparent 30%),
+            #030611;
+        }
+
+        .grid-bg {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          opacity: .18;
+          background-image:
+            linear-gradient(rgba(40,120,255,.12) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(40,120,255,.12) 1px, transparent 1px);
+          background-size: 55px 55px;
+          mask-image: linear-gradient(to bottom, black, transparent 80%);
+        }
+
+        .bg-glow {
+          position: absolute;
+          width: 420px;
+          height: 420px;
+          border-radius: 50%;
+          filter: blur(100px);
+          pointer-events: none;
+          opacity: .16;
+        }
+
+        .bg-glow-one {
+          background: #0066ff;
+          top: 200px;
+          left: -250px;
+        }
+
+        .bg-glow-two {
+          background: #8b00ff;
+          top: 300px;
+          right: -250px;
+        }
+
+        .tool-nav {
+          height: 74px;
+          padding: 0 5%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid rgba(120,150,255,.16);
+          background: rgba(2,5,18,.85);
+          backdrop-filter: blur(20px);
+          position: relative;
+          z-index: 10;
+        }
+
+        .brand {
+          color: white;
+          text-decoration: none;
+          font-size: 21px;
+          font-weight: 900;
+          letter-spacing: -.5px;
+          display: flex;
+          align-items: center;
+          gap: 9px;
+        }
+
+        .brand-icon {
+          color: #00aaff;
+          font-size: 27px;
+        }
+
+        .brand b {
+          color: #00aaff;
+        }
+
+        .nav-links {
+          display: flex;
+          gap: 34px;
+        }
+
+        .nav-links a {
+          color: #d5d8e5;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 700;
+          transition: .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links .active {
+          color: #19aaff;
+        }
+
+        .all-tools-btn,
+        .bottom-cta a {
+          text-decoration: none;
+          color: white;
+          font-weight: 900;
+          border-radius: 12px;
+          padding: 13px 20px;
+          background: linear-gradient(100deg,#167cff,#8d19ff);
+          box-shadow: 0 0 25px rgba(90,60,255,.35);
+        }
+
+        .tool-container {
+          width: min(1180px, 92%);
+          margin: auto;
+          position: relative;
+          z-index: 2;
+          padding-bottom: 70px;
+        }
+
+        .breadcrumb {
+          padding: 26px 0 10px;
+          display: flex;
+          gap: 12px;
+          color: #8993ad;
+          font-size: 13px;
+        }
+
+        .breadcrumb a {
+          color: #b5bed3;
+          text-decoration: none;
+        }
+
+        .breadcrumb strong {
+          color: #13aaff;
+        }
+
+        .hero {
+          text-align: center;
+          padding: 35px 0 42px;
+        }
+
+        .tool-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 18px;
+          border: 1px solid rgba(80,160,255,.35);
+          border-radius: 999px;
+          color: #ffd15c;
+          font-size: 13px;
+          font-weight: 900;
+          background: rgba(15,25,55,.55);
+        }
+
+        .green-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #25e46a;
+          box-shadow: 0 0 12px #25e46a;
+        }
+
+        .hero h1 {
+          margin: 25px auto 15px;
+          max-width: 1050px;
+          font-size: clamp(42px, 6vw, 76px);
+          line-height: .98;
+          font-weight: 1000;
+          letter-spacing: -3px;
+          text-transform: uppercase;
+          color: white;
+          text-shadow:
+            0 0 8px rgba(255,255,255,.7),
+            0 0 35px rgba(35,125,255,.35);
+        }
+
+        .hero-description {
+          max-width: 760px;
+          margin: auto;
+          color: #b9c2d7;
+          font-size: 17px;
+          line-height: 1.7;
+        }
+
+        .hero-badges {
+          margin-top: 23px;
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .hero-badges span {
+          padding: 8px 16px;
+          border: 1px solid rgba(100,140,255,.25);
+          border-radius: 999px;
+          background: rgba(20,25,55,.65);
+          color: #d8e2ff;
+          font-size: 12px;
+          font-weight: 900;
+        }
+
+        .tool-card,
+        .about-card,
+        .features,
+        .bottom-cta {
+          border: 1px solid rgba(90,155,255,.4);
+          background: linear-gradient(
+            145deg,
+            rgba(14,22,48,.94),
+            rgba(7,11,28,.94)
+          );
+          box-shadow:
+            0 20px 60px rgba(0,0,0,.3),
+            inset 0 0 30px rgba(40,100,255,.025);
+          border-radius: 17px;
+        }
+
+        .tool-card {
+          padding: 24px;
+          margin-bottom: 18px;
+        }
+
+        .input-card {
+          border-color: rgba(0,174,255,.7);
+          box-shadow: 0 0 35px rgba(0,140,255,.08);
+        }
+
+        .card-heading {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 18px;
+        }
+
+        .heading-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          display: grid;
+          place-items: center;
+          font-size: 23px;
+          font-weight: 900;
+        }
+
+        .purple {
+          color: #d77cff;
+          background: linear-gradient(145deg,#7c20e8,#36147b);
+        }
+
+        .blue {
+          color: #67d7ff;
+          background: linear-gradient(145deg,#087fd5,#102d78);
+        }
+
+        .card-heading h2 {
+          margin: 0;
+          font-size: 22px;
+          font-weight: 1000;
+          letter-spacing: .5px;
+        }
+
+        .card-heading p {
+          margin: 5px 0 0;
+          color: #8791a9;
+          font-size: 13px;
+        }
+
+        .character-count {
+          margin-left: auto;
+          border: 1px solid rgba(80,130,255,.3);
+          background: rgba(20,30,60,.7);
+          padding: 8px 13px;
+          border-radius: 999px;
+          color: #c9d7ff;
+          font-size: 12px;
+        }
+
+        .tool-textarea {
+          width: 100%;
+          min-height: 210px;
+          resize: vertical;
+          padding: 20px;
+          border-radius: 12px;
+          border: 1px solid rgba(110,135,190,.3);
+          outline: none;
+          background: rgba(4,8,22,.85);
+          color: white;
+          font-size: 15px;
+          line-height: 1.7;
+          transition: .2s;
+        }
+
+        .tool-textarea:focus {
+          border-color: #168dff;
+          box-shadow: 0 0 25px rgba(0,130,255,.12);
+        }
+
+        .tool-textarea::placeholder {
+          color: #5e6880;
+        }
+
+        .input-actions {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          margin-top: 17px;
+        }
+
+        .clear-btn,
+        .copy-btn {
+          border: 1px solid rgba(130,150,200,.35);
+          background: rgba(10,15,32,.8);
+          color: #d7deee;
+          padding: 12px 18px;
+          border-radius: 10px;
+          cursor: pointer;
+          font-weight: 800;
+        }
+
+        .generate-btn {
+          flex: 1;
+          max-width: 560px;
+          margin: auto;
+          border: 0;
+          border-radius: 11px;
+          padding: 15px 25px;
+          color: white;
+          font-weight: 1000;
+          font-size: 14px;
+          cursor: pointer;
+          background: linear-gradient(100deg,#147dff,#9217ff);
+          box-shadow: 0 0 30px rgba(90,40,255,.3);
+          transition: .2s;
+        }
+
+        .generate-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0 40px rgba(100,50,255,.5);
+        }
+
+        .generate-btn:disabled {
+          opacity: .6;
+          cursor: wait;
+        }
+
+        .ai-powered {
+          color: #4cf58a;
+          font-size: 13px;
+          white-space: nowrap;
+          font-weight: 800;
+        }
+
+        .error-box {
+          margin-top: 15px;
+          padding: 13px 16px;
+          border: 1px solid rgba(255,175,0,.6);
+          border-radius: 10px;
+          background: rgba(100,60,0,.16);
+          color: #ffd36b;
+          font-size: 13px;
+        }
+
+        .copy-btn {
+          margin-left: auto;
+          color: #dc75ff;
+          border-color: #982eff;
+        }
+
+        .result-box {
+          min-height: 220px;
+          border: 1px solid rgba(100,130,190,.28);
+          border-radius: 12px;
+          background: rgba(3,7,20,.75);
+          display: grid;
+          place-items: center;
+          padding: 25px;
+        }
+
+        .result-box.has-result {
+          display: block;
+        }
+
+        .result-box pre {
+          white-space: pre-wrap;
+          color: #e4eaff;
+          line-height: 1.75;
+          font-family: inherit;
+          margin: 0;
+        }
+
+        .empty-result {
+          text-align: center;
+          color: #6f7b96;
+        }
+
+        .result-icon {
+          width: 52px;
+          height: 52px;
+          margin: 0 auto 12px;
+          border-radius: 50%;
+          display: grid;
+          place-items: center;
+          border: 1px solid #6336e9;
+          color: #c75cff;
+          box-shadow: 0 0 25px rgba(130,50,255,.25);
+        }
+
+        .empty-result h3 {
+          color: #c35dff;
+          margin: 0 0 8px;
+          font-weight: 1000;
+        }
+
+        .empty-result p {
+          margin: 0;
+          font-size: 13px;
+        }
+
+        .features {
+          display: grid;
+          grid-template-columns: repeat(4,1fr);
+          margin: 18px 0;
+          padding: 8px;
+        }
+
+        .feature {
+          padding: 20px;
+          display: flex;
+          gap: 13px;
+          align-items: center;
+          border-right: 1px solid rgba(100,130,180,.2);
+        }
+
+        .feature:last-child {
+          border-right: 0;
+        }
+
+        .feature-icon,
+        .about-icon {
+          width: 47px;
+          height: 47px;
+          min-width: 47px;
+          border-radius: 50%;
+          display: grid;
+          place-items: center;
+          font-size: 22px;
+          font-weight: 1000;
+        }
+
+        .green {
+          color: #35f49a;
+          background: rgba(20,100,70,.35);
+        }
+
+        .yellow {
+          color: #ffd247;
+          background: rgba(100,75,10,.35);
+        }
+
+        .feature h3,
+        .about-column h3 {
+          margin: 0 0 5px;
+          font-size: 13px;
+          font-weight: 1000;
+          letter-spacing: .5px;
+        }
+
+        .feature:nth-child(1) h3 { color: #31ed9b; }
+        .feature:nth-child(2) h3 { color: #22bfff; }
+        .feature:nth-child(3) h3 { color: #d061ff; }
+        .feature:nth-child(4) h3 { color: #ffd13d; }
+
+        .feature p {
+          margin: 0;
+          color: #7f8aa3;
+          font-size: 12px;
+          line-height: 1.4;
+        }
+
+        .about-card {
+          margin-top: 18px;
+          padding: 30px;
+        }
+
+        .section-title {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          justify-content: center;
+          margin-bottom: 30px;
+        }
+
+        .section-title span {
+          height: 1px;
+          width: 100px;
+          background: linear-gradient(90deg,transparent,#873cff);
+        }
+
+        .section-title h2 {
+          margin: 0;
+          font-size: 24px;
+          font-weight: 1000;
+          text-align: center;
+        }
+
+        .section-title b {
+          color: #b83cff;
+        }
+
+        .about-grid {
+          display: grid;
+          grid-template-columns: repeat(3,1fr);
+        }
+
+        .about-column {
+          padding: 8px 28px;
+          border-right: 1px solid rgba(100,130,180,.2);
+        }
+
+        .about-column:last-child {
+          border: 0;
+        }
+
+        .about-column h3 {
+          color: #ba4cff;
+          margin-top: 14px;
+        }
+
+        .about-column:nth-child(2) h3 {
+          color: #18bfff;
+        }
+
+        .about-column:nth-child(3) h3 {
+          color: #31ec83;
+        }
+
+        .about-column p,
+        .about-column li {
+          color: #a2abc0;
+          font-size: 13px;
+          line-height: 1.7;
+        }
+
+        .about-column ul {
+          padding: 0;
+          list-style: none;
+        }
+
+        .about-column li {
+          margin: 8px 0;
+          color: #c4cede;
+        }
+
+        .bottom-cta {
+          margin-top: 18px;
+          padding: 22px 28px;
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          border-color: rgba(140,50,255,.55);
+        }
+
+        .cta-icon {
+          width: 55px;
+          height: 55px;
+          border-radius: 50%;
+          display: grid;
+          place-items: center;
+          font-size: 25px;
+          background: linear-gradient(135deg,#205cff,#8e1fff);
+          box-shadow: 0 0 30px rgba(80,40,255,.35);
+        }
+
+        .bottom-cta h2 {
+          margin: 0 0 5px;
+          font-size: 20px;
+          font-weight: 1000;
+        }
+
+        .bottom-cta p {
+          margin: 0;
+          color: #8993aa;
+          font-size: 13px;
+        }
+
+        .bottom-cta a {
+          margin-left: auto;
+          white-space: nowrap;
+        }
+
+        .not-found-page {
+          min-height: 100vh;
+          display: grid;
+          place-items: center;
+          background: #030611;
+          color: white;
+        }
+
+        .not-found-card {
+          text-align: center;
+          padding: 50px;
+          border: 1px solid #273c70;
+          border-radius: 20px;
+          background: #0b1227;
+        }
+
+        .not-found-icon {
+          font-size: 50px;
+        }
+
+        .not-found-card a {
+          color: #31baff;
+          text-decoration: none;
+        }
+
+        @media (max-width: 850px) {
+
+          .nav-links {
+            display: none;
+          }
+
+          .features {
+            grid-template-columns: repeat(2,1fr);
+          }
+
+          .feature:nth-child(2) {
+            border-right: 0;
+          }
+
+          .about-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .about-column {
+            border-right: 0;
+            border-bottom: 1px solid rgba(100,130,180,.2);
+            padding: 22px 5px;
+          }
+
+          .bottom-cta {
+            flex-wrap: wrap;
+          }
+
+          .bottom-cta a {
+            margin-left: 0;
+          }
+
+        }
+
+        @media (max-width: 600px) {
+
+          .tool-nav {
+            padding: 0 4%;
+          }
+
+          .brand {
+            font-size: 16px;
+          }
+
+          .all-tools-btn {
+            padding: 10px 12px;
+            font-size: 11px;
+          }
+
+          .hero h1 {
+            font-size: 40px;
+            letter-spacing: -1.5px;
+          }
+
+          .hero-description {
+            font-size: 14px;
+          }
+
+          .tool-card {
+            padding: 16px;
+          }
+
+          .card-heading {
+            flex-wrap: wrap;
+          }
+
+          .character-count {
+            margin-left: 0;
+          }
+
+          .input-actions {
+            flex-wrap: wrap;
+          }
+
+          .generate-btn {
+            order: 2;
+            flex-basis: 100%;
+            max-width: none;
+          }
+
+          .ai-powered {
+            margin-left: auto;
+          }
+
+          .features {
+            grid-template-columns: 1fr;
+          }
+
+          .feature {
+            border-right: 0;
+            border-bottom: 1px solid rgba(100,130,180,.2);
+          }
+
+          .feature:last-child {
+            border-bottom: 0;
+          }
+
+          .section-title h2 {
+            font-size: 18px;
+          }
+
+        }
+
+      `}</style>
+    </>
+  );
+}

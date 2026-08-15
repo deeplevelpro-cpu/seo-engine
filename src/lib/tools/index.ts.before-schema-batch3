@@ -1,0 +1,78 @@
+import type { ToolHandler } from "./types";
+import {
+  wordCounter,
+  characterCounter,
+  sentenceCounter,
+  textReverser,
+  textCaseConverter,
+  textToSlug,
+  removeExtraSpaces,
+  randomStringGenerator,
+  passwordGenerator,
+  keywordDensityChecker,
+  keywordFrequencyChecker,
+  metaTagGenerator,
+  metaDescriptionGenerator,
+  titleTagGenerator,
+  serpSnippetPreview,
+  robotsTxtGenerator,
+  sitemapGenerator,
+  canonicalUrlGenerator,
+  openGraphGenerator,
+  twitterCardGenerator,
+} from "./handlers";
+
+const unavailableTool: ToolHandler = ({ text }) => {
+  const clean = text.trim();
+
+  if (!clean) {
+    return {
+      title: "No Input",
+      content: "Please enter some content first.",
+    };
+  }
+
+  const words = clean.split(/\s+/).filter(Boolean);
+
+  return {
+    title: "Tool Result",
+    content: [
+      `Words: ${words.length}`,
+      `Characters: ${clean.length}`,
+      "",
+      "This tool is ready for its dedicated processor.",
+    ].join("\n"),
+  };
+};
+
+export const toolRegistry: Record<string, ToolHandler> = {
+  "robots-txt-generator": robotsTxtGenerator,
+  "sitemap-generator": sitemapGenerator,
+  "canonical-url-generator": canonicalUrlGenerator,
+  "open-graph-generator": openGraphGenerator,
+  "twitter-card-generator": twitterCardGenerator,
+
+  "keyword-frequency-checker": keywordFrequencyChecker,
+  "meta-tag-generator": metaTagGenerator,
+  "meta-description-generator": metaDescriptionGenerator,
+  "title-tag-generator": titleTagGenerator,
+  "serp-snippet-preview": serpSnippetPreview,
+
+  "word-counter": wordCounter,
+  "character-counter": characterCounter,
+  "sentence-counter": sentenceCounter,
+  "text-reverser": textReverser,
+  "text-case-converter": textCaseConverter,
+  "text-to-slug": textToSlug,
+  "remove-extra-spaces": removeExtraSpaces,
+  "random-string-generator": randomStringGenerator,
+  "password-generator": passwordGenerator,
+  "keyword-density-checker": keywordDensityChecker,
+  /*
+   * Additional dedicated handlers will be added incrementally.
+   */
+};
+
+export function getToolHandler(slug: string): ToolHandler {
+  return toolRegistry[slug] || unavailableTool;
+}

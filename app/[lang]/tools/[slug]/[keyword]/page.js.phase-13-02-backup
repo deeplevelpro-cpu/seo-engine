@@ -1,0 +1,99 @@
+import { generateContent } from "@/lib/contentGenerator";
+
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+
+  const lang = resolvedParams?.lang || "en";
+  const slug = resolvedParams?.slug || "";
+  const keyword = resolvedParams?.keyword || "";
+
+  const cleanKeyword = decodeURIComponent(String(keyword)).replace(/-/g, " ");
+  const cleanSlug = decodeURIComponent(String(slug)).replace(/-/g, " ");
+
+  return {
+    title: `${cleanKeyword} — ${cleanSlug}`,
+    description: `Explore ${cleanKeyword} with ${cleanSlug}. Use this online tool for fast results.`,
+    alternates: {
+      canonical: `/${lang}/tools/${slug}/${keyword}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    openGraph: {
+      title: `${cleanKeyword} — ${cleanSlug}`,
+      description: `Explore ${cleanKeyword} with ${cleanSlug}.`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${cleanKeyword} — ${cleanSlug}`,
+      description: `Explore ${cleanKeyword} with ${cleanSlug}.`,
+    },
+  };
+}
+
+export default async function ToolPage({ params }) {
+  const resolvedParams = await params;
+
+  const lang = resolvedParams?.lang || "en";
+  const slug = resolvedParams?.slug || "";
+  const keyword = resolvedParams?.keyword || "";
+
+  const cleanKeyword = decodeURIComponent(String(keyword)).replace(/-/g, " ");
+  const cleanSlug = decodeURIComponent(String(slug)).replace(/-/g, " ");
+
+  let generated;
+
+  try {
+    generated = await generateContent(cleanKeyword, lang);
+  } catch {
+    generated = null;
+  }
+
+  const title =
+    generated?.title ||
+    `${cleanKeyword} — ${cleanSlug}`;
+
+  const description =
+    generated?.description ||
+    `Explore ${cleanKeyword} with ${cleanSlug}.`;
+
+  const content =
+    generated?.content ||
+    `This page provides information about ${cleanKeyword} and the ${cleanSlug} tool.`;
+
+  const toolUrl = `/${lang}/tools/${slug}`;
+
+  return (
+    <main style={{ padding: "40px", maxWidth: "900px", margin: "auto" }}>
+      <h1>{title}</h1>
+
+      <p>{description}</p>
+
+      <p>{content}</p>
+
+      <h2>Use This Tool</h2>
+
+      <p>
+        <a href={toolUrl}>
+          Open {cleanSlug} tool
+        </a>
+      </p>
+
+      <h2>Explore More Tools</h2>
+
+      <p>
+        <a href="/tools">
+          Browse all tools
+        </a>
+      </p>
+
+      <p>
+        <a href="/categories">
+          Browse tool categories
+        </a>
+      </p>
+    </main>
+  );
+}

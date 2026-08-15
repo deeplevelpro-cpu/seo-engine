@@ -1,0 +1,221 @@
+export type ToolFieldType =
+  | "text"
+  | "number"
+  | "textarea"
+  | "date"
+  | "time";
+
+export type ToolField = {
+  name: string;
+  label: string;
+  type: ToolFieldType;
+  placeholder?: string;
+  required?: boolean;
+};
+
+export type ToolInputSchema = {
+  fields: ToolField[];
+};
+
+const textField = (
+  name: string,
+  label: string,
+  placeholder?: string
+): ToolField => ({
+  name,
+  label,
+  type: "text",
+  placeholder,
+  required: true,
+});
+
+const numberField = (
+  name: string,
+  label: string,
+  placeholder?: string
+): ToolField => ({
+  name,
+  label,
+  type: "number",
+  placeholder,
+  required: true,
+});
+
+const textareaField = (
+  name: string,
+  label: string,
+  placeholder?: string
+): ToolField => ({
+  name,
+  label,
+  type: "textarea",
+  placeholder,
+  required: true,
+});
+
+const dateField = (
+  name: string,
+  label: string
+): ToolField => ({
+  name,
+  label,
+  type: "date",
+  required: true,
+});
+
+const timeField = (
+  name: string,
+  label: string
+): ToolField => ({
+  name,
+  label,
+  type: "time",
+  required: true,
+});
+
+const defaultSchema: ToolInputSchema = {
+  fields: [
+    textareaField(
+      "text",
+      "Your Input",
+      "Paste your content here..."
+    ),
+  ],
+};
+
+export const toolInputSchemas: Record<string, ToolInputSchema> = {
+  "password-generator": {
+    fields: [],
+  },
+
+  "random-string-generator": {
+    fields: [],
+  },
+
+  "keyword-density-checker": {
+    fields: [
+      textareaField(
+        "text",
+        "Content",
+        "Paste your content here..."
+      ),
+      textField(
+        "keyword",
+        "Target Keyword",
+        "e.g. seo tools"
+      ),
+    ],
+  },
+
+  "percentage-calculator": {
+    fields: [
+      numberField("value", "Value", "100"),
+      numberField("percentage", "Percentage", "20"),
+    ],
+  },
+
+  "percentage-increase-calculator": {
+    fields: [
+      numberField("original", "Original Value", "100"),
+      numberField("new", "New Value", "120"),
+    ],
+  },
+
+  "percentage-decrease-calculator": {
+    fields: [
+      numberField("original", "Original Value", "200"),
+      numberField("new", "New Value", "150"),
+    ],
+  },
+
+  "average-calculator": {
+    fields: [
+      textareaField(
+        "numbers",
+        "Numbers",
+        "10, 20, 30, 40"
+      ),
+    ],
+  },
+
+  "ratio-calculator": {
+    fields: [
+      numberField("first", "First Value", "20"),
+      numberField("second", "Second Value", "30"),
+    ],
+  },
+
+  "proportion-calculator": {
+    fields: [
+      numberField("a", "A", "2"),
+      numberField("b", "B", "4"),
+      numberField("c", "C", "10"),
+    ],
+  },
+
+  "age-calculator": {
+    fields: [
+      dateField("birthDate", "Date of Birth"),
+    ],
+  },
+
+  "date-difference-calculator": {
+    fields: [
+      dateField("startDate", "Start Date"),
+      dateField("endDate", "End Date"),
+    ],
+  },
+
+  "time-difference-calculator": {
+    fields: [
+      timeField("startTime", "Start Time"),
+      timeField("endTime", "End Time"),
+    ],
+  },
+
+  "character-limit-calculator": {
+    fields: [
+      numberField("limit", "Character Limit", "100"),
+      textareaField(
+        "text",
+        "Text",
+        "Enter your text here..."
+      ),
+    ],
+  },
+
+  "compound-interest-calculator": {
+    fields: [
+      numberField("principal", "Principal", "1000"),
+      numberField("rate", "Annual Interest Rate (%)", "10"),
+      numberField("compounds", "Compounds Per Year", "1"),
+      numberField("years", "Years", "2"),
+    ],
+  },
+
+  "list-randomizer": {
+    fields: [
+      textareaField(
+        "text",
+        "List",
+        "One item per line..."
+      ),
+    ],
+  },
+
+  "checklist-generator": {
+    fields: [
+      textareaField(
+        "text",
+        "Checklist Items",
+        "One task per line..."
+      ),
+    ],
+  },
+};
+
+export function getToolInputSchema(
+  slug: string
+): ToolInputSchema {
+  return toolInputSchemas[slug] ?? defaultSchema;
+}

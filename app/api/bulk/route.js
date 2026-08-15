@@ -1,4 +1,4 @@
-import { connectDB } from "../../../lib/db";
+import { connectDB } from "@/lib/db";
 import Blog from "../../../models/Blog";
 import slugify from "slugify";
 
@@ -26,6 +26,8 @@ async function generateContent(topic) {
 }
 
 export async function GET() {
+  try {
+
   await connectDB();
 
   for (let i = 0; i < topics.length; i++) {
@@ -41,4 +43,15 @@ export async function GET() {
   }
 
   return Response.json({ success: true, message: "Blogs Generated 🚀" });
+
+  } catch (error) {
+    console.error("[api/bulk] generation failed:", error);
+    return Response.json(
+      {
+        success: false,
+        error: "Bulk generation failed",
+      },
+      { status: 500 }
+    );
+  }
 }

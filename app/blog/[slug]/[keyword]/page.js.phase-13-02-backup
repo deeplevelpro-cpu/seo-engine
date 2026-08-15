@@ -1,0 +1,92 @@
+import { generateBlogContent } from "@/lib/contentGenerator";
+
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+
+  const slug = resolvedParams?.slug || "";
+  const keyword = resolvedParams?.keyword || "";
+
+  const cleanKeyword = decodeURIComponent(String(keyword)).replace(/-/g, " ");
+  const cleanSlug = decodeURIComponent(String(slug)).replace(/-/g, " ");
+
+  return {
+    title: `${cleanKeyword} — ${cleanSlug}`,
+    description: `Learn about ${cleanKeyword} in this ${cleanSlug} guide.`,
+    alternates: {
+      canonical: `/blog/${slug}/${keyword}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    openGraph: {
+      title: `${cleanKeyword} — ${cleanSlug}`,
+      description: `Learn about ${cleanKeyword} in this ${cleanSlug} guide.`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${cleanKeyword} — ${cleanSlug}`,
+      description: `Learn about ${cleanKeyword} in this ${cleanSlug} guide.`,
+    },
+  };
+}
+
+export default async function BlogPage({ params }) {
+  const resolvedParams = await params;
+
+  const slug = resolvedParams?.slug || "";
+  const keyword = resolvedParams?.keyword || "";
+
+  const cleanKeyword = decodeURIComponent(String(keyword)).replace(/-/g, " ");
+  const cleanSlug = decodeURIComponent(String(slug)).replace(/-/g, " ");
+
+  let generated;
+
+  try {
+    generated = await generateBlogContent(cleanKeyword);
+  } catch {
+    generated = null;
+  }
+
+  const title =
+    generated?.title ||
+    `${cleanKeyword} — ${cleanSlug}`;
+
+  const content =
+    generated?.content ||
+    `This is a detailed guide about ${cleanKeyword}.`;
+
+  const toolUrl =
+    `/tools/${slug}`;
+
+  return (
+    <main style={{ padding: "40px", maxWidth: "900px", margin: "auto" }}>
+      <h1>{title}</h1>
+
+      <p>{content}</p>
+
+      <h2>Use the Related Tool</h2>
+
+      <p>
+        <a href={toolUrl}>
+          Try {cleanKeyword} Tool
+        </a>
+      </p>
+
+      <h2>Explore More</h2>
+
+      <p>
+        <a href="/tools">
+          Browse all tools
+        </a>
+      </p>
+
+      <p>
+        <a href="/categories">
+          Browse tool categories
+        </a>
+      </p>
+    </main>
+  );
+}

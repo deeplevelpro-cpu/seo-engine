@@ -1,0 +1,564 @@
+"use client";
+
+import toolsData from "@/data/tools";
+
+export default function Home() {
+  const tools = Object.entries(toolsData);
+
+  return (
+    <main className="home">
+      <div className="glow glow1" />
+      <div className="glow glow2" />
+
+      <header className="nav">
+        <a href="/" className="logo">
+          <span>⚡</span> AI TOOL <b>ENGINE</b>
+        </a>
+
+        <nav>
+          <a className="active" href="/">Home</a>
+          <a href="/tools">Tools</a>
+          <a href="/categories">Categories</a>
+          <a href="/blog">Blog</a>
+          <a href="/contact">Contact</a>
+        </nav>
+
+        <a href="/tools" className="allTools">
+          ✦ All 100+ Tools
+        </a>
+      </header>
+
+      <section className="hero">
+        <div className="eyebrow">FREE ONLINE SEO TOOLS</div>
+
+        <h1>
+          Simple SEO tools that
+          <br />
+          help you <span>create,</span>
+          <br />
+          <span>analyze,</span> and optimize
+          <br />
+          content.
+        </h1>
+
+        <p>
+          Use practical browser-based tools for content, keywords, text,
+          metadata, and everyday SEO tasks.
+        </p>
+
+        <div className="buttons">
+          <a href="/tools" className="primary">
+            Explore all tools
+          </a>
+
+          <a href="/blog" className="secondary">
+            Read the SEO blog
+          </a>
+        </div>
+
+        <div className="trust">
+          <span>✓ 100% FREE</span>
+          <span>⚡ INSTANT RESULTS</span>
+          <span>😊 EASY TO USE</span>
+          <span>🔒 SECURE & PRIVATE</span>
+        </div>
+      </section>
+
+      <section className="toolsSection">
+        <div className="sectionTop">
+          <div>
+            <div className="label">FEATURED TOOLS</div>
+            <h2>Start with our most useful tools</h2>
+            <p>Fast, simple and practical tools for your daily workflow.</p>
+          </div>
+
+          <a href="/tools">View all tools →</a>
+        </div>
+
+        <div className="grid">
+          {tools.slice(0, 12).map(([slug, tool], index) => (
+            <a href={`/tools/${slug}`} className="tool" key={slug}>
+              <div className={`toolIcon icon${index % 6}`}>
+                {["W", "K", "S", "M", "P", "R"][index % 6]}
+              </div>
+
+              <div className="toolBody">
+                <h3>{tool.title}</h3>
+                <p>{tool.description}</p>
+              </div>
+
+              <span className="arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="stats">
+        <div>
+          <strong>1000+</strong>
+          <span>Tools Available</span>
+        </div>
+
+        <div>
+          <strong>10K+</strong>
+          <span>Happy Users</span>
+        </div>
+
+        <div>
+          <strong>50K+</strong>
+          <span>Results Generated</span>
+        </div>
+
+        <div>
+          <strong>4.9/5</strong>
+          <span>User Rating</span>
+        </div>
+      </section>
+
+      <section className="why">
+        <div className="label">WHY AI TOOL ENGINE?</div>
+
+        <h2>
+          Everything you need to
+          <span> work smarter.</span>
+        </h2>
+
+        <p>
+          No complicated software. No unnecessary setup. Just useful
+          browser-based tools designed to save time and make SEO easier.
+        </p>
+
+        <div className="whyGrid">
+          <article>
+            <div>⚡</div>
+            <h3>FAST</h3>
+            <p>Get useful results in seconds with a clean workflow.</p>
+          </article>
+
+          <article>
+            <div>🎯</div>
+            <h3>ACCURATE</h3>
+            <p>Designed around practical SEO and content tasks.</p>
+          </article>
+
+          <article>
+            <div>🔒</div>
+            <h3>PRIVATE</h3>
+            <p>Your everyday content stays protected while using local tools.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <div>
+          <strong>⚡ AI TOOL ENGINE</strong>
+          <p>Simple tools for better content and SEO.</p>
+        </div>
+
+        <div className="footerLinks">
+          <a href="/tools">Tools</a>
+          <a href="/blog">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </footer>
+
+      <style jsx>{`
+        .home {
+          min-height: 100vh;
+          color: #f8fafc;
+          background:
+            radial-gradient(circle at 15% 15%, rgba(0, 174, 255, .11), transparent 28%),
+            radial-gradient(circle at 85% 20%, rgba(124, 58, 237, .13), transparent 30%),
+            #020617;
+          font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .glow {
+          position: fixed;
+          width: 360px;
+          height: 360px;
+          border-radius: 50%;
+          filter: blur(120px);
+          opacity: .15;
+          pointer-events: none;
+        }
+
+        .glow1 {
+          background: #06b6d4;
+          left: -230px;
+          top: 25%;
+        }
+
+        .glow2 {
+          background: #7c3aed;
+          right: -230px;
+          top: 45%;
+        }
+
+        .nav {
+          max-width: 1180px;
+          height: 76px;
+          margin: auto;
+          padding: 0 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid rgba(148,163,184,.1);
+          position: relative;
+          z-index: 2;
+        }
+
+        .logo {
+          color: white;
+          text-decoration: none;
+          font-size: 17px;
+          font-weight: 950;
+        }
+
+        .logo span,
+        .logo b {
+          color: #22d3ee;
+        }
+
+        nav {
+          display: flex;
+          gap: 25px;
+        }
+
+        nav a {
+          color: #94a3b8;
+          text-decoration: none;
+          font-size: 12px;
+          font-weight: 800;
+        }
+
+        nav a:hover,
+        nav .active {
+          color: #22d3ee;
+        }
+
+        .allTools {
+          text-decoration: none;
+          color: white;
+          padding: 10px 16px;
+          border-radius: 10px;
+          font-size: 11px;
+          font-weight: 900;
+          background: linear-gradient(90deg,#2563eb,#9333ea);
+          box-shadow: 0 0 25px rgba(99,102,241,.3);
+        }
+
+        .hero {
+          max-width: 920px;
+          margin: auto;
+          padding: 100px 24px 65px;
+        }
+
+        .eyebrow,
+        .label {
+          color: #22d3ee;
+          font-size: 11px;
+          font-weight: 950;
+          letter-spacing: 2px;
+        }
+
+        h1 {
+          font-size: clamp(48px, 7vw, 82px);
+          line-height: .98;
+          letter-spacing: -4px;
+          font-weight: 1000;
+          margin: 18px 0 28px;
+        }
+
+        h1 span {
+          background: linear-gradient(90deg,#a855f7,#22d3ee);
+          -webkit-background-clip: text;
+          color: transparent;
+        }
+
+        .hero > p {
+          max-width: 680px;
+          color: #94a3b8;
+          line-height: 1.8;
+          font-size: 16px;
+        }
+
+        .buttons {
+          display: flex;
+          gap: 12px;
+          margin-top: 30px;
+        }
+
+        .buttons a {
+          text-decoration: none;
+          padding: 13px 19px;
+          border-radius: 9px;
+          font-size: 12px;
+          font-weight: 900;
+        }
+
+        .primary {
+          color: #001018;
+          background: #22d3ee;
+          box-shadow: 0 0 30px rgba(34,211,238,.22);
+        }
+
+        .secondary {
+          color: #e2e8f0;
+          border: 1px solid #263452;
+          background: rgba(15,23,42,.6);
+        }
+
+        .trust {
+          display: flex;
+          gap: 9px;
+          flex-wrap: wrap;
+          margin-top: 30px;
+        }
+
+        .trust span {
+          color: #94a3b8;
+          border: 1px solid rgba(148,163,184,.13);
+          background: rgba(15,23,42,.55);
+          border-radius: 999px;
+          padding: 7px 11px;
+          font-size: 10px;
+          font-weight: 800;
+        }
+
+        .toolsSection,
+        .why,
+        .stats {
+          max-width: 920px;
+          margin: auto;
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+
+        .sectionTop {
+          display: flex;
+          align-items: end;
+          justify-content: space-between;
+          margin-bottom: 22px;
+        }
+
+        .sectionTop h2,
+        .why h2 {
+          margin: 7px 0;
+          font-size: 26px;
+          font-weight: 950;
+          letter-spacing: -.8px;
+        }
+
+        .sectionTop p,
+        .why > p {
+          color: #64748b;
+          font-size: 12px;
+        }
+
+        .sectionTop > a {
+          color: #22d3ee;
+          text-decoration: none;
+          font-size: 11px;
+          font-weight: 900;
+        }
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(4,1fr);
+          gap: 12px;
+        }
+
+        .tool {
+          min-height: 135px;
+          padding: 17px;
+          border: 1px solid rgba(99,102,241,.2);
+          border-radius: 13px;
+          background: linear-gradient(145deg,rgba(15,23,42,.9),rgba(8,15,32,.9));
+          text-decoration: none;
+          color: white;
+          position: relative;
+          transition: .22s;
+        }
+
+        .tool:hover {
+          transform: translateY(-4px);
+          border-color: rgba(34,211,238,.45);
+          box-shadow: 0 15px 35px rgba(0,0,0,.3);
+        }
+
+        .toolIcon {
+          width: 29px;
+          height: 29px;
+          display: grid;
+          place-items: center;
+          border-radius: 8px;
+          font-size: 11px;
+          font-weight: 950;
+          margin-bottom: 15px;
+        }
+
+        .icon0 { background:#123c62;color:#38bdf8; }
+        .icon1 { background:#3b1b65;color:#c084fc; }
+        .icon2 { background:#063d43;color:#2dd4bf; }
+        .icon3 { background:#4a183b;color:#fb7185; }
+        .icon4 { background:#463a0b;color:#facc15; }
+        .icon5 { background:#143e2a;color:#4ade80; }
+
+        .tool h3 {
+          margin: 0 0 8px;
+          font-size: 12px;
+          font-weight: 950;
+          letter-spacing: .2px;
+        }
+
+        .tool p {
+          color: #64748b;
+          font-size: 10px;
+          line-height: 1.5;
+          margin: 0;
+        }
+
+        .arrow {
+          position: absolute;
+          right: 15px;
+          bottom: 12px;
+          color: #22d3ee;
+        }
+
+        .stats {
+          display: grid;
+          grid-template-columns: repeat(4,1fr);
+          gap: 10px;
+          margin-top: 45px;
+          margin-bottom: 90px;
+        }
+
+        .stats div {
+          text-align: center;
+          padding: 20px 10px;
+          border-top: 1px solid rgba(99,102,241,.18);
+          border-bottom: 1px solid rgba(99,102,241,.18);
+        }
+
+        .stats strong {
+          display: block;
+          font-size: 25px;
+          font-weight: 1000;
+          background: linear-gradient(90deg,#22d3ee,#a855f7);
+          -webkit-background-clip: text;
+          color: transparent;
+        }
+
+        .stats span {
+          color: #64748b;
+          font-size: 10px;
+        }
+
+        .why {
+          padding-bottom: 90px;
+        }
+
+        .why h2 {
+          font-size: clamp(30px,4vw,45px);
+          margin-top: 10px;
+        }
+
+        .why h2 span {
+          color: #a855f7;
+        }
+
+        .why > p {
+          max-width: 620px;
+          line-height: 1.7;
+          font-size: 13px;
+        }
+
+        .whyGrid {
+          display: grid;
+          grid-template-columns: repeat(3,1fr);
+          gap: 13px;
+          margin-top: 28px;
+        }
+
+        .whyGrid article {
+          padding: 23px;
+          border: 1px solid rgba(99,102,241,.2);
+          border-radius: 14px;
+          background: rgba(8,15,32,.8);
+        }
+
+        .whyGrid article > div {
+          font-size: 24px;
+          margin-bottom: 13px;
+        }
+
+        .whyGrid h3 {
+          font-size: 12px;
+          font-weight: 950;
+        }
+
+        .whyGrid p {
+          color: #64748b;
+          font-size: 11px;
+          line-height: 1.6;
+        }
+
+        footer {
+          max-width: 920px;
+          margin: auto;
+          padding: 30px 24px 55px;
+          border-top: 1px solid rgba(148,163,184,.1);
+          display: flex;
+          justify-content: space-between;
+        }
+
+        footer strong {
+          color: #22d3ee;
+        }
+
+        footer p {
+          color: #64748b;
+          font-size: 10px;
+        }
+
+        .footerLinks {
+          display: flex;
+          gap: 20px;
+        }
+
+        .footerLinks a {
+          color: #64748b;
+          text-decoration: none;
+          font-size: 11px;
+        }
+
+        @media(max-width:800px) {
+          nav { display:none; }
+          .grid { grid-template-columns:repeat(2,1fr); }
+        }
+
+        @media(max-width:550px) {
+          .hero { padding-top:60px; }
+          h1 { letter-spacing:-2px; }
+          .grid,
+          .whyGrid,
+          .stats { grid-template-columns:1fr; }
+
+          .sectionTop {
+            align-items:flex-start;
+            flex-direction:column;
+            gap:12px;
+          }
+
+          footer {
+            flex-direction:column;
+            gap:20px;
+          }
+        }
+      `}</style>
+    </main>
+  );
+}

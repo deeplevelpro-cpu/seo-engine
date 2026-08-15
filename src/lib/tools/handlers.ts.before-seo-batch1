@@ -1,0 +1,232 @@
+import type { ToolHandler } from "./types";
+
+function cleanText(text: string): string {
+  return text.trim();
+}
+
+function wordsOf(text: string): string[] {
+  return cleanText(text).split(/\s+/).filter(Boolean);
+}
+
+export const wordCounter: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+  const words = wordsOf(clean);
+  const sentences = clean
+    ? clean.split(/[.!?]+/).filter((item) => item.trim()).length
+    : 0;
+  const paragraphs = clean
+    ? clean.split(/\n\s*\n/).filter((item) => item.trim()).length
+    : 0;
+  const readingTime = Math.max(1, Math.ceil(words.length / 200));
+
+  return {
+    title: "Word Counter Result",
+    content: [
+      `Words: ${words.length}`,
+      `Characters: ${clean.length}`,
+      `Characters without spaces: ${clean.replace(/\s/g, "").length}`,
+      `Sentences: ${sentences}`,
+      `Paragraphs: ${paragraphs}`,
+      `Estimated reading time: ${readingTime} minute${readingTime === 1 ? "" : "s"}`,
+    ].join("\n"),
+  };
+};
+
+export const characterCounter: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+
+  return {
+    title: "Character Counter Result",
+    content: [
+      `Characters: ${clean.length}`,
+      `Characters without spaces: ${clean.replace(/\s/g, "").length}`,
+      `Spaces: ${(clean.match(/ /g) || []).length}`,
+      `Newlines: ${(clean.match(/\n/g) || []).length}`,
+    ].join("\n"),
+  };
+};
+
+export const sentenceCounter: ToolHandler = ({ text }) => {
+  const clean = cleanText(text);
+
+  const sentences = clean
+    ? clean
+        .split(/[.!?]+/)
+        .map((sentence) => sentence.trim())
+        .filter(Boolean)
+    : [];
+
+  return {
+    title: "Sentence Counter Result",
+    content: `Sentences: ${sentences.length}`,
+  };
+};
+
+export const textReverser: ToolHandler = ({ text }) => {
+  const clean = text;
+
+  return {
+    title: "Reversed Text",
+    content: Array.from(clean).reverse().join(""),
+  };
+};
+
+export const textCaseConverter: ToolHandler = ({ text }) => {
+  const clean = text;
+
+  const titleCase = clean.replace(
+    /\w\S*/g,
+    (word) =>
+      word.charAt(0).toUpperCase() +
+      word.slice(1).toLowerCase()
+  );
+
+  const sentenceCase = clean
+    .toLowerCase()
+    .replace(/(^\s*\w|[.!?]\s+\w)/g, (match) =>
+      match.toUpperCase()
+    );
+
+  return {
+    title: "Text Case Conversion",
+    content: [
+      "UPPERCASE:",
+      clean.toUpperCase(),
+      "",
+      "lowercase:",
+      clean.toLowerCase(),
+      "",
+      "Title Case:",
+      titleCase,
+      "",
+      "Sentence Case:",
+      sentenceCase,
+    ].join("\n"),
+  };
+};
+
+export const textToSlug: ToolHandler = ({ text }) => {
+  const slug = cleanText(text)
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+  return {
+    title: "Generated Slug",
+    content: slug,
+  };
+};
+
+export const removeExtraSpaces: ToolHandler = ({ text }) => {
+  const result = text
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return {
+    title: "Cleaned Text",
+    content: result,
+  };
+};
+
+function randomCharacters(
+  length: number,
+  alphabet: string
+): string {
+  const values = new Uint32Array(length);
+
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+    crypto.getRandomValues(values);
+  } else {
+    for (let i = 0; i < length; i++) {
+      values[i] = Math.floor(Math.random() * 0xffffffff);
+    }
+  }
+
+  return Array.from(values, (value) =>
+    alphabet[value % alphabet.length]
+  ).join("");
+}
+
+export const randomStringGenerator: ToolHandler = () => {
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  const result = randomCharacters(20, alphabet);
+
+  return {
+    title: "Random String",
+    content: result,
+  };
+};
+
+export const passwordGenerator: ToolHandler = () => {
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()-_=+[]{}";
+
+  const required = [
+    randomCharacters(1, lowercase),
+    randomCharacters(1, uppercase),
+    randomCharacters(1, numbers),
+    randomCharacters(1, symbols),
+  ].join("");
+
+  const remaining = randomCharacters(
+    12,
+    lowercase + uppercase + numbers + symbols
+  );
+
+  const password = Array.from(required + remaining)
+    .sort(() => Math.random() - 0.5)
+    .join("");
+
+  return {
+    title: "Generated Password",
+    content: password,
+  };
+};
+
+export const keywordDensityChecker: ToolHandler = ({
+  text,
+  keyword,
+}) => {
+  const clean = cleanText(text);
+  const target = cleanText(keyword || "").toLowerCase();
+  const words = wordsOf(clean);
+
+  if (!target) {
+    return {
+      title: "Keyword Density",
+      content: "Please enter a keyword to check.",
+    };
+  }
+
+  const lower = clean.toLowerCase();
+  const matches =
+    target.length > 0
+      ? lower.split(target).length - 1
+      : 0;
+
+  const density =
+    words.length > 0
+      ? ((matches / words.length) * 100).toFixed(2)
+      : "0.00";
+
+  return {
+    title: "Keyword Density Result",
+    content: [
+      `Keyword: ${keyword}`,
+      `Keyword occurrences: ${matches}`,
+      `Total words: ${words.length}`,
+      `Keyword density: ${density}%`,
+    ].join("\n"),
+  };
+};

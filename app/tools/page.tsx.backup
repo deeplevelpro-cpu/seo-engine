@@ -1,0 +1,103 @@
+import Link from "next/link";
+import tools from "@/data/tools";
+
+export default function ToolsPage() {
+  const toolEntries = Object.entries(tools);
+
+  return (
+    <main className="tools-page">
+      <div className="tools-container">
+
+        {/* Header */}
+        <section className="tools-hero">
+          <div className="tools-eyebrow">FREE ONLINE SEO TOOLS</div>
+
+          <h1>SEO Tools</h1>
+
+          <p>
+            Browse our collection of free online tools for SEO, content
+            creation, keywords, metadata, text optimization, and more.
+          </p>
+
+          <div className="tools-stats">
+            <div className="tools-stat">
+              <strong>{toolEntries.length}+</strong>
+              <span>Free tools</span>
+            </div>
+
+            <div className="tools-stat">
+              <strong>100%</strong>
+              <span>Online</span>
+            </div>
+
+            <div className="tools-stat">
+              <strong>Free</strong>
+              <span>No signup required</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Tools */}
+        <section className="all-tools-section">
+
+          <div className="tools-section-header">
+            <div>
+              <div className="tools-small-label">TOOL COLLECTION</div>
+              <h2>All SEO Tools</h2>
+            </div>
+
+            <span className="tool-count">
+              {toolEntries.length} tools
+            </span>
+          </div>
+
+          <div className="all-tools-grid">
+            {toolEntries.map(([slug, tool], index) => (
+              <Link
+                href={`/tools/${slug}`}
+                key={slug}
+                className="all-tool-card"
+              >
+                <div className="tool-number">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+
+                <div className="all-tool-content">
+                  <h3>{tool.title}</h3>
+
+                  <p>{tool.description}</p>
+                </div>
+
+                <div className="tool-card-arrow">
+                  →
+                </div>
+              </Link>
+            ))}
+          </div>
+
+        </section>
+
+        {/* Bottom CTA */}
+        <section className="tools-bottom-cta">
+          <div>
+            <div className="tools-eyebrow">MORE TOOLS, LESS WORK</div>
+
+            <h2>
+              Everything you need for everyday SEO.
+            </h2>
+
+            <p>
+              Use our growing collection of simple browser-based tools
+              to make your content and SEO workflow faster.
+            </p>
+          </div>
+
+          <Link href="/" className="tools-cta-button">
+            Back to home →
+          </Link>
+        </section>
+
+      </div>
+    </main>
+  );
+}

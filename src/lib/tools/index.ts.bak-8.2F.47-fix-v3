@@ -1,0 +1,111 @@
+import type { ToolHandler } from "./types";
+import {\n  wordCounter,\n  characterCounter,\n  sentenceCounter,\n  textReverser,\n  textCaseConverter,\n  textToSlug,\n  removeExtraSpaces,\n  randomStringGenerator,\n  passwordGenerator,\n  keywordDensityChecker,\n  keywordFrequencyChecker,\n  metaTagGenerator,\n  metaDescriptionGenerator,\n  titleTagGenerator,\n  serpSnippetPreview,\n  unixTimestampConverter,\n  timestampGenerator,\n  regexTester,\n  regexEscapeTool,\n  htmlEntityEncoder,\n  javascriptFormatter,\n  sqlFormatter,\n  sqlMinifier,\n  uuidGenerator,\n  uuidValidator,\n  findAndReplaceText,\n  loremIpsumGenerator,\n  textCleaner,\n  duplicateWordFinder,\n  palindromeChecker,\n  jsonFormatter,\n  jsonValidator,\n  jsonMinifier,\n  base64Encoder,\n  base64Decoder,\n  urlEncoder,\n  urlDecoder,\n  xmlFormatter,\n  xmlValidator,\n  cssFormatter,\n  organizationSchemaGenerator,\n  websiteSchemaGenerator,\n  seoSlugGenerator,\n  seoTitleChecker,\n  metaDescriptionLengthChecker,\n  schemaMarkupGenerator,\n  faqSchemaGenerator,\n  articleSchemaGenerator,\n  breadcrumbSchemaGenerator,\n  localBusinessSchemaGenerator,\n  robotsTxtGenerator,\n  sitemapGenerator,\n  canonicalUrlGenerator,\n  openGraphGenerator,\n  twitterCardGenerator,\n  headingStructureChecker,\n  internalLinkChecker,\n  keywordPlacementChecker,\n  paragraphCounter,\n  readingTimeCalculator,\n  removeDuplicateLines,\n  removeEmptyLines,\n  lineCounter,\n  wordFrequencyCounter,\n  textSorter,\n  htmlEntityDecoder,\n  urlParser,\n  urlCleaner,\n  queryStringParser,\n  queryStringBuilder,\n} from "./handlers";
+
+const unavailableTool: ToolHandler = ({ text }) => {
+  const clean = text.trim();
+
+  if (!clean) {
+    return {
+      title: "No Input",
+      content: "Please enter some content first.",
+    };
+  }
+
+  const words = clean.split(/\s+/).filter(Boolean);
+
+  return {
+    title: "Tool Result",
+    content: [
+      `Words: ${words.length}`,
+      `Characters: ${clean.length}`,
+      "",
+      "This tool is ready for its dedicated processor.",
+    ].join("\n"),
+  };
+};
+
+export const toolRegistry: Record<string, ToolHandler> = {
+  "remove-duplicate-lines": removeDuplicateLines,
+  "remove-empty-lines": removeEmptyLines,
+  "line-counter": lineCounter,
+  "word-frequency-counter": wordFrequencyCounter,
+  "text-sorter": textSorter,
+
+
+  "heading-structure-checker": headingStructureChecker,
+  "internal-link-checker": internalLinkChecker,
+  "keyword-placement-checker": keywordPlacementChecker,
+  "paragraph-counter": paragraphCounter,
+  "reading-time-calculator": readingTimeCalculator,
+
+
+  "robots-txt-generator": robotsTxtGenerator,
+  "sitemap-generator": sitemapGenerator,
+  "canonical-url-generator": canonicalUrlGenerator,
+  "open-graph-generator": openGraphGenerator,
+  "twitter-card-generator": twitterCardGenerator,
+  "find-and-replace-text": findAndReplaceText,
+  "lorem-ipsum-generator": loremIpsumGenerator,
+  "text-cleaner": textCleaner,
+  "duplicate-word-finder": duplicateWordFinder,
+  "palindrome-checker": palindromeChecker,
+  "json-formatter": jsonFormatter,
+  "json-validator": jsonValidator,
+  "json-minifier": jsonMinifier,
+  "base64-encoder": base64Encoder,
+  "base64-decoder": base64Decoder,
+  "url-encoder": urlEncoder,
+  "url-decoder": urlDecoder,
+  "xml-formatter": xmlFormatter,
+  "xml-validator": xmlValidator,
+  "css-formatter": cssFormatter,
+  "organization-schema-generator": organizationSchemaGenerator,
+  "website-schema-generator": websiteSchemaGenerator,
+  "seo-slug-generator": seoSlugGenerator,
+  "seo-title-checker": seoTitleChecker,
+  "meta-description-length-checker": metaDescriptionLengthChecker,
+  "schema-markup-generator": schemaMarkupGenerator,
+  "faq-schema-generator": faqSchemaGenerator,
+  "article-schema-generator": articleSchemaGenerator,
+  "breadcrumb-schema-generator": breadcrumbSchemaGenerator,
+  "local-business-schema-generator": localBusinessSchemaGenerator,
+
+  "keyword-frequency-checker": keywordFrequencyChecker,
+  "meta-tag-generator": metaTagGenerator,
+  "meta-description-generator": metaDescriptionGenerator,
+  "title-tag-generator": titleTagGenerator,
+  "serp-snippet-preview": serpSnippetPreview,
+  "unix-timestamp-converter": unixTimestampConverter,
+  "timestamp-generator": timestampGenerator,
+  "regex-tester": regexTester,
+  "regex-escape-tool": regexEscapeTool,
+  "html-entity-encoder": htmlEntityEncoder,
+  "html-entity-decoder": htmlEntityDecoder,
+  "url-parser": urlParser,
+  "url-cleaner": urlCleaner,
+  "query-string-parser": queryStringParser,
+  "query-string-builder": queryStringBuilder,
+  "javascript-formatter": javascriptFormatter,
+  "sql-formatter": sqlFormatter,
+  "sql-minifier": sqlMinifier,
+  "uuid-generator": uuidGenerator,
+  "uuid-validator": uuidValidator,
+
+  "word-counter": wordCounter,
+  "character-counter": characterCounter,
+  "sentence-counter": sentenceCounter,
+  "text-reverser": textReverser,
+  "text-case-converter": textCaseConverter,
+  "text-to-slug": textToSlug,
+  "remove-extra-spaces": removeExtraSpaces,
+  "random-string-generator": randomStringGenerator,
+  "password-generator": passwordGenerator,
+  "keyword-density-checker": keywordDensityChecker,
+  /*
+   * Additional dedicated handlers will be added incrementally.
+   */
+};
+
+export function getToolHandler(slug: string): ToolHandler {
+  return toolRegistry[slug] || unavailableTool;
+}
