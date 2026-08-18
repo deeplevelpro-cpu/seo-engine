@@ -1,0 +1,102 @@
+{
+  "site": "AI Tool Engine",
+  "pages": [
+    {
+      "name": "Home",
+      "href": "/"
+    },
+    {
+      "name": "Tools",
+      "href": "/tools"
+    },
+    {
+      "name": "Categories",
+      "href": "/categories"
+    },
+    {
+      "name": "Blog",
+      "href": "/blog"
+    },
+    {
+      "name": "Guides",
+      "href": "/articles"
+    },
+    {
+      "name": "About",
+      "href": "/about"
+    },
+    {
+      "name": "Pricing",
+      "href": "/pricing"
+    },
+    {
+      "name": "Contact",
+      "href": "/contact"
+    },
+    {
+      "name": "Privacy Policy",
+      "href": "/privacy-policy"
+    },
+    {
+      "name": "Terms",
+      "href": "/terms"
+    }
+  ],
+  "pricing": {
+    "Free Trial": "$0 first month, then $6 USD/month",
+    "Standard": "$5 USD/month or $50 USD/year",
+    "Pro": "$12 USD/month or $120 USD/year"
+  },
+  "support": {
+    "whatsapp": "https://wa.me/923294433999",
+    "account_title": "EHRAM CHEMMA",
+    "account_number": "+923217361507",
+    "payment_methods": "JazzCash + Easypaisa"
+  },
+  "tools": [
+    {
+      "name": "⌁ Keyword Frequency Checker SEO Use this free keyword frequency checker to improve your website SEO and content workflow. 02 Open Tool →",
+      "href": "/tools/keyword-frequency-checker"
+    },
+    {
+      "name": "⌁ Meta Tag Generator SEO Use this free meta tag generator to improve your website SEO and content workflow. 03 Open Tool →",
+      "href": "/tools/meta-tag-generator"
+    },
+    {
+      "name": "⌁ Title Tag Generator SEO Use this free title tag generator to improve your website SEO and content workflow. 05 Open Tool →",
+      "href": "/tools/title-tag-generator"
+    },
+    {
+      "name": "⌁ SERP Snippet Preview SEO Use this free serp snippet preview to improve your website SEO and content workflow. 06 Open Tool →",
+      "href": "/tools/serp-snippet-preview"
+    },
+    {
+      "name": "⌁ Robots.txt Generator SEO Use this free robots.txt generator to improve your website SEO and content workflow. 07 Open Tool →",
+      "href": "/tools/robots-txt-generator"
+    },
+    {
+      "name": "⌁ Sitemap Generator SEO Use this free sitemap generator to improve your website SEO and content workflow. 08 Open Tool →",
+      "href": "/tools/sitemap-generator"
+    },
+    {
+      "name": "⌁ Canonical URL Generator SEO Use this free canonical url generator to improve your website SEO and content workflow. 09 Open Tool →",
+      "href": "/tools/canonical-url-generator"
+    },
+    {
+      "name": "⌁ Open Graph Generator SEO Use this free open graph generator to improve your website SEO and content workflow. 10 Open Tool →",
+      "href": "/tools/open-graph-generator"
+    },
+    {
+      "name": "⌁ Twitter Card Generator SEO Use this free twitter card generator to improve your website SEO and content workflow. 11 Open Tool →",
+      "href": "/tools/twitter-card-generator"
+    },
+    {
+      "name": "⌁ Schema Markup Generator SEO Use this free schema markup generator to improve your website SEO and content workflow. 12 Open Tool →",
+      "href": "/tools/schema-markup-generator"
+    },
+    {
+      "name": "Word Counter",
+      "href": "/word-counter"
+    }
+  ]
+}

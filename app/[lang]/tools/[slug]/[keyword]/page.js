@@ -1,4 +1,15 @@
+/* ============================================================
+   PROGRAMMATIC SEO SAFE MODE
+   Keyword-intent variants are discovery/support pages.
+   Main /tools/[slug] page remains the canonical SEO authority.
+   ============================================================ */
+
 import { generateContent } from "@/lib/contentGenerator";
+
+
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://seo-engine-mu.vercel.app";
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -13,12 +24,9 @@ export async function generateMetadata({ params }) {
     title: `${cleanKeyword} — ${cleanSlug}`,
     description: `Explore ${cleanKeyword} with ${cleanSlug}. Use this online tool for fast results.`,
     alternates: {
-      canonical: `/${lang}/tools/${slug}/${keyword}`,
+      canonical: `${siteUrl}/tools/${slug}`,
     },
-    robots: {
-      index: true,
-      follow: true,
-    },
+    robots: { index: false, follow: true },
     openGraph: {
       title: `${cleanKeyword} — ${cleanSlug}`,
       description: `Explore ${cleanKeyword} with ${cleanSlug}.`,

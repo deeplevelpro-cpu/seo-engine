@@ -43,7 +43,9 @@ export default function CategoriesPage() {
   ).sort((a, b) => b[1] - a[1]);
 
   return (
-    <main className="categories-page" aria-label="Category discovery">
+    <>
+
+<main className="categories-page" aria-label="Category discovery">
       <section className="categories-hero">
         <span className="categories-eyebrow">
           TOOL CATEGORIES
@@ -100,5 +102,6 @@ export default function CategoriesPage() {
         </Link>
       </section>
     </main>
+</>
   );
 }

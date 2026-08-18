@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+<defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#eff6ff"/><stop offset="1" stop-color="#ecfdf5"/></linearGradient></defs>
+<rect width="800" height="450" fill="url(#g)"/>
+<circle cx="690" cy="80" r="120" fill="#a7f3d0" opacity=".5"/>
+<rect x="145" y="60" width="510" height="325" rx="28" fill="white" stroke="#d1fae5" stroke-width="5"/>
+<rect x="195" y="105" width="330" height="22" rx="11" fill="#0f766e"/>
+<rect x="195" y="150" width="400" height="14" rx="7" fill="#d1d5db"/>
+<rect x="195" y="190" width="320" height="14" rx="7" fill="#e5e7eb"/>
+<circle cx="250" cy="275" r="42" fill="#ccfbf1"/>
+<path d="M230 275l14 15 30-38" fill="none" stroke="#0f766e" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="375" cy="275" r="42" fill="#dbeafe"/>
+<path d="M355 275l14 15 30-38" fill="none" stroke="#2563eb" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="500" cy="275" r="42" fill="#ede9fe"/>
+<path d="M480 275l14 15 30-38" fill="none" stroke="#7c3aed" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="195" y="350" font-family="Arial" font-size="24" font-weight="700" fill="#17213d">TECHNICAL SEO</text>
+</svg>

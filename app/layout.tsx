@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
+import SiteNavbar from "./components/SiteNavbar";
+import FloatingAIAssistant from "./components/FloatingAIAssistant";
+import SiteFooter from "./components/SiteFooter";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://seo-engine-mu.vercel.app";
 
@@ -53,8 +55,11 @@ export default function RootLayout({
           color: "#172033",
         }}
       >
+        <SiteNavbar />
         {children}
-      </body>
+        <SiteFooter />
+        <FloatingAIAssistant />
+</body>
     </html>
   );
 }

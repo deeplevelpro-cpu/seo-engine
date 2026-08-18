@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+<defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#f5f3ff"/><stop offset="1" stop-color="#eff6ff"/></linearGradient></defs>
+<rect width="800" height="450" fill="url(#g)"/>
+<circle cx="680" cy="90" r="130" fill="#ddd6fe" opacity=".55"/>
+<rect x="140" y="60" width="520" height="325" rx="28" fill="white" stroke="#e0e7ff" stroke-width="5"/>
+<rect x="195" y="105" width="280" height="22" rx="11" fill="#7c3aed"/>
+<rect x="195" y="150" width="390" height="14" rx="7" fill="#dbe1ef"/>
+<path d="M205 310 L285 265 L350 285 L425 215 L500 240 L580 150" fill="none" stroke="#5b5ff5" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M550 160l30-10-7 31" fill="none" stroke="#5b5ff5" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="195" y="350" font-family="Arial" font-size="24" font-weight="700" fill="#17213d">WEBSITE TRAFFIC</text>
+</svg>

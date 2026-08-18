@@ -1,718 +1,656 @@
-"use client";
+import "./reference-home.css";
+import Link from "next/link";
 
-import toolsData from "@/data/tools";
+const guides = [
+  {
+    category: "LINUX",
+    title: "How to Fix Kali Linux APT Update Errors",
+    description: "Step-by-step guide to fix APT update & repository issues.",
+    icon: "⌁",
+    href: "/articles/how-to-fix-kali-linux-apt-update-errors",
+  },
+  {
+    category: "LINUX",
+    title: "How to Fix Kali Linux WiFi Not Working",
+    description: "Fix wireless adapter problems in Kali Linux quickly.",
+    icon: "⌁",
+    href: "/articles/how-to-fix-kali-linux-wifi-not-working-complete-troubleshooting-guide",
+  },
+  {
+    category: "GUIDES",
+    title: "Browse All Technical Guides",
+    description: "Explore our complete collection of technical guides.",
+    icon: "▤",
+    href: "/articles",
+  },
+];
 
-export default function Home() {
-  const tools = Object.entries(toolsData);
+const categories = [
+  {
+    icon: "⌕",
+    title: "SEO Tools",
+    description: "Keyword research, SERP checker, and more",
+    count: "21 Tools",
+    href: "/categories/seo",
+  },
+  {
+    icon: "▣",
+    title: "Content Tools",
+    description: "Grammar, plagiarism, text and writing tools",
+    count: "18 Tools",
+    href: "/categories/content",
+  },
+  {
+    icon: "◎",
+    title: "Web Tools",
+    description: "Image converters, minifiers, web utilities",
+    count: "15 Tools",
+    href: "/tools",
+  },
+  {
+    icon: "▶",
+    title: "YouTube Tools",
+    description: "Tag generator, thumbnail downloader, etc.",
+    count: "10 Tools",
+    href: "/tools",
+  },
+  {
+    icon: "</>",
+    title: "Developer Tools",
+    description: "JSON formatter, code minifier, base64, etc.",
+    count: "12 Tools",
+    href: "/categories/developer",
+  },
+  {
+    icon: "✦",
+    title: "Productivity Tools",
+    description: "Calculators, trackers, docs and more",
+    count: "14 Tools",
+    href: "/tools",
+  },
+];
 
+const popularTools = [
+  {
+    icon: "▤",
+    title: "Keyword Density Checker",
+    description: "Check keyword density for better SEO",
+    href: "/tools",
+  },
+  {
+    icon: "▧",
+    title: "Image Compressor",
+    description: "Compress images without losing quality",
+    href: "/tools",
+  },
+  {
+    icon: "▣",
+    title: "Meta Description Generator",
+    description: "Generate SEO-friendly meta descriptions",
+    href: "/tools",
+  },
+  {
+    icon: "⌁",
+    title: "Plagiarism Checker",
+    description: "Check content uniqueness instantly",
+    href: "/tools",
+  },
+];
+
+export default function HomePage() {
   return (
-    <main className="home">
-      <div className="glow glow1" />
-      <div className="glow glow2" />
+      <>
+    <main className="premium-home">
 
-      <header className="nav">
-        <a href="/" className="logo">
-          <span>⚡</span> AI TOOL <b>ENGINE</b>
-        </a>
+      {/* =====================================================
+          NAVBAR
+      ====================================================== */}
+      
 
-        <nav>
-          <a className="active" href="/">Home</a>
-          <a href="/tools">Tools</a>
-          <a href="/categories">Categories</a>
-          <a href="/blog">Blog</a>
-          <a href="/contact">Contact</a>
-        </nav>
+      {/* =====================================================
+          DECORATIVE BACKGROUND
+      ====================================================== */}
+      <div className="premium-background-art" aria-hidden="true">
+        <span className="bubble bubble-1" />
+        <span className="bubble bubble-2" />
+        <span className="bubble bubble-3" />
+        <span className="bubble bubble-4" />
+        <span className="bubble bubble-5" />
+        <span className="bubble bubble-6" />
+        <span className="bubble bubble-7" />
+        <span className="bubble bubble-8" />
+        <span className="bubble bubble-9" />
+        <span className="bubble bubble-10" />
+        <span className="dot-grid" />
+        <span className="wave wave-1" />
+        <span className="wave wave-2" />
+      </div>
 
-        <a href="/tools" className="allTools">
-          ✦ All 100+ Tools
-        </a>
-      </header>
+      {/* =====================================================
+          HERO
+      ====================================================== */}
+      <section className="premium-hero">
 
-      <section className="hero">
-        <div className="eyebrow">FREE ONLINE SEO TOOLS</div>
+        <div className="premium-hero-left">
 
-        <h1>
-          Simple SEO tools that
-          <br />
-          help you <span>create,</span>
-          <br />
-          <span>analyze,</span> and optimize
-          <br />
-          content.
-        </h1>
-
-        <p>
-          Use practical browser-based tools for content, keywords, text,
-          metadata, and everyday SEO tasks.
-        </p>
-
-        <div className="buttons">
-          <a href="/tools" className="primary">
-            Explore all tools
-          </a>
-
-          <a href="/blog" className="secondary">
-            Read the SEO blog
-          </a>
-        </div>
-
-        <div className="trust">
-          <span>✓ 100% FREE</span>
-          <span>⚡ INSTANT RESULTS</span>
-          <span>😊 EASY TO USE</span>
-          <span>🔒 SECURE & PRIVATE</span>
-        </div>
-      </section>
-
-      <section className="toolsSection">
-        <div className="sectionTop">
-          <div>
-            <div className="label">FEATURED TOOLS</div>
-            <h2>Start with our most useful tools</h2>
-            <p>Fast, simple and practical tools for your daily workflow.</p>
+          <div className="premium-eyebrow">
+            <span>ϟ</span>
+            FREE ONLINE TOOLS FOR SEO &amp; CONTENT
           </div>
 
-          <a href="/tools">View all tools →</a>
+          <h1>
+            Simple tools
+            <br />
+            to <span>create</span> and
+            <br />
+            <span>optimize</span> better
+            <br />
+            content.
+          </h1>
+
+          <p>
+            Practical, browser-based tools for SEO, content,
+            web &amp; productivity.
+          </p>
+
+          <div className="premium-hero-buttons">
+            <Link href="/tools" className="premium-primary-button">
+              Explore all tools <span>→</span>
+            </Link>
+
+            <Link href="/articles" className="premium-secondary-button">
+              Browse guides <span>→</span>
+            </Link>
+          </div>
+
+          <div className="premium-benefits">
+            <span><b>✓</b> 100% Free</span>
+            <span><b>ϟ</b> Instant Results</span>
+            <span><b>◎</b> Easy to Use</span>
+            <span><b>♙</b> No Signup</span>
+          </div>
+
         </div>
 
-        <div className="grid">
-          {tools.slice(0, 12).map(([slug, tool], index) => (
-            <a href={`/tools/${slug}`} className="tool" key={slug}>
-              <div className={`toolIcon icon${index % 6}`}>
-                {["W", "K", "S", "M", "P", "R"][index % 6]}
+        {/* AUTOMATION WORKFLOW */}
+        <div className="premium-automation">
+
+          <div className="automation-title">
+            <h3>Automation &amp; Linking</h3>
+            <p>
+              Connect tools and automate your workflow
+              for maximum productivity.
+            </p>
+          </div>
+
+          <div className="automation-flow">
+
+            <div className="flow-card">
+              <span className="flow-icon">⌕</span>
+              <div>
+                <strong>Find Keywords</strong>
+                <small>Use Keyword Density Checker</small>
+              </div>
+            </div>
+
+            <div className="flow-line" />
+
+            <div className="flow-card">
+              <span className="flow-icon purple">▣</span>
+              <div>
+                <strong>Optimize Content</strong>
+                <small>Improve with our SEO tools</small>
+              </div>
+            </div>
+
+            <div className="flow-line" />
+
+            <div className="flow-card">
+              <span className="flow-icon blue">▥</span>
+              <div>
+                <strong>Analyze &amp; Improve</strong>
+                <small>Get scoring &amp; suggestions</small>
+              </div>
+            </div>
+
+            <div className="flow-line" />
+
+            <div className="flow-card">
+              <span className="flow-icon orange">🚀</span>
+              <div>
+                <strong>Publish &amp; Rank</strong>
+                <small>Rank higher on search engines</small>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* WORKSPACE */}
+        <div className="premium-workspace">
+
+          <div className="workspace-topbar">
+            <div className="window-dots">
+              <i />
+              <i />
+              <i />
+            </div>
+
+            <strong>AI TOOL ENGINE</strong>
+
+            <span className="live-status">
+              <b /> LIVE
+            </span>
+          </div>
+
+          <div className="workspace-body">
+
+            <aside className="workspace-sidebar">
+              <span className="sidebar-active">K</span>
+              <span>✣</span>
+              <span>⌕</span>
+              <span>&lt;/&gt;</span>
+            </aside>
+
+            <div className="workspace-main">
+
+              <div className="workspace-label">
+                SEO WORKSPACE
               </div>
 
-              <div className="toolBody">
-                <h3>{tool.title}</h3>
-                <p>{tool.description}</p>
+              <h2>Optimize your content</h2>
+
+              <div className="workspace-select">
+                <span>Keyword density checker</span>
+                <b>⌄</b>
               </div>
 
-              <span className="arrow">→</span>
-            </a>
-          ))}
+              <div className="workspace-search">
+                <span>⌕</span>
+                <span>Search tool by name or key</span>
+                <button>Search Tools →</button>
+              </div>
+
+              <div className="workspace-bottom">
+
+                <div className="workspace-mini-card">
+                  <span>✓</span>
+                  <div>
+                    <strong>Easy workflow</strong>
+                    <small>No signup • No hassle</small>
+                  </div>
+                </div>
+
+                <strong className="workspace-caption">
+                  Free tools for SEO, content, web &amp; productivity
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
+
       </section>
 
-      <section className="stats">
-        <div>
-          <strong>1000+</strong>
-          <span>Tools Available</span>
+      {/* =====================================================
+          GUIDES + WORKSPACE
+      ====================================================== */}
+      <section className="premium-content-grid">
+
+        <div className="premium-guides-panel">
+
+          <div className="panel-heading">
+            <div>
+              <span>LATEST GUIDES &amp; TROUBLESHOOTING</span>
+            </div>
+
+            <Link href="/articles">
+              View all guides →
+            </Link>
+          </div>
+
+          <div className="guide-grid">
+
+            {guides.map((guide) => (
+              <Link
+                href={guide.href}
+                className="premium-guide-card"
+                key={guide.title}
+              >
+                <div className="guide-card-top">
+                  <span className="guide-icon">{guide.icon}</span>
+                  <span className="guide-category">
+                    {guide.category}
+                  </span>
+                </div>
+
+                <h3>{guide.title}</h3>
+
+                <p>{guide.description}</p>
+
+                <strong>
+                  {guide.category === "GUIDES"
+                    ? "Explore all →"
+                    : "Read guide →"}
+                </strong>
+              </Link>
+            ))}
+
+          </div>
+
         </div>
 
-        <div>
-          <strong>10K+</strong>
-          <span>Happy Users</span>
+        <div className="premium-seo-workspace-card">
+
+          <div className="panel-heading">
+            <span>YOUR SEO WORKSPACE</span>
+            <span>⚙</span>
+          </div>
+
+          <div className="seo-stats">
+
+            <div>
+              <small>KEYWORDS ANALYZED</small>
+              <strong>24</strong>
+              <em>Analyzed</em>
+            </div>
+
+            <div>
+              <small>OPTIMIZATION SCORE</small>
+              <strong>92<span>%</span></strong>
+              <em>Optimal</em>
+            </div>
+
+          </div>
+
+          <div className="progress-label">
+            <span>OVERALL PROGRESS</span>
+            <strong>92%</strong>
+          </div>
+
+          <div className="progress-track">
+            <span />
+          </div>
+
         </div>
 
-        <div>
-          <strong>50K+</strong>
-          <span>Results Generated</span>
-        </div>
-
-        <div>
-          <strong>4.9/5</strong>
-          <span>User Rating</span>
-        </div>
       </section>
 
-      <section className="why">
-        <div className="label">WHY AI TOOL ENGINE?</div>
+      {/* =====================================================
+          CATEGORIES + POPULAR TOOLS
+      ====================================================== */}
+      <section className="premium-bottom-grid">
 
-        <h2>
-          Everything you need to
-          <span> work smarter.</span>
-        </h2>
+        <div className="premium-category-panel">
 
-        <p>
-          No complicated software. No unnecessary setup. Just useful
-          browser-based tools designed to save time and make SEO easier.
-        </p>
+          <div className="panel-heading">
+            <span>BROWSE TOOLS BY CATEGORY</span>
 
-        <div className="whyGrid">
-          <article>
-            <div>⚡</div>
-            <h3>FAST</h3>
-            <p>Get useful results in seconds with a clean workflow.</p>
-          </article>
+            <Link href="/categories">
+              View all categories →
+            </Link>
+          </div>
 
-          <article>
-            <div>🎯</div>
-            <h3>ACCURATE</h3>
-            <p>Designed around practical SEO and content tasks.</p>
-          </article>
+          <div className="category-grid">
 
-          <article>
-            <div>🔒</div>
-            <h3>PRIVATE</h3>
-            <p>Your everyday content stays protected while using local tools.</p>
-          </article>
+            {categories.map((category) => (
+              <Link
+                href={category.href}
+                className="premium-category-card"
+                key={category.title}
+              >
+                <span className="category-icon">
+                  {category.icon}
+                </span>
+
+                <div>
+                  <h3>{category.title}</h3>
+                  <p>{category.description}</p>
+                  <strong>{category.count}</strong>
+                </div>
+              </Link>
+            ))}
+
+          </div>
+
         </div>
+
+        <div className="premium-popular-panel">
+
+          <div className="panel-heading">
+            <span>POPULAR TOOLS</span>
+
+            <Link href="/tools">
+              View all tools →
+            </Link>
+          </div>
+
+          <div className="popular-list">
+
+            {popularTools.map((tool) => (
+              <Link
+                href={tool.href}
+                className="popular-tool"
+                key={tool.title}
+              >
+                <span className="popular-icon">
+                  {tool.icon}
+                </span>
+
+                <div>
+                  <strong>{tool.title}</strong>
+                  <small>{tool.description}</small>
+                </div>
+
+                <b>›</b>
+              </Link>
+            ))}
+
+          </div>
+
+        </div>
+
       </section>
 
-      <footer>
-        <div>
-          <strong>⚡ AI TOOL ENGINE</strong>
-          <p>Simple tools for better content and SEO.</p>
+
+      {/* =====================================================
+          PHASE 18 — BLOG + FOOTER
+      ====================================================== */}
+
+      <section className="phase18-blog-section">
+
+        <div className="phase18-blog-heading">
+          <div>
+            <span>LATEST FROM THE BLOG</span>
+            <h2>Practical guides, tips &amp; useful insights.</h2>
+            <p>
+              Learn how to use SEO, content, developer and productivity tools
+              with simple step-by-step guides.
+            </p>
+          </div>
+
+          <Link href="/blog" className="phase18-blog-view">
+            View all posts →
+          </Link>
         </div>
 
-        <div className="footerLinks">
-          <a href="/tools">Tools</a>
-          <a href="/blog">Blog</a>
-          <a href="/contact">Contact</a>
+        <div className="phase18-blog-grid">
+
+          <Link
+            href="/articles/how-to-fix-kali-linux-apt-update-errors"
+            className="phase18-blog-card"
+          >
+            <div className="phase18-blog-icon">⌁</div>
+            <span>TECHNICAL GUIDE</span>
+            <h3>How to Fix Kali Linux APT Update Errors</h3>
+            <p>
+              Fix repository, DNS, GPG key and dependency issues step by step.
+            </p>
+            <strong>Read guide →</strong>
+          </Link>
+
+          <Link
+            href="/articles/how-to-fix-kali-linux-wifi-not-working-complete-troubleshooting-guide"
+            className="phase18-blog-card"
+          >
+            <div className="phase18-blog-icon">◉</div>
+            <span>TROUBLESHOOTING</span>
+            <h3>How to Fix Kali Linux WiFi Not Working</h3>
+            <p>
+              Troubleshoot wireless adapters, drivers, rfkill and NetworkManager.
+            </p>
+            <strong>Read guide →</strong>
+          </Link>
+
+          <Link
+            href="/blog"
+            className="phase18-blog-card phase18-blog-card-featured"
+          >
+            <div className="phase18-blog-icon">✦</div>
+            <span>AI TOOL ENGINE BLOG</span>
+            <h3>Explore More Practical Tool Guides</h3>
+            <p>
+              Discover useful tutorials, tool explanations and productivity tips.
+            </p>
+            <strong>Explore the blog →</strong>
+          </Link>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+{/* AI TOOL ENGINE — PREMIUM FAQ */}
+<section className="aie-premium-faq" aria-labelledby="aie-faq-title">
+  <div className="aie-faq-header">
+    <span className="aie-faq-eyebrow">✦ QUICK ANSWERS</span>
+    <h2 id="aie-faq-title">Frequently Asked Questions</h2>
+    <p>Everything you need to know about AI Tool Engine.</p>
+  </div>
+
+  <div className="aie-faq-grid">
+    <details>
+      <summary><span>What is AI Tool Engine?</span><b>+</b></summary>
+      <p>AI Tool Engine is a free online platform offering practical tools for SEO, content, development, productivity, web utilities and everyday digital tasks.</p>
+    </details>
+
+    <details>
+      <summary><span>Are the tools on AI Tool Engine free to use?</span><b>+</b></summary>
+      <p>Yes. AI Tool Engine provides a growing collection of free browser-based tools designed to be simple and easy to use.</p>
+    </details>
+
+    <details>
+      <summary><span>Do I need to create an account to use the tools?</span><b>+</b></summary>
+      <p>Many tools are designed to work without signup, so you can start using them directly from your browser.</p>
+    </details>
+
+    <details>
+      <summary><span>What types of tools are available?</span><b>+</b></summary>
+      <p>You can find tools for SEO, content, developer workflows, web utilities, security, marketing, images, conversions, calculations and productivity.</p>
+    </details>
+
+    <details>
+      <summary><span>Can I use AI Tool Engine on my phone?</span><b>+</b></summary>
+      <p>Yes. The website is designed with responsive layouts so users can access its tools from phones, tablets and desktop browsers.</p>
+    </details>
+
+    <details>
+      <summary><span>Is my data saved when I use a tool?</span><b>+</b></summary>
+      <p>Data handling depends on the specific tool and how it works. Avoid entering sensitive or confidential information unless the tool clearly explains how that information is handled.</p>
+    </details>
+
+    <details>
+      <summary><span>How can I find the right tool?</span><b>+</b></summary>
+      <p>Use the Tools page search and category filters to quickly find a tool that matches your task.</p>
+    </details>
+
+    <details>
+      <summary><span>How often are new tools added?</span><b>+</b></summary>
+      <p>AI Tool Engine is continuously being expanded with new tools, resources and practical digital utilities.</p>
+    </details>
+
+    <details>
+      <summary><span>Can I suggest a new tool or report a problem?</span><b>+</b></summary>
+      <p>Yes. You can contact the AI Tool Engine team with suggestions, feedback, technical issues or other website-related questions.</p>
+    </details>
+
+    <details>
+      <summary><span>How can I contact AI Tool Engine?</span><b>+</b></summary>
+      <p>You can use the Contact page to reach the team through the available WhatsApp and email contact options.</p>
+    </details>
+  </div>
+</section>
+
+
+<footer className="aie-footer">
+        <div className="aie-shell">
+
+          <div className="aie-footer-main">
+            <div className="aie-footer-brand">
+      <img src="/ai-tool-engine-logo.webp" alt="AI Tool Engine" className="ai-engine-logo-image" />
+              <div className="aie-logo">
+                <span>⚡</span>
+                AI TOOL <b>ENGINE</b>
+              </div>
+              <p>
+                Simple browser-based tools for better SEO,
+                content and digital workflows.
+              </p>
+            </div>
+
+            <div className="aie-footer-column">
+              <strong>Explore</strong>
+              <Link href="/tools">All Tools</Link>
+              <Link href="/categories">Categories</Link>
+              <Link href="/blog">SEO Blog</Link>
+              <Link href="/posts">Posts</Link>
+            </div>
+
+            <div className="aie-footer-column">
+              <strong>Company</strong>
+              <Link href="/about">About</Link>
+              <Link href="/contact">Contact</Link>
+            </div>
+
+            <div className="aie-footer-column">
+              <strong>Legal</strong>
+              <Link href="/privacy-policy">Privacy Policy</Link>
+              <Link href="/terms">Terms</Link>
+            </div>
+
+
+
+
+
+
+          
+<div className="aie-footer-column aie-footer-faq-final">
+  <h4>FAQ</h4>
+  <a
+    href="#aie-faq-title"
+    className="aie-footer-faq-final-link"
+    aria-label="Open Frequently Asked Questions"
+  >
+    <span className="aie-footer-faq-final-icon">?</span>
+    <span>Frequently Asked Questions</span>
+  </a>
+</div>
+
+</div>
+
+          <div className="aie-footer-bottom">
+            <span>© 2026 AI Tool Engine. All rights reserved.</span>
+            <span>Built for simple, useful digital work.</span>
+          </div>
+
         </div>
       </footer>
-
-      <style jsx>{`
-        .home {
-          min-height: 100vh;
-          color: #172033;
-          background:
-            radial-gradient(circle at 8% 30%, rgba(0,140,255,.16), transparent 25%),
-            radial-gradient(circle at 92% 35%, rgba(150,40,255,.17), transparent 27%),
-            radial-gradient(circle at 50% 0%, rgba(0,210,255,.07), transparent 32%),
-            #f7faff;
-          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .home::before {
-          content: "";
-          position: fixed;
-          inset: 0;
-          pointer-events: none;
-          opacity: .35;
-          background-image:
-            linear-gradient(rgba(34,211,238,.025) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34,211,238,.025) 1px, transparent 1px);
-          background-size: 55px 55px;
-          mask-image: linear-gradient(to bottom, black, transparent 75%);
-        }
-
-        .glow {
-          position: fixed;
-          width: 420px;
-          height: 420px;
-          border-radius: 50%;
-          filter: blur(110px);
-          opacity: .18;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        .glow1 {
-          background: #8bb8ff;
-          left: -280px;
-          top: 28%;
-        }
-
-        .glow2 {
-          background: #b28cff;
-          right: -280px;
-          top: 38%;
-        }
-
-        .nav {
-          width: min(1260px, calc(100% - 48px));
-          height: 82px;
-          margin: auto;
-          padding: 0 4px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          border-bottom: 1px solid rgba(100,130,190,.18);
-          position: relative;
-          z-index: 10;
-        }
-
-        .logo {
-          color: #fff;
-          text-decoration: none;
-          font-size: 21px;
-          font-weight: 900;
-          letter-spacing: -.5px;
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          text-shadow: 0 0 22px rgba(34,211,238,.2);
-        }
-
-        .logo span {
-          color: #a855f7 !important;
-          font-size: 21px;
-        }
-
-        .logo b {
-          color: #4f7cff !important;
-        }
-
-        nav {
-          display: flex;
-          align-items: center;
-          gap: 34px;
-        }
-
-        nav a {
-          position: relative;
-          color: #344054;
-           text-decoration: none;
-           font-size: 16px;
-          font-weight: 800;
-          transition: .2s;
-        }
-
-        nav a::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: -29px;
-          width: 0;
-          height: 3px;
-          border-radius: 20px;
-          background: linear-gradient(90deg,#2563eb,#a855f7);
-          transform: translateX(-50%);
-          transition: .2s;
-        }
-
-        nav a:hover,
-        nav .active {
-          color: #fff;
-        }
-
-        nav .active::after {
-          width: 42px;
-        }
-
-        .allTools {
-          text-decoration: none;
-          color: white;
-          padding: 12px 19px;
-          border-radius: 12px;
-          font-size: 12px;
-          font-weight: 950;
-          background: linear-gradient(100deg,#2563eb,#7c3aed,#c026d3);
-          box-shadow:
-            0 0 22px rgba(99,102,241,.28),
-            inset 0 1px rgba(255,255,255,.25);
-          transition: .2s;
-        }
-
-        .allTools:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 0 34px rgba(124,58,237,.45);
-        }
-
-        .hero {
-          width: min(1260px, calc(100% - 48px));
-          margin: auto;
-          padding: 72px 0 65px;
-          position: relative;
-          z-index: 2;
-        }
-
-        .eyebrow,
-        .label {
-          color: #4f7cff;
-          font-size: 12px;
-          font-weight: 1000;
-          letter-spacing: 2.4px;
-        }
-
-        .hero h1 {
-          max-width: 900px;
-          font-size: clamp(54px, 6.5vw, 88px);
-          line-height: .96;
-          letter-spacing: -5px;
-          font-weight: 1000;
-          margin: 18px 0 25px;
-        }
-
-        .hero h1 span {
-          background: linear-gradient(90deg,#a855f7 5%,#d946ef 45%,#4f7cff 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-        }
-
-        .hero > p {
-          max-width: 720px;
-          color: #667085;
-          line-height: 1.75;
-          font-size: 17px;
-        }
-
-        .buttons {
-          display: flex;
-          gap: 13px;
-          margin-top: 30px;
-        }
-
-        .buttons a {
-          text-decoration: none;
-          padding: 14px 21px;
-          border-radius: 11px;
-          font-size: 13px;
-          font-weight: 950;
-          transition: .2s;
-        }
-
-        .primary {
-          color: #ffffff;
-          background: linear-gradient(100deg,#4f7cff,#4f7cff);
-          box-shadow: 0 10px 35px rgba(34,211,238,.2);
-        }
-
-        .primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 14px 42px rgba(34,211,238,.32);
-        }
-
-        .secondary {
-          color: #e2e8f0;
-          border: 1px solid #263452;
-          background: rgba(15,23,42,.65);
-        }
-
-        .secondary:hover {
-          border-color: #667085;
-          transform: translateY(-2px);
-        }
-
-        .trust {
-          display: flex;
-          gap: 9px;
-          flex-wrap: wrap;
-          margin-top: 28px;
-        }
-
-        .trust span {
-          color: #aab8ca;
-          border: 1px solid rgba(100,130,190,.2);
-          background: rgba(8,17,36,.72);
-          border-radius: 999px;
-          padding: 8px 13px;
-          font-size: 10px;
-          font-weight: 850;
-        }
-
-        .toolsSection,
-        .why,
-        .stats {
-          width: min(1260px, calc(100% - 48px));
-          margin: auto;
-          position: relative;
-          z-index: 2;
-        }
-
-        .toolsSection {
-          padding-bottom: 30px;
-        }
-
-        .sectionTop {
-          display: flex;
-          align-items: end;
-          justify-content: space-between;
-          margin-bottom: 27px;
-        }
-
-        .sectionTop h2,
-        .why h2 {
-          margin: 8px 0;
-          font-size: 32px;
-          line-height: 1.05;
-          font-weight: 1000;
-          letter-spacing: -1.3px;
-        }
-
-        .sectionTop p,
-        .why > p {
-          color: #667085;
-          font-size: 13px;
-          margin-top: 9px;
-        }
-
-        .sectionTop > a {
-          color: #4f7cff;
-          text-decoration: none;
-          font-size: 12px;
-          font-weight: 950;
-        }
-
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0,1fr));
-          gap: 16px;
-        }
-
-        .tool {
-          min-height: 158px;
-          padding: 21px;
-          border: 1px solid rgba(70,100,170,.38);
-          border-radius: 15px;
-          background:
-            radial-gradient(circle at 100% 0%, rgba(70,50,160,.12), transparent 42%),
-            linear-gradient(145deg,rgba(13,26,52,.96),rgba(5,13,29,.96));
-          text-decoration: none;
-          color: white;
-          position: relative;
-          overflow: hidden;
-          transition: transform .22s, border-color .22s, box-shadow .22s;
-        }
-
-        .tool::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background: linear-gradient(135deg,rgba(255,255,255,.035),transparent 35%);
-        }
-
-        .tool:hover {
-          transform: translateY(-6px);
-          border-color: rgba(34,211,238,.62);
-          box-shadow:
-            0 18px 45px rgba(0,0,0,.42),
-            0 0 24px rgba(34,211,238,.08);
-        }
-
-        .toolIcon {
-          width: 39px;
-          height: 39px;
-          display: grid;
-          place-items: center;
-          border-radius: 10px;
-          font-size: 14px;
-          font-weight: 1000;
-          margin-bottom: 18px;
-          box-shadow: inset 0 1px rgba(255,255,255,.18);
-        }
-
-        .icon0 { background:linear-gradient(135deg,#0b4773,#123c62);color:#38bdf8;box-shadow:0 0 18px rgba(56,189,248,.15); }
-        .icon1 { background:linear-gradient(135deg,#54208a,#3b1b65);color:#d8a4ff;box-shadow:0 0 18px rgba(192,132,252,.15); }
-        .icon2 { background:linear-gradient(135deg,#07565c,#063d43);color:#2dd4bf;box-shadow:0 0 18px rgba(45,212,191,.15); }
-        .icon3 { background:linear-gradient(135deg,#72194d,#4a183b);color:#fb7185;box-shadow:0 0 18px rgba(251,113,133,.15); }
-        .icon4 { background:linear-gradient(135deg,#6a5007,#463a0b);color:#facc15;box-shadow:0 0 18px rgba(250,204,21,.12); }
-        .icon5 { background:linear-gradient(135deg,#17613b,#143e2a);color:#4ade80;box-shadow:0 0 18px rgba(74,222,128,.12); }
-
-        .tool h3 {
-          margin: 0 0 9px;
-          padding-right: 25px;
-          font-size: 14px;
-          line-height: 1.25;
-          font-weight: 1000;
-          letter-spacing: .25px;
-        }
-
-        .tool p {
-          color: #7f8da4;
-          font-size: 11px;
-          line-height: 1.55;
-          margin: 0;
-          max-width: 190px;
-        }
-
-        .arrow {
-          position: absolute;
-          right: 17px;
-          bottom: 16px;
-          width: 31px;
-          height: 31px;
-          display: grid;
-          place-items: center;
-          border: 1px solid rgba(34,211,238,.35);
-          border-radius: 50%;
-          color: #4f7cff;
-          font-size: 17px;
-          transition: .2s;
-        }
-
-        .tool:hover .arrow {
-          background: rgba(34,211,238,.08);
-          transform: translateX(3px);
-          box-shadow: 0 0 15px rgba(34,211,238,.15);
-        }
-
-        .stats {
-          display: grid;
-          grid-template-columns: repeat(4,1fr);
-          margin-top: 30px;
-          margin-bottom: 90px;
-          padding: 18px 0;
-          border: 1px solid rgba(70,100,180,.38);
-          border-radius: 15px;
-          background:
-            linear-gradient(90deg,rgba(17,35,70,.82),rgba(9,18,42,.9));
-          box-shadow: 0 15px 45px rgba(0,0,0,.2);
-        }
-
-        .stats div {
-          text-align: center;
-          padding: 10px 18px;
-          border-right: 1px solid rgba(100,130,190,.2);
-        }
-
-        .stats div:last-child {
-          border-right: 0;
-        }
-
-        .stats strong {
-          display: block;
-          font-size: 30px;
-          font-weight: 1000;
-          background: linear-gradient(90deg,#4f7cff,#a855f7);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-        }
-
-        .stats span {
-          color: #718096;
-          font-size: 11px;
-          font-weight: 700;
-        }
-
-        .why {
-          padding-bottom: 100px;
-        }
-
-        .why h2 {
-          font-size: clamp(36px,4.5vw,55px);
-          margin-top: 12px;
-        }
-
-        .why h2 span {
-          background: linear-gradient(90deg,#a855f7,#d946ef);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-        }
-
-        .why > p {
-          max-width: 670px;
-          line-height: 1.8;
-          font-size: 14px;
-        }
-
-        .whyGrid {
-          display: grid;
-          grid-template-columns: repeat(3,1fr);
-          gap: 16px;
-          margin-top: 30px;
-        }
-
-        .whyGrid article {
-          padding: 24px;
-          border: 1px solid rgba(70,100,170,.3);
-          border-radius: 15px;
-          background: linear-gradient(145deg,rgba(13,26,52,.86),rgba(6,13,29,.9));
-        }
-
-        .whyGrid article > div {
-          font-size: 25px;
-          margin-bottom: 14px;
-        }
-
-        .whyGrid h3 {
-          font-size: 13px;
-          font-weight: 1000;
-          letter-spacing: .5px;
-        }
-
-        .whyGrid p {
-          color: #718096;
-          font-size: 11px;
-          line-height: 1.7;
-        }
-
-        footer {
-          width: min(1260px, calc(100% - 48px));
-          margin: auto;
-          padding: 35px 0 60px;
-          border-top: 1px solid rgba(100,130,190,.15);
-          display: flex;
-          justify-content: space-between;
-          position: relative;
-          z-index: 2;
-        }
-
-        footer strong {
-          color: #fff;
-          font-size: 15px;
-        }
-
-        footer p {
-          color: #667085;
-          font-size: 11px;
-        }
-
-        .footerLinks {
-          display: flex;
-          gap: 25px;
-        }
-
-        .footerLinks a {
-          color: #718096;
-          text-decoration: none;
-          font-size: 12px;
-          font-weight: 750;
-        }
-
-        .footerLinks a:hover {
-          color: #4f7cff;
-        }
-
-        @media(max-width:900px) {
-          nav { display:none; }
-          .grid { grid-template-columns:repeat(2,1fr); }
-          .hero h1 { font-size:clamp(48px,8vw,72px); }
-        }
-
-        @media(max-width:600px) {
-          .nav,
-          .hero,
-          .toolsSection,
-          .why,
-          .stats,
-          footer {
-            width: min(100% - 28px,1260px);
-          }
-
-          .hero {
-            padding-top:55px;
-          }
-
-          .hero h1 {
-            font-size:45px;
-            letter-spacing:-3px;
-          }
-
-          .sectionTop {
-            align-items:flex-start;
-            flex-direction:column;
-            gap:12px;
-          }
-
-          .grid,
-          .whyGrid,
-          .stats {
-            grid-template-columns:1fr;
-          }
-
-          .stats div {
-            border-right:0;
-            border-bottom:1px solid rgba(100,130,190,.18);
-          }
-
-          .stats div:last-child {
-            border-bottom:0;
-          }
-
-          footer {
-            flex-direction:column;
-            gap:20px;
-          }
-        }
-      `}</style>
-    </main>
+      </>
   );
 }

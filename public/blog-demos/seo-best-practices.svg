@@ -1,0 +1,26 @@
+<svg width="720" height="460" viewBox="0 0 720 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <linearGradient id="bg2" x1="0" y1="0" x2="720" y2="460">
+  <stop stop-color="#08275F"/>
+  <stop offset=".55" stop-color="#1248A7"/>
+  <stop offset="1" stop-color="#1E73D8"/>
+ </linearGradient>
+ <linearGradient id="glass" x1="200" y1="100" x2="560" y2="360">
+  <stop stop-color="#FFFFFF" stop-opacity=".20"/>
+  <stop offset="1" stop-color="#FFFFFF" stop-opacity=".06"/>
+ </linearGradient>
+</defs>
+<rect width="720" height="460" rx="34" fill="url(#bg2)"/>
+<circle cx="590" cy="85" r="120" fill="#60A5FA" opacity=".15"/>
+<rect x="140" y="92" width="440" height="285" rx="28" fill="url(#glass)" stroke="white" stroke-opacity=".15"/>
+<circle cx="315" cy="215" r="78" fill="#0A2470" stroke="#BFDBFE" stroke-width="16"/>
+<circle cx="315" cy="215" r="46" fill="#173E9B"/>
+<path d="M369 270L452 353" stroke="#BFDBFE" stroke-width="24" stroke-linecap="round"/>
+<path d="M277 215L302 240L357 178" stroke="white" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="445" y="155" width="78" height="13" rx="6.5" fill="white" opacity=".7"/>
+<rect x="445" y="184" width="103" height="10" rx="5" fill="white" opacity=".28"/>
+<rect x="445" y="208" width="82" height="10" rx="5" fill="white" opacity=".22"/>
+<path d="M84 330L118 296L147 314L190 255L224 276" stroke="#93C5FD" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="84" cy="330" r="7" fill="white"/>
+<circle cx="224" cy="276" r="7" fill="white"/>
+</svg>

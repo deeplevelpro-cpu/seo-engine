@@ -2,11 +2,12 @@ import type { MetadataRoute } from "next";
 import tools from "@/data/tools";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://seo-engine-mu.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://seo-engine-mu.vercel.app";
+
+const now = new Date();
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-
   const staticUrls: MetadataRoute.Sitemap = [
     {
       url: siteUrl,
@@ -18,12 +19,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteUrl}/tools`,
       lastModified: now,
       changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${siteUrl}/categories`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/articles`,
+      lastModified: now,
+      changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${siteUrl}/blog`,
       lastModified: now,
       changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${siteUrl}/posts`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: `${siteUrl}/pricing`,
+      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.8,
     },
     {
@@ -36,7 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteUrl}/contact`,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.4,
+      priority: 0.5,
     },
     {
       url: `${siteUrl}/privacy-policy`,
@@ -52,33 +77,50 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  // Build category URLs directly from the authoritative tool registry.
+  const categories = [
+    ...new Set(
+      Object.values(tools)
+        .map((tool) => tool.category.trim().toLowerCase())
+        .filter(Boolean)
+    ),
+  ].sort();
 
-  const categoryUrls: MetadataRoute.Sitemap = [
-    ...new Set([
-      "seo",
-      "content",
-      "developer",
-      "writing",
-      "marketing",
-      "social-media",
-      "design",
-      "productivity",
-      "finance",
-      "education"
-    ]),
-  ].map((category) => ({
-    url: `${siteUrl}/categories/${category}`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
+  const categoryUrls: MetadataRoute.Sitemap = categories.map(
+    (category) => ({
+      url: `${siteUrl}/categories/${encodeURIComponent(category)}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    })
+  );
 
-  const toolUrls: MetadataRoute.Sitemap = Object.keys(tools).map((slug) => ({
-    url: `${siteUrl}/tools/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  // Build canonical tool URLs from the same registry used by
+  // /tools/[slug].
+  const toolUrls: MetadataRoute.Sitemap = Object.keys(tools).map(
+    (slug) => ({
+      url: `${siteUrl}/tools/${encodeURIComponent(slug)}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    })
+  );
 
-  return [...staticUrls, ...categoryUrls, ...toolUrls];
+  // Safety: deduplicate the final sitemap by URL.
+  const allUrls = [
+    ...staticUrls,
+    ...categoryUrls,
+    ...toolUrls,
+  ];
+
+  const seen = new Set<string>();
+
+  return allUrls.filter((entry) => {
+    if (seen.has(entry.url)) {
+      return false;
+    }
+
+    seen.add(entry.url);
+    return true;
+  });
 }

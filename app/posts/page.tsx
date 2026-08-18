@@ -1,3 +1,5 @@
+import SiteNav from "@/components/SiteNav";
+
 import { connectDB } from "@/lib/db";
 import Blog from "@/models/Blog";
 import Link from "next/link";
@@ -8,6 +10,7 @@ export default async function PostsPage() {
 
   return (
     <main style={{ padding: "40px" }}>
+      <SiteNav />
       <h1>📚 All Blogs</h1>
 
       {blogs.map((b) => (
