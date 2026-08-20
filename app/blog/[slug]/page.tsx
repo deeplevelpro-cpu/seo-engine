@@ -2,6 +2,9 @@ import { connectDB } from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 // ✅ Proper Type Definition (NO ERROR EVER)
 type Props = {
   params: {
