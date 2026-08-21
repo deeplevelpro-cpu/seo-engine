@@ -167,8 +167,8 @@ export default async function ArticlePage({ params }: Props) {
           <section key={`${article.slug}-${index}`}>
             {section.heading && <h2>{section.heading}</h2>}
 
-            {section.paragraphs?.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+            {section.paragraphs?.map((paragraph, index) => (
+              <p key={`paragraph-${index}-${paragraph}`}>{paragraph}</p>
             ))}
 
             {section.bullets && (
