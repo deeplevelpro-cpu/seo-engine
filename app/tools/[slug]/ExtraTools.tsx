@@ -18,7 +18,7 @@ export default function ExtraTools({ slug }: ExtraToolsProps) {
     try {
       const handler = getToolHandler(slug);
 
-      const response = handler({
+      const response = await handler({
         text: input,
       });
 
