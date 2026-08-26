@@ -1,9 +1,8 @@
+import { SITE_URL } from "../lib/site-config";
 import type { MetadataRoute } from "next";
 import tools from "@/data/tools";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://seo-engine-mu.vercel.app";
+const siteUrl = SITE_URL;
 
 const now = new Date();
 
