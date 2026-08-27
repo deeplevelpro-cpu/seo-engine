@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import toolsData from "@/data/tools";
+import { SITE_URL } from "../../../lib/site-config";
 import ToolClient from "./ToolClient";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://seo-engine-mu.vercel.app";
+const siteUrl = SITE_URL;
 
 type Props = {
   params: Promise<{ slug: string }>;
