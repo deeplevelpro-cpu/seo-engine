@@ -5,11 +5,10 @@
    ============================================================ */
 
 import { generateContent } from "@/lib/contentGenerator";
+import { SITE_URL } from "../../../../../lib/site-config";
 
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://seo-engine-mu.vercel.app";
+const siteUrl = SITE_URL;
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;

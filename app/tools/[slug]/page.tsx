@@ -3,6 +3,7 @@ import Link from "next/link";
 import toolsData from "@/data/tools";
 import { SITE_URL } from "../../../lib/site-config";
 import ToolClient from "./ToolClient";
+import { getToolSeoContent } from "../../../lib/tool-seo-content";
 
 const siteUrl = SITE_URL;
 
@@ -20,80 +21,7 @@ function getRelatedTools(slug: string, category: string) {
     .slice(0, 4);
 }
 
-function getUseCases(title: string, category: string) {
-  const lower = title.toLowerCase();
 
-  if (lower.includes("checker")) {
-    return [
-      `Review ${title.toLowerCase()} results quickly.`,
-      `Find issues that may need attention before publishing or sharing.`,
-      `Use the results to make more informed content or workflow decisions.`,
-    ];
-  }
-
-  if (lower.includes("generator")) {
-    return [
-      `Create a starting point with ${title.toLowerCase()}.`,
-      `Adjust the generated result to match your project or campaign.`,
-      `Reuse the output in your existing workflow.`,
-    ];
-  }
-
-  if (lower.includes("calculator")) {
-    return [
-      `Enter the values you already have.`,
-      `Calculate the result without manual arithmetic.`,
-      `Use the result in planning, analysis, or everyday work.`,
-    ];
-  }
-
-  if (lower.includes("converter")) {
-    return [
-      `Provide the source value or data.`,
-      `Convert it into the format you need.`,
-      `Copy the converted result into your workflow.`,
-    ];
-  }
-
-  if (category.toLowerCase() === "developer") {
-    return [
-      `Prepare or inspect development data quickly.`,
-      `Reduce repetitive manual formatting or transformation work.`,
-      `Copy the result directly into your development workflow.`,
-    ];
-  }
-
-  return [
-    `Complete the task directly in your browser.`,
-    `Review the result and make any final adjustments you need.`,
-    `Use the output in your next workflow step.`,
-  ];
-}
-
-function getFaq(title: string, description: string) {
-  return [
-    {
-      question: `What is ${title}?`,
-      answer:
-        `${title} is a browser-based tool in AI Tool Engine. ${description}`,
-    },
-    {
-      question: `How do I use ${title}?`,
-      answer:
-        `Open the tool, provide the requested information, run the tool, and review the generated or calculated result.`,
-    },
-    {
-      question: `Is ${title} available online?`,
-      answer:
-        `Yes. ${title} is available directly in your browser through AI Tool Engine.`,
-    },
-    {
-      question: `Who can use ${title}?`,
-      answer:
-        `It can be useful for creators, marketers, developers, website owners, students, and anyone who needs the specific task handled by the tool.`,
-    },
-  ];
-}
 
 export async function generateMetadata(
   { params }: Props
@@ -157,8 +85,26 @@ export default async function ToolPage({ params }: Props) {
   }
 
   const relatedTools = getRelatedTools(slug, tool.category);
-  const useCases = getUseCases(tool.title, tool.category);
-  const faq = getFaq(tool.title, tool.description);
+  const seoContent = getToolSeoContent(tool.title, tool.category);
+  const useCases = seoContent.useCases;
+  const faq = [
+    {
+      question: `What does ${tool.title} do?`,
+      answer: seoContent.intro,
+    },
+    {
+      question: `How do I use ${tool.title}?`,
+      answer: seoContent.howTo.join(" "),
+    },
+    {
+      question: `What can I use ${tool.title} for?`,
+      answer: seoContent.useCases.slice(0, 2).join(" "),
+    },
+    {
+      question: `What should I check before using ${tool.title}?`,
+      answer: seoContent.tips[0],
+    },
+  ];
   const canonical = `${siteUrl}/tools/${slug}`;
 
   const webApplicationSchema = {
@@ -227,21 +173,16 @@ export default async function ToolPage({ params }: Props) {
           <section className="tool-seo-section">
             <h2>About {tool.title}</h2>
 
-            <p>
-              {tool.description} AI Tool Engine provides this browser-based
-              utility so you can complete the task quickly and review the
-              result in one place.
-            </p>
+            <p>{seoContent.intro}</p>
           </section>
 
           <section className="tool-seo-section">
             <h2>How to Use {tool.title}</h2>
 
             <ol>
-              <li>Open the tool and review the available input fields.</li>
-              <li>Enter or paste the information required for your task.</li>
-              <li>Run the tool and review the result carefully.</li>
-              <li>Copy, reuse, or apply the result to your workflow.</li>
+              {seoContent.howTo.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
             </ol>
           </section>
 
@@ -251,6 +192,16 @@ export default async function ToolPage({ params }: Props) {
             <ul>
               {useCases.map((item) => (
                 <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="tool-seo-section">
+            <h2>Tips for Using {tool.title}</h2>
+
+            <ul>
+              {seoContent.tips.map((tip) => (
+                <li key={tip}>{tip}</li>
               ))}
             </ul>
           </section>

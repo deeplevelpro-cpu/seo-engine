@@ -6,165 +6,126 @@ export type Tool = {
   seoDesc: string;
 };
 
-const tools: Record<string, Tool> = {
-  "keyword-density-checker": {
+const tools: Record<string, Tool> = {  "keyword-density-checker": {
     "title": "Keyword Density Checker",
-    "description": "Keyword Density Checker helps you measure how often a target keyword appears in content and review its relative usage. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Measure how often a target keyword appears in your content and review its percentage of total words.",
     "category": "SEO",
     "seoTitle": "Keyword Density Checker - Free Online Tool",
-    "seoDesc": "Use Keyword Density Checker to measure how often a target keyword appears in content and review its relative usage. Get a clear, practical result online wi."
-  },
-
-  "keyword-frequency-checker": {
+    "seoDesc": "Keyword Density Checker helps you measure keyword usage in content and review how frequently a target term appears. Useful for SEO content analysis and optimization."
+  },  "keyword-frequency-checker": {
     "title": "Keyword Frequency Checker",
-    "description": "Keyword Frequency Checker helps you count keyword occurrences and review how frequently important terms appear in a piece of content. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Count keyword occurrences in text and quickly see which terms appear most often.",
     "category": "SEO",
     "seoTitle": "Keyword Frequency Checker - Free Online Tool",
-    "seoDesc": "Use Keyword Frequency Checker to count keyword occurrences and review how frequently important terms appear in a piece of content. Get a clear, practical r."
-  },
-
-  "meta-tag-generator": {
+    "seoDesc": "Keyword Frequency Checker counts keyword occurrences in your content so you can review term usage, compare important phrases, and refine copy."
+  },  "meta-tag-generator": {
     "title": "Meta Tag Generator",
-    "description": "Meta Tag Generator helps you support SEO planning, optimization, and website content tasks. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate essential HTML meta tags for a webpage, including title, description, robots, and social metadata.",
     "category": "SEO",
     "seoTitle": "Meta Tag Generator - Free Online Tool",
-    "seoDesc": "Use Meta Tag Generator to support SEO planning, optimization, and website content tasks. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "meta-description-generator": {
+    "seoDesc": "Meta Tag Generator helps create essential webpage meta tags for SEO and sharing. Prepare cleaner metadata without manually writing each tag."
+  },  "meta-description-generator": {
     "title": "Meta Description Generator",
-    "description": "Meta Description Generator helps you write or evaluate concise search-result descriptions for pages and improve snippet wording. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Create concise, search-friendly meta descriptions designed to summarize a webpage clearly.",
     "category": "SEO",
     "seoTitle": "Meta Description Generator - Free Online Tool",
-    "seoDesc": "Use Meta Description Generator to write or evaluate concise search-result descriptions for pages and improve snippet wording. Get a clear, practical result."
-  },
-
-  "title-tag-generator": {
+    "seoDesc": "Meta Description Generator helps you create concise search-result descriptions that summarize a page clearly and improve snippet wording."
+  },  "title-tag-generator": {
     "title": "Title Tag Generator",
-    "description": "Title Tag Generator helps you create or refine SEO title tags with clearer wording for search results. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Create concise SEO title tags that clearly describe a webpage and its primary search intent.",
     "category": "SEO",
     "seoTitle": "Title Tag Generator - Free Online Tool",
-    "seoDesc": "Use Title Tag Generator to create or refine SEO title tags with clearer wording for search results. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "serp-snippet-preview": {
+    "seoDesc": "Title Tag Generator helps create focused SEO title tags with clear wording for search results, page relevance, and stronger snippet presentation."
+  },  "serp-snippet-preview": {
     "title": "SERP Snippet Preview",
-    "description": "SERP Snippet Preview helps you preview how title and description text may appear together in search results. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Preview how a page title and meta description may appear together in search results.",
     "category": "SEO",
     "seoTitle": "SERP Snippet Preview - Free Online Tool",
-    "seoDesc": "Use SERP Snippet Preview to preview how title and description text may appear together in search results. Get a clear, practical result online with AI Tool."
-  },
-
-  "robots-txt-generator": {
+    "seoDesc": "SERP Snippet Preview lets you review title and meta description text together before publishing, helping you refine search-result presentation."
+  },  "robots-txt-generator": {
     "title": "Robots.txt Generator",
-    "description": "Robots.txt Generator helps you create robots.txt directives for controlling crawler access to website paths. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Create robots.txt directives that specify which website paths search-engine crawlers can access.",
     "category": "SEO",
     "seoTitle": "Robots.txt Generator - Free Online Tool",
-    "seoDesc": "Use Robots.txt Generator to create robots.txt directives for controlling crawler access to website paths. Get a clear, practical result online with AI Tool."
-  },
-
-  "sitemap-generator": {
+    "seoDesc": "Robots.txt Generator helps create crawler directives for website paths. Prepare robots.txt rules quickly and review them before publishing."
+  },  "sitemap-generator": {
     "title": "Sitemap Generator",
-    "description": "Sitemap Generator helps you build an XML sitemap structure for pages that search engines should discover. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate an XML sitemap structure containing the URLs that search engines should discover on your website.",
     "category": "SEO",
     "seoTitle": "Sitemap Generator - Free Online Tool",
-    "seoDesc": "Use Sitemap Generator to build an XML sitemap structure for pages that search engines should discover. Get a clear, practical result online with AI Tool En."
-  },
-
-  "canonical-url-generator": {
+    "seoDesc": "Sitemap Generator helps create an XML sitemap structure for important website URLs, making it easier to prepare pages for search-engine discovery."
+  },  "canonical-url-generator": {
     "title": "Canonical URL Generator",
-    "description": "Canonical URL Generator helps you create a canonical URL reference to help consolidate duplicate or similar page signals. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate canonical URL markup that identifies the preferred version of a webpage.",
     "category": "SEO",
     "seoTitle": "Canonical URL Generator - Free Online Tool",
-    "seoDesc": "Use Canonical URL Generator to create a canonical URL reference to help consolidate duplicate or similar page signals. Get a clear, practical result online."
-  },
-
-  "open-graph-generator": {
+    "seoDesc": "Canonical URL Generator helps create canonical URL references for pages with duplicate or similar versions, supporting cleaner SEO signal management."
+  },  "open-graph-generator": {
     "title": "Open Graph Generator",
-    "description": "Open Graph Generator helps you prepare Open Graph metadata for richer social sharing previews. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate Open Graph metadata for webpages so shared links can display richer previews on supported platforms.",
     "category": "SEO",
     "seoTitle": "Open Graph Generator - Free Online Tool",
-    "seoDesc": "Use Open Graph Generator to prepare Open Graph metadata for richer social sharing previews. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "twitter-card-generator": {
+    "seoDesc": "Open Graph Generator helps prepare social sharing metadata such as titles, descriptions, and preview information for webpages."
+  },  "twitter-card-generator": {
     "title": "Twitter Card Generator",
-    "description": "Twitter Card Generator helps you prepare Twitter/X card metadata for cleaner social sharing previews. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate Twitter/X card metadata for webpages to control how shared links are presented.",
     "category": "SEO",
     "seoTitle": "Twitter Card Generator - Free Online Tool",
-    "seoDesc": "Use Twitter Card Generator to prepare Twitter/X card metadata for cleaner social sharing previews. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "schema-markup-generator": {
+    "seoDesc": "Twitter Card Generator helps prepare Twitter/X metadata for cleaner link previews, including page titles, descriptions, and sharing information."
+  },  "schema-markup-generator": {
     "title": "Schema Markup Generator",
-    "description": "Schema Markup Generator helps you generate structured data markup for richer search-engine understanding. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate structured data markup that helps search engines understand the content and purpose of a webpage.",
     "category": "SEO",
     "seoTitle": "Schema Markup Generator - Free Online Tool",
-    "seoDesc": "Use Schema Markup Generator to generate structured data markup for richer search-engine understanding. Get a clear, practical result online with AI Tool En."
-  },
-
-  "faq-schema-generator": {
+    "seoDesc": "Schema Markup Generator helps create structured data for webpages so important content details can be represented in a search-friendly format."
+  },  "faq-schema-generator": {
     "title": "FAQ Schema Generator",
-    "description": "FAQ Schema Generator helps you create FAQ structured data from question-and-answer content. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Create FAQ structured data from question-and-answer content for supported search-engine implementations.",
     "category": "SEO",
     "seoTitle": "FAQ Schema Generator - Free Online Tool",
-    "seoDesc": "Use FAQ Schema Generator to create FAQ structured data from question-and-answer content. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "article-schema-generator": {
+    "seoDesc": "FAQ Schema Generator converts question-and-answer content into FAQ structured data, helping you prepare valid markup for supported implementations."
+  },  "article-schema-generator": {
     "title": "Article Schema Generator",
-    "description": "Article Schema Generator helps you create Article structured data for editorial and blog content. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate Article structured data for blog posts, news articles, and other editorial webpages.",
     "category": "SEO",
     "seoTitle": "Article Schema Generator - Free Online Tool",
-    "seoDesc": "Use Article Schema Generator to create Article structured data for editorial and blog content. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "breadcrumb-schema-generator": {
+    "seoDesc": "Article Schema Generator helps create structured data for editorial content, including key article information for search-engine understanding."
+  },  "breadcrumb-schema-generator": {
     "title": "Breadcrumb Schema Generator",
-    "description": "Breadcrumb Schema Generator helps you create Breadcrumb structured data to describe page hierarchy. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate Breadcrumb structured data that describes the hierarchy and navigation path of a webpage.",
     "category": "SEO",
     "seoTitle": "Breadcrumb Schema Generator - Free Online Tool",
-    "seoDesc": "Use Breadcrumb Schema Generator to create Breadcrumb structured data to describe page hierarchy. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "local-business-schema-generator": {
+    "seoDesc": "Breadcrumb Schema Generator creates structured data describing page hierarchy and breadcrumb navigation for search-engine understanding."
+  },  "local-business-schema-generator": {
     "title": "Local Business Schema Generator",
-    "description": "Local Business Schema Generator helps you create LocalBusiness structured data for local business information. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate LocalBusiness structured data for webpages representing local businesses and their information.",
     "category": "SEO",
     "seoTitle": "Local Business Schema Generator - Free Online Tool",
-    "seoDesc": "Use Local Business Schema Generator to create LocalBusiness structured data for local business information. Get a clear, practical result online with AI To."
-  },
-
-  "organization-schema-generator": {
+    "seoDesc": "Local Business Schema Generator helps create LocalBusiness structured data for business details such as name, location, contact information, and services."
+  },  "organization-schema-generator": {
     "title": "Organization Schema Generator",
-    "description": "Organization Schema Generator helps you create Organization structured data for company or brand entities. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate Organization structured data for company, brand, or organizational information.",
     "category": "SEO",
     "seoTitle": "Organization Schema Generator - Free Online Tool",
-    "seoDesc": "Use Organization Schema Generator to create Organization structured data for company or brand entities. Get a clear, practical result online with AI Tool E."
-  },
-
-  "website-schema-generator": {
+    "seoDesc": "Organization Schema Generator helps create structured data for companies and brands, making key organization information easier for search engines to interpret."
+  },  "website-schema-generator": {
     "title": "Website Schema Generator",
-    "description": "Website Schema Generator helps you create Website structured data for site-level information. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Generate Website structured data for site-level information and search-engine understanding.",
     "category": "SEO",
     "seoTitle": "Website Schema Generator - Free Online Tool",
-    "seoDesc": "Use Website Schema Generator to create Website structured data for site-level information. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "seo-slug-generator": {
+    "seoDesc": "Website Schema Generator helps create Website structured data for site-level information and important details about an online property."
+  },  "seo-slug-generator": {
     "title": "SEO Slug Generator",
-    "description": "SEO Slug Generator helps you turn page titles into cleaner, readable, SEO-friendly URL slugs. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Turn page titles into clean, readable, SEO-friendly URL slugs.",
     "category": "SEO",
     "seoTitle": "SEO Slug Generator - Free Online Tool",
-    "seoDesc": "Use SEO Slug Generator to turn page titles into cleaner, readable, SEO-friendly URL slugs. Get a clear, practical result online with AI Tool Engine."
-  },
-
-  "seo-title-checker": {
+    "seoDesc": "SEO Slug Generator converts page titles into clean, readable URL slugs that are easier for users and search engines to understand."
+  },  "seo-title-checker": {
     "title": "SEO Title Checker",
-    "description": "SEO Title Checker helps you check SEO title wording and length for clearer search-result presentation. Use it to get a clear result quickly without unnecessary setup.",
+    "description": "Check an SEO title for length and wording so it is clearer and more suitable for search-result presentation.",
     "category": "SEO",
     "seoTitle": "SEO Title Checker - Free Online Tool",
-    "seoDesc": "Use SEO Title Checker to check SEO title wording and length for clearer search-result presentation. Get a clear, practical result online with AI Tool Engine."
+    "seoDesc": "SEO Title Checker helps review title wording and length so you can create clearer, more focused titles for search results."
   },
 
   "meta-description-length-checker": {
@@ -515,7 +476,7 @@ const tools: Record<string, Tool> = {
     "title": "URL Parser",
     "description": "URL Parser helps you break a URL into useful components such as protocol, host, path, and query. Use it to get a clear result quickly without unnecessary setup.",
     "category": "Web",
-    "seoTitle": "URL Parser - Free Online Tool",
+    "seoTitle": "URL Parser - Free Online URL Tool",
     "seoDesc": "Use URL Parser to break a URL into useful components such as protocol, host, path, and query. Get a clear, practical result online with AI Tool Engine."
   },
 

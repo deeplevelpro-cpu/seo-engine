@@ -1,6 +1,7 @@
  "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -47,9 +48,10 @@ export default function SiteNavbar() {
     };
   }, [pathname]);
 
-  useEffect(() => {
+
+  const closeMobileMenu = () => {
     setMobileOpen(false);
-  }, [pathname]);
+  };
 
   return (
     <header className="universal-site-navbar">
@@ -59,12 +61,15 @@ export default function SiteNavbar() {
           href="/"
           className="universal-navbar-brand"
           aria-label="AI Tool Engine Home"
-        >
-          <img
-            src="/ai-tool-engine-logo.webp"
-            alt="AI Tool Engine"
-            className="universal-navbar-logo"
-          />
+         onClick={closeMobileMenu}>
+          <Image
+              src="/ai-tool-engine-logo.webp"
+              alt="AI Tool Engine"
+              width={40}
+              height={40}
+              className="universal-navbar-logo"
+              priority
+            />
         </Link>
 
         <nav
@@ -85,7 +90,7 @@ export default function SiteNavbar() {
                 key={link.href}
                 href={link.href}
                 className={active ? "active" : ""}
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobileMenu}
               >
                 {link.label}
               </Link>
@@ -95,7 +100,7 @@ export default function SiteNavbar() {
           <div className="mobile-auth-actions">
             {!loadingAuth && user ? (
               <>
-                <Link href="/account">Account</Link>
+                <Link href="/account" onClick={closeMobileMenu}>Account</Link>
                 <button
                   type="button"
                   onClick={async () => {
@@ -114,7 +119,7 @@ export default function SiteNavbar() {
                 </button>
               </>
             ) : (
-              <Link href="/login">Sign In</Link>
+              <Link href="/login" onClick={closeMobileMenu}>Sign In</Link>
             )}
           </div>
         </nav>
@@ -122,7 +127,7 @@ export default function SiteNavbar() {
         <div className="universal-navbar-actions">
           {!loadingAuth && user ? (
             <>
-              <Link href="/account" className="universal-navbar-signin desktop-auth">
+              <Link href="/account" className="universal-navbar-signin desktop-auth" onClick={closeMobileMenu}>
                 Account
               </Link>
 
@@ -144,7 +149,7 @@ export default function SiteNavbar() {
               </button>
             </>
           ) : (
-            <Link href="/login" className="universal-navbar-signin desktop-auth">
+            <Link href="/login" className="universal-navbar-signin desktop-auth" onClick={closeMobileMenu}>
               Sign In
             </Link>
           )}

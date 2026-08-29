@@ -4,7 +4,7 @@ import SiteNavbar from "./components/SiteNavbar";
 import FloatingAIAssistant from "./components/FloatingAIAssistant";
 import SiteFooter from "./components/SiteFooter";
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://seo-engine-mu.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://seotoolbay.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

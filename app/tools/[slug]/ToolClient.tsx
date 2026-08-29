@@ -31,7 +31,7 @@ export default function ToolClient({ slug }: ToolClientProps) {
     return (
       <main className="notFound">
         <h1>Tool Not Found</h1>
-        <p>The tool you're looking for doesn't exist.</p>
+        <p>The tool you&apos;re looking for doesn&apos;t exist.</p>
         <a href="/">← Back to Home</a>
       </main>
     );
@@ -543,27 +543,7 @@ export default function ToolClient({ slug }: ToolClientProps) {
     <main className="page">
       <div className="ambient ambientOne" />
       <div className="ambient ambientTwo" />
-
-      <header className="nav">
-        <a href="/" className="logo">
-          <span className="logoIcon">⚡</span>
-          AI TOOL <span>ENGINE</span>
-        </a>
-
-        <nav>
-          <a href="/">Home</a>
-          <a href="/tools">Tools</a>
-          <a href="/categories">Categories</a>
-          <a href="/blog">Blog</a>
-          <a href="/contact">Contact</a>
-        </nav>
-
-        <a href="/tools" className="allTools">
-          ✦ All 100+ Tools
-        </a>
-      </header>
-
-      <section className="hero" aria-live="polite">
+<section className="hero" aria-live="polite">
         <div className="badge">✦ FREE ONLINE SEO TOOL</div>
 
         <h1>
@@ -846,7 +826,7 @@ export default function ToolClient({ slug }: ToolClientProps) {
 }
 
 .ambientOne {
-  width: 420px;
+  width: min(420px, 100%);
   height: 420px;
   top: 180px;
   left: -240px;
@@ -855,7 +835,7 @@ export default function ToolClient({ slug }: ToolClientProps) {
 }
 
 .ambientTwo {
-  width: 420px;
+  width: min(420px, 100%);
   height: 420px;
   top: 350px;
   right: -250px;
@@ -898,7 +878,7 @@ export default function ToolClient({ slug }: ToolClientProps) {
   font-size: 16px;
   font-weight: 850;
   letter-spacing: -.02em;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .logo span:last-child {
@@ -1731,7 +1711,7 @@ export default function ToolClient({ slug }: ToolClientProps) {
 }
 
 .notFound h1 {
-  font-size: 42px;
+  font-size: clamp(2rem, 5vw, 2.625rem);
   margin-bottom: 10px;
 }
 
@@ -1822,7 +1802,7 @@ export default function ToolClient({ slug }: ToolClientProps) {
   }
 
   .hero h1 {
-    font-size: 38px;
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
     line-height: 1.06;
   }
 
