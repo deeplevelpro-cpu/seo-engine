@@ -18,8 +18,10 @@ const links = [
 export default function SiteNavbar() {
   const pathname = usePathname();
   const router = useRouter();
+
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -45,6 +47,10 @@ export default function SiteNavbar() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   return (
     <header className="universal-site-navbar">
       <div className="universal-site-navbar-inner">
@@ -62,7 +68,9 @@ export default function SiteNavbar() {
         </Link>
 
         <nav
-          className="universal-navbar-links"
+          className={`universal-navbar-links ${
+            mobileOpen ? "mobile-open" : ""
+          }`}
           aria-label="Primary navigation"
         >
           {links.map((link) => {
@@ -77,45 +85,56 @@ export default function SiteNavbar() {
                 key={link.href}
                 href={link.href}
                 className={active ? "active" : ""}
+                onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </Link>
             );
           })}
+
+          <div className="mobile-auth-actions">
+            {!loadingAuth && user ? (
+              <>
+                <Link href="/account">Account</Link>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await fetch("/api/auth/logout", {
+                      method: "POST",
+                      credentials: "include",
+                    });
+
+                    setUser(null);
+                    setMobileOpen(false);
+                    router.push("/login");
+                    router.refresh();
+                  }}
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <Link href="/login">Sign In</Link>
+            )}
+          </div>
         </nav>
 
         <div className="universal-navbar-actions">
-          <button
-            type="button"
-            className="universal-navbar-icon"
-            aria-label="Search"
-            title="Search"
-          >
-            ⌕
-          </button>
-
-          <button
-            type="button"
-            className="universal-navbar-icon"
-            aria-label="Toggle theme"
-            title="Theme"
-          >
-            ☼
-          </button>
-
           {!loadingAuth && user ? (
             <>
-              <Link href="/account" className="universal-navbar-signin">
+              <Link href="/account" className="universal-navbar-signin desktop-auth">
                 Account
               </Link>
+
               <button
                 type="button"
-                className="universal-navbar-signin"
+                className="universal-navbar-signin desktop-auth"
                 onClick={async () => {
                   await fetch("/api/auth/logout", {
                     method: "POST",
                     credentials: "include",
                   });
+
                   setUser(null);
                   router.push("/login");
                   router.refresh();
@@ -125,10 +144,22 @@ export default function SiteNavbar() {
               </button>
             </>
           ) : (
-            <Link href="/login" className="universal-navbar-signin">
+            <Link href="/login" className="universal-navbar-signin desktop-auth">
               Sign In
             </Link>
           )}
+
+          <button
+            type="button"
+            className="universal-navbar-menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((value) => !value)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
 
       </div>
