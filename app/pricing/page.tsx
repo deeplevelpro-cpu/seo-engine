@@ -5,9 +5,9 @@ import { useState } from "react";
 import "./pricing.css";
 
 const WHATSAPP = "923294433999";
-const PAYMENT_ACCOUNT_TITLE = "EHRAM CHEMMA";
-const PAYMENT_ACCOUNT_NUMBER = "+923217361507";
-const PAYMENT_ACCOUNT_TYPE = "JazzCash + Easypaisa";
+const PAYMENT_ACCOUNT_TITLE = "M YOUSAF";
+const PAYMENT_ACCOUNT_NUMBER = "03006391740";
+const PAYMENT_ACCOUNT_TYPE = "EasyPaisa + JazzCash";
 
 
 const plans = {
