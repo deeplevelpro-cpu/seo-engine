@@ -1,11 +1,8 @@
 "use client";
 
-import SiteNav from "@/components/SiteNav";
-
 export default function ContactPage() {
   return (
     <main className="contact-premium-page">
-      <SiteNav />
       <style jsx>{`
         .contact-premium-page {
           min-height: 100vh;
@@ -409,7 +406,7 @@ export default function ContactPage() {
           <span className="contact-eyebrow">✦ Get in touch</span>
 
           <h1>
-            Let's build
+            Let&apos;s build
             <br />
             <span>something useful.</span>
           </h1>
@@ -484,7 +481,7 @@ export default function ContactPage() {
         <section className="why-section">
           <span className="section-label">What you can contact us about</span>
 
-          <h2>Let's talk about your next project.</h2>
+          <h2>Let&apos;s talk about your next project.</h2>
 
           <p>
             Whether you have a technical question or want to discuss a
